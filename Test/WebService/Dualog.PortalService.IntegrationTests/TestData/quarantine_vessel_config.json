@@ -1,0 +1,9 @@
+{
+  "entities": [
+    {
+      "id": "v1",
+      "host": "/api/v1/vessels",
+      "type": "Dualog.PortalService.Controllers.Vessels.Model.VesselDetails"
+    }
+  ]
+}

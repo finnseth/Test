@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CB40168F-1969-4809-BD5D-4A49E40F4E15}"
+	ProjectSection(SolutionItems) = preProject
+		Dualog.PortalService.nuspec = Dualog.PortalService.nuspec
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dualog.PortalService", "Dualog.PortalService\Dualog.PortalService.csproj", "{89C86601-F7DA-4C3E-BA79-1C848E07C54A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dualog.PortalService.UnitTests", "..\..\..\Test\WebService\Dualog.PortalService.UnitTests\Dualog.PortalService.UnitTests.csproj", "{EFC6BCF7-FB62-46F3-B272-8E33B72C4E06}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dualog.PortalService.IntegrationTests", "..\..\..\Test\WebService\Dualog.PortalService.IntegrationTests\Dualog.PortalService.IntegrationTests.csproj", "{E051A2DA-4CB7-4A75-877F-71DFB94C560C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{89C86601-F7DA-4C3E-BA79-1C848E07C54A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C86601-F7DA-4C3E-BA79-1C848E07C54A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C86601-F7DA-4C3E-BA79-1C848E07C54A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C86601-F7DA-4C3E-BA79-1C848E07C54A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFC6BCF7-FB62-46F3-B272-8E33B72C4E06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFC6BCF7-FB62-46F3-B272-8E33B72C4E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFC6BCF7-FB62-46F3-B272-8E33B72C4E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFC6BCF7-FB62-46F3-B272-8E33B72C4E06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E051A2DA-4CB7-4A75-877F-71DFB94C560C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E051A2DA-4CB7-4A75-877F-71DFB94C560C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E051A2DA-4CB7-4A75-877F-71DFB94C560C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E051A2DA-4CB7-4A75-877F-71DFB94C560C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {900087CA-7308-49D5-B9BC-0B8CBAF0A875}
+	EndGlobalSection
+EndGlobal

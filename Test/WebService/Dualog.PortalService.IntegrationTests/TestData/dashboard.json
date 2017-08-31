@@ -1,0 +1,10 @@
+{
+  "entities": [
+    {
+      "id": "db1",
+      "host": "/api/v1/dashboards",
+      "type": "Dualog.PortalService.Controllers.Dashboard.Dashboard",
+      "properties": { "Name": "Test Dashboard 1" }
+    }
+  ]
+}

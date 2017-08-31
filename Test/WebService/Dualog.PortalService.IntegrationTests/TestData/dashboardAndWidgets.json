@@ -1,0 +1,26 @@
+{
+  "entities": [
+    {
+      "id": "db1",
+      "host": "/api/v1/dashboards",
+      "type": "Dualog.PortalService.Controllers.Dashboard.Dashboard",
+      "properties": { "Name": "Test Dashboard 1" }
+    },
+    {
+      "id": "w1",
+      "host": "/api/v1/dashboards/{@db1.Id}/widgets",
+      "type": "Dualog.PortalService.Controllers.Dashboard.Widget",
+      "properties": {
+
+        "Title": "Widget 1",
+        "Height": 100,
+        "HorizontalRank": 4,
+        "VerticalRank": 2,
+        "Width": 50,
+        "WidgetType": "Pie",
+        "WidgetName": "ConnectivityLast24"
+      }
+    }
+
+  ]
+}

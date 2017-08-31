@@ -1,0 +1,9 @@
+{
+  "entities": [
+    {
+      "id": "user",
+      "host": "/api/v1/dashboards",
+      "type": "Dualog.PortalService.Controllers.Users.Model.UserDetails"
+    }
+  ]
+}
