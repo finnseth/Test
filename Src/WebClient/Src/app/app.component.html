@@ -1,0 +1,67 @@
+<dua-body></dua-body>
+
+<!--
+<div class="ui-grid ui-grid-responsive ui-fluid">
+
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-1">
+      <i class="fa fa-th pointer" aria-hidden="true" (click)="contextMenu.toggle($event)"></i>
+    </div>
+    <div class="ui-grid-col-4">
+      <dua-routesearch *ngIf="IsAuthorized"></dua-routesearch>
+    </div>
+    <div class="ui-grid-col-2 center-content">
+      <a href="/"><img src="../assets/Logo.png" alt="dualog"/></a>
+    </div>
+
+    <div class="ui-grid-col-5">
+      <div class="ui-rtl" dir="rtl">
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+              <i class="fa fa-user userMenu" aria-hidden="true" (click)="userMenu.toggle($event)"></i>
+              <p-overlayPanel #userMenu [dismissable]="true">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                  <div class="ui-grid-row" *ngFor="let item of userItems; let i = index">
+                    <div class="ui-grid-col-12">
+                      <a class="contextMenu-a" (click)="userMenu.hide($event); item.command($event);">
+                                                {{item.label}}
+                                            </a>
+                    </div>
+                  </div>
+                </div>
+              </p-overlayPanel>
+            </div>
+            <div class="ui-grid-col-10 ui-ltl" dir="ltl">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+-- Overlay for the context menu in the upper left corner --
+<p-overlayPanel #contextMenu [dismissable]="true">
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row" *ngFor="let item of items; let i = index">
+      <div class="ui-grid-col-12 contextMenu-item">
+        <a class="contextMenu-a" [routerLink]="[item.routerLink]" (click)="contextMenu.hide($event)">
+          <div class="center-content">
+            <img src="{{item.icon}}" height="30px" width="30px" />
+          </div>
+          <div class="center-content">
+            {{item.label}}
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</p-overlayPanel>
+ -->

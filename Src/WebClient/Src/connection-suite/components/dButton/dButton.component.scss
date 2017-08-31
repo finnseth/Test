@@ -1,0 +1,25 @@
+
+
+@import '~styles.scss';
+
+.ship-button {
+    background-color: $dualog-aqua80;
+    color: $dualog-white;
+}
+
+.ship-unfocused {
+    background-color: $dualog-aqua40;
+    color: $dualog-black;
+}
+
+
+
+.fleet-button {
+    background-color: $dualog-blue80;
+    color: $dualog-white;
+}
+
+.fleet-unfocused {
+    background-color: $dualog-blue60;
+    color: $dualog-black;
+}

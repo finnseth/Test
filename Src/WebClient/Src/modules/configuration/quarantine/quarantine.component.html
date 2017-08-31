@@ -1,0 +1,352 @@
+<h3 class="quarantine-header">Message Quarantine</h3>
+<div class="ui-g ">        
+    <div class="ui-g-6 ui-md-6 ui-lg-6 ui-sm-12">
+
+    <dua-fleetcardheader
+            searchContext="quarantine"
+            (onCompareShipChanged)="compareShipChanged($event)"
+            (onFleetEnabledChanged)="showFleet($event)">
+        </dua-fleetcardheader>
+   
+        <dua-bluecard [isComparing]="isCompareModeEnabled">
+            <form *ngIf="cqForm | async; let cqForm; else loading" [formGroup]="cqForm" (ngSubmit)="submitForm(cqForm)">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <span *ngIf="!isCompareModeEnabled">&nbsp; </span>
+                            <p-checkbox *ngIf="isCompareModeEnabled" label="Override fleet configuration" formControlName="useThisLevel" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                            
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">                                      
+                            <h4>Hold messages for</h4>
+                        </div>
+                    </div>  
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">                                      
+                            <p-checkbox label="Stationary users" formControlName="onHoldStationaryUser" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">                                      
+                            <p-checkbox label="Crew (personal) users" formControlName="onHoldCrew" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">                                      
+                            <h4>Send notification to</h4>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <p-checkbox label="Message originator" formControlName="notificationOnHoldOriginal" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <p-checkbox label="Ship administrator" formControlName="notificationOnHoldPostmaster" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <p-checkbox label="Message recipient(s)" formControlName="notificationOnHoldRecipient" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <br>
+                            <label for="name">Shore administrator(s)</label>
+                            <input pInputText formControlName="notificationOnHoldAdmins"/>                                
+                        </div>
+                    </div>
+                    
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <label>Max body length</label>
+                            <p-spinner formControlName="maxBodyLength"></p-spinner>                                                                
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label for="name">Hold for duration</label>
+                            <p-spinner formControlName="onHoldDuration"></p-spinner>                                
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label>Custom notification sender</label>
+                            <input  pInputText formControlName="notificationSender"/>                                
+                        </div>
+                    </div>
+
+                    <dua-applyrow *ngIf="!isCompareModeEnabled" [shipStyle]="false" (onCancel)="onCancelFleetCard($event)" (onApply)="onApplyFleetCard($event)"></dua-applyrow>  
+                </div>
+            </form>
+            <ng-template #loading>
+                Loading quarantine data...
+            </ng-template>
+        </dua-bluecard>         
+
+    </div>
+    <div class="ui-g-6 ui-md-6 ui-lg-6 ui-sm-12">
+    
+        <dua-shipcardheader
+            searchContext="quarantine"
+            (onShipChanged)="shipChanged($event)">
+        </dua-shipcardheader>
+
+        <dua-aquacard>
+            <form *ngIf="vqForm | async; let vqForm; else loading" [formGroup]="vqForm" (ngSubmit)="submitForm(vqForm)">
+                    <div class="ui-grid ui-grid-responsive ui-fluid">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12">                                        
+                                <p-checkbox label="Override fleet configuration" formControlName="useThisLevel" binary="true"></p-checkbox>
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12">                                      
+                                <h4>Hold messages for</h4>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12"> 
+                                <p-checkbox label="Stationary users" formControlName="onHoldStationaryUser" binary="true"></p-checkbox>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12"> 
+                                <p-checkbox label="Crew (personal) users" formControlName="onHoldCrew" binary="true"></p-checkbox>
+                            </div>
+                        </div>
+                        
+                        <div class="ui-grid-row">                                       
+                            <div class="ui-grid-col-12">                                      
+                                <h4>Send notification to</h4>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12"> 
+                                <p-checkbox label="Message originator" formControlName="notificationOnHoldOriginal" binary="true"></p-checkbox>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12"> 
+                                <p-checkbox label="Ship administrator" formControlName="notificationOnHoldPostmaster" binary="true"></p-checkbox>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12"> 
+                                <p-checkbox label="Message recipient(s)" formControlName="notificationOnHoldRecipient" binary="true"></p-checkbox>
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12">
+                                <br>
+                                <label for="name">Shore administrator(s)</label>
+                                <input pInputText formControlName="notificationOnHoldAdmins"/>                                
+                            </div>
+                        </div>
+                        
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12"> 
+                                <label>Max body length</label>
+                                <p-spinner formControlName="maxBodyLength"></p-spinner>                                
+                            </div>
+                        </div>
+
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12"> 
+                                <label>Hold for duration</label>
+                                <p-spinner formControlName="onHoldDuration"></p-spinner>                                
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-12"> 
+                                <label>Custom notification sender</label>
+                                <input  pInputText formControlName="notificationSender"/>                                
+                            </div>
+                        </div>
+                        
+                        <dua-applyrow (onCancel)="onCancelShipCard($event)" (onApply)="onApplyShipCard($event)"></dua-applyrow>  
+                    </div>
+                </form>
+                <ng-template #loading>
+                    Select a ship to modify                    
+                </ng-template>
+        </dua-aquacard>
+    </div>
+</div>
+
+    <!--dua-cards 
+        [selectedShip]="selectedShip" 
+        [selectedCompareShip]="selectedCompareShip" 
+        advancedSearchContext="quarantine" 
+        cardsTitle="Message Quarantine"
+        (showFleet)="showFleet($event)"
+        (updateShip)="handleShipChange($event)"
+        (updateCompare)="handleCompareChange($event)">
+        
+        <div compareShip>
+            <form *ngIf="cqForm | async; let cqForm; else loading" [formGroup]="cqForm" (ngSubmit)="submitForm(cqForm)">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <span *ngIf="!gotCompareShip">&nbsp; </span>
+                            <p-checkbox *ngIf="gotCompareShip" label="Override fleet configuration" formControlName="useThisLevel" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                            
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">                                      
+                            <h4>Hold messages for</h4>
+                        </div>
+                    </div>  
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">                                      
+                            <p-checkbox label="Stationary users" formControlName="onHoldStationaryUser" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">                                      
+                            <p-checkbox label="Crew (personal) users" formControlName="onHoldCrew" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">                                      
+                            <h4>Send notification to</h4>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <p-checkbox label="Message originator" formControlName="notificationOnHoldOriginal" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <p-checkbox label="Ship administrator" formControlName="notificationOnHoldPostmaster" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <p-checkbox label="Message recipient(s)" formControlName="notificationOnHoldRecipient" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <br>
+                            <label for="name">Shore administrator(s)</label>
+                            <input pInputText formControlName="notificationOnHoldAdmins"/>                                
+                        </div>
+                    </div>
+                    
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <label>Max body length</label>
+                            <p-spinner formControlName="maxBodyLength"></p-spinner>                                                                
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label for="name">Hold for duration</label>
+                            <p-spinner formControlName="onHoldDuration"></p-spinner>                                
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label>Custom notification sender</label>
+                            <input  pInputText formControlName="notificationSender"/>                                
+                        </div>
+                    </div>
+
+                    <dua-applyrow *ngIf="!gotCompareShip" [shipStyle]="false" (onCancel)="onCancelFleetCard($event)" (onApply)="onApplyFleetCard($event)"></dua-applyrow>  
+                </div>
+            </form>
+            <ng-template #loading>Loading User Data...</ng-template>
+        </div>
+        <div selectedShip>
+            <form *ngIf="vqForm | async; let vqForm; else loading" [formGroup]="vqForm" (ngSubmit)="submitForm(vqForm)">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">                                        
+                            <p-checkbox label="Override fleet configuration" formControlName="useThisLevel" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">                                      
+                            <h4>Hold messages for</h4>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12"> 
+                            <p-checkbox label="Stationary users" formControlName="onHoldStationaryUser" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12"> 
+                            <p-checkbox label="Crew (personal) users" formControlName="onHoldCrew" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">                                      
+                            <h4>Send notification to</h4>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12"> 
+                            <p-checkbox label="Message originator" formControlName="notificationOnHoldOriginal" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12"> 
+                            <p-checkbox label="Ship administrator" formControlName="notificationOnHoldPostmaster" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12"> 
+                            <p-checkbox label="Message recipient(s)" formControlName="notificationOnHoldRecipient" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <br>
+                            <label for="name">Shore administrator(s)</label>
+                            <input pInputText formControlName="notificationOnHoldAdmins"/>                                
+                        </div>
+                    </div>
+                    
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12"> 
+                            <label>Max body length</label>
+                            <p-spinner formControlName="maxBodyLength"></p-spinner>                                
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12"> 
+                            <label>Hold for duration</label>
+                            <p-spinner formControlName="onHoldDuration"></p-spinner>                                
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12"> 
+                            <label>Custom notification sender</label>
+                            <input  pInputText formControlName="notificationSender"/>                                
+                        </div>
+                    </div>
+                    
+                    <dua-applyrow (onCancel)="onCancelShipCard($event)" (onApply)="onApplyShipCard($event)"></dua-applyrow>  
+                </div>
+            </form>
+            <ng-template #loading>Loading Vessel Data...</ng-template>
+        </div>
+    </dua-cards-->

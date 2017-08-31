@@ -1,0 +1,8 @@
+@import '~styles.scss';
+.verticalLine {
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid $dualog-blue40;
+    height: 100%;
+    width: 1px;
+}

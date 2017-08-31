@@ -1,0 +1,18 @@
+
+@import '~styles.scss';
+
+:host {
+    flex-grow: 1;
+}
+
+.bluecardContent {
+    border: solid;
+    border-color: $dualog-blue60;
+    background-color: $dualog-blue20;
+    margin-top: 1em;
+}
+
+.isComparing {
+    pointer-events: none;
+    opacity: 0.6;
+}

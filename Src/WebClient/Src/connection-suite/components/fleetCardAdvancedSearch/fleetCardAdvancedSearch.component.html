@@ -1,0 +1,95 @@
+
+<button class="icon" (click)="advancedSearch($event)"><i class="fa fa-ellipsis-h"></i></button>
+
+<p-dialog 
+    header="Select a ship to compare with {{currentWorkingShip?.name}}"
+    modal="true"
+    [responsive]="true"
+    closeOnEscape="true"
+    closable="true"
+    dismissableMask="true"
+    [resizable]="true"
+    [draggable]="false"
+    rtl="true"
+    positionTop="30"
+    positionLeft="20"
+    (onHide)="closeDialog($event)"
+    [(visible)]="enableAdvancedSearch">
+
+    <div class="filter">
+            <div class="filter-header">
+                <img src="/assets/img/ship.png">
+                <b>Filter</b>
+            </div>
+    
+            <div class="ui-g">
+                <div class="ui-g-2 ui-sm-12">
+                    <label class="" for="shipname">Ship name</label>
+                </div>
+                <div class="ui-g-10 ui-sm-12">
+                    <input id="shipname" type="text" placeholder="Search" (keyup)="filterOnShipName($event)"/>
+                </div>
+                
+                <div class="ui-g-2 ui-sm-12">
+                    <label for="isActive">Ship active</label>
+                </div>
+                <div class="ui-g-10 ui-sm-12"> 
+                    <p-checkbox name="isActive" value="Active" label="Yes" selected [(ngModel)]="isShipActive" (onChange)="filterOnShipStatus($event)"></p-checkbox>                    
+                    <p-checkbox class="filter-group-space" name="isActive" value="Disabled" label="No" [(ngModel)]="isShipActive" (onChange)="filterOnShipStatus($event)"></p-checkbox>
+                </div>
+    
+                <div class="ui-g-2 ui-sm-12">
+                    <label for="gotCustom">Local changes</label>        
+                </div>
+                <div class="ui-g-10 ui-sm-12"> 
+                    <p-checkbox name="gotCustom" value="Ship" label="Yes" [(ngModel)]="gotCustomSetting" (onChange)="filterOnShipCustomSettingEnabled($event)"></p-checkbox>
+                    <p-checkbox class="filter-group-space" name="gotCustom" value="Fleet" label="No" [(ngModel)]="gotCustomSetting" (onChange)="filterOnShipCustomSettingEnabled($event)"></p-checkbox>
+                </div>
+            </div>
+        </div>
+
+<p-dataTable
+        #advancedsearchtable
+        [value]="filterShips" 
+        scrollable="true" 
+        scrollHeight="200px" 
+        [rows]="20" 
+        virtualScroll="virtualScroll"
+        selectionMode="single" 
+        [(selection)]="_selectedShip"
+        (onRowSelect)="selectingShip($event.data);"
+        exportFilename="ships"
+        [responsive]="true"
+        [loading]="isSearching"
+        [csvSeparator]="csvSeparator">
+                
+    <p-header class="table-header">
+        <div class="table-header-text">    
+            Click to select a ship
+        </div>
+        <div class="table-header-export">
+            <p-splitButton label="Export" icon="fa-download" (onClick)="advancedsearchtable.exportCSV()" [model]="exportItems"></p-splitButton>
+        </div>
+    </p-header>
+        
+    <p-column field="accountEnabled" header="Ship active" [style]="{'width':'80px', 'text-align':'center'}" >
+            <ng-template let-col let-ship="rowData" pTemplate="body">
+                <span *ngIf="ship[col.field] === 1"><i class="fa fa-check dualog-aqua-text" aria-hidden="true"></i></span>
+                <span *ngIf="ship[col.field] === 0"><i class="fa fa-times dualog-red-text" aria-hidden="true"></i></span>
+            </ng-template>
+        </p-column>
+        
+        <p-column field="name" header="Name"></p-column>
+
+        <!--ng-template *ngIf="fields.quarantineLocalChanges"-->
+            <p-column field="quarantineLocalChanges" header="Local changes" [style]="{'width':'100px'}">
+                <ng-template let-col let-ship="rowData" pTemplate="body">
+                    <span *ngIf="ship[col.field] === true">Yes</span>
+                    <span *ngIf="ship[col.field] === false">No</span>                
+                </ng-template>
+            </p-column>
+        <!--/ng-template-->
+
+    </p-dataTable>
+</p-dialog>
+

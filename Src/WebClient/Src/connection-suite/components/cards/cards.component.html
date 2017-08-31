@@ -1,0 +1,55 @@
+<!--dua-card-header 
+    headerTitle="{{cardsTitle}}" 
+    searchCompareTitle="Custom search for compare ship" 
+    searchShipTitle="Custom search for ship to modify" 
+    [emptyAutocompleteCompareShip]="!gotCompareShip" 
+    [advancedSearchContext]="advancedSearchContext" 
+    (updateShip)="handleShipChange($event)" 
+    (updateCompare)="handleCompareChange($event)">
+
+    <div compareship>
+        <ng-content select="[compareAdvancedSearch]"></ng-content>
+    </div>
+    <div ship>
+        <ng-content select="[shipAdvancedSearch]"></ng-content>
+    </div>
+</dua-card-header-->
+
+<div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui_grid_row">
+        <div class="ui-grid-col-12">
+            <h3 class="cardsTitle">{{cardsTitle}}</h3>
+        </div>
+    </div>
+    <!--div class="pointer" (click)="changeDirection($event)" [class.card-direction-vertical]="verticalDirection" [class.card-direction-horizontal]="!verticalDirection">&nbsp;</div-->
+    <div class="ui_grid_row">
+        <div [class.ui-grid-col-6]="verticalDirection" [class.ui-grid-col-12]="!verticalDirection">
+            <dua-card 
+                [appliesTo]="compareShipName" 
+                [icon]="compareIcon" 
+                [comparemode]="gotCompareShip" 
+                [enabled]="false" 
+                (newClicked)="onFleetNew($event)"
+                [showNewButton]="showNewButtonOnFleetCard"
+                [newButtonLabel]="newButtonLabelOnFleet"
+                (showFleet)="handleShowFleet($event)"
+                (updateCompare)="handleCompareChange($event)">
+                
+                <ng-content select="[compareShip]"></ng-content>
+            </dua-card>                        
+        </div>        
+        <div [class.ui-grid-col-6]="verticalDirection" [class.ui-grid-col-12]="!verticalDirection">
+            <dua-card 
+                [appliesTo]="shipName"                 
+                [icon]="shipIcon"
+                [isReady]="(_selectedShip !== undefined)"
+                (newClicked)="onShipNew($event)"
+                [showNewButton]="showNewButtonOnShipCard"
+                [newButtonLabel]="newButtonLabelOnShip"
+                (updateShip)="handleShipChange($event)">
+
+                <ng-content select="[selectedShip]"></ng-content>
+            </dua-card>        
+        </div>    
+    </div>
+</div>

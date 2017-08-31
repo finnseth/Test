@@ -1,0 +1,12 @@
+@import '~styles.scss';
+
+:host {
+    flex-grow: 1;
+    background-color: $dualog-nordic-light40;
+}
+
+.quarantine-header {
+    margin-top: 0em;
+    margin-bottom: 0em;
+    text-align: center;
+}

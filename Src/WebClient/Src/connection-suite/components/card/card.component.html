@@ -1,0 +1,58 @@
+<div class="ui-grid ui-grid-responsive ui-fluid card">
+    <div class="ui_grid_row">
+        <div class="ui-grid-col-1 card-icon"
+          [style.background-image]="'url(' + icon + ')'">          
+          &nbsp;<br>
+          &nbsp;          
+        </div>
+        <div class="ui-grid-col-11 card-applies" [class.card-enabled]="enabled" [class.card-disabled]="!enabled">
+          <div class="ui_grid_row">
+            <div class="ui-grid-col-12">
+              <div *ngIf="appliesTo !== undefined">
+                  Applies to<br>
+                  obsolete
+            </div>                
+            <div *ngIf="subtitle !== undefined && title !== undefined">
+              <b>{{title}}</b><br>
+              <i>{{subtitle}}</i>
+            </div>
+            <div *ngIf="subtitle !== undefined && title === undefined">
+              &nbsp;<br>
+              <i>{{subtitle}}</i>
+            </div>
+            <div *ngIf="subtitle === undefined && title !== undefined">
+              <b>{{title}}</b><br>
+              &nbsp; 
+            </div>
+            <div *ngIf="title === undefined && appliesTo === undefined && subtitle === undefined">
+              &nbsp;<br>
+              &nbsp; 
+            </div>              
+          </div>            
+        </div>          
+      </div>
+    </div>
+    <div *ngIf="(isReady && !comparemode)" class="ui_grid_row">
+        <div *ngIf="showNewButton" class="ui-rtl" dir="rtl">
+          <dua-button [shipStyle]="(appliesTo !== 'Fleet')" icon="fa-plus" label="{{newButtonLabel}}" (buttonClicked)="onNewClicked($event)"> </dua-button>                  
+        </div>
+    </div>
+
+    <div *ngIf="!isReady">
+      <div class="ui_grid_row">
+        <div class="ui-grid-col-12 card-content" [class.card-comparemode]="comparemode" [class.card-focus]="enabled" [class.card-unfocused]="!enabled">
+          <div *ngIf="!isReady">
+            To modify or view a ship settings. <br>
+            Please select a ship.
+          </div>
+        </div>      
+      </div>
+    </div>
+    <div *ngIf="isReady">
+      <div class="ui_grid_row">
+        <div class="ui-grid-col-12 card-content" [class.card-comparemode]="comparemode" [class.card-focus]="enabled" [class.card-unfocused]="!enabled">
+           <ng-content></ng-content>          
+        </div>      
+      </div>      
+    </div>
+</div>

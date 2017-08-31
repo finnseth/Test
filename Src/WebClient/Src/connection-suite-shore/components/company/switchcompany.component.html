@@ -1,0 +1,16 @@
+<div class="admin-wrapper">
+    <img class="glogo" src="../assets/icons/dualog-g.png" alt="Dualog" height="40px">
+    <p-autoComplete 
+        [(ngModel)]="acSelectedCompany"
+        class="testing"
+        (onSelect)="selectCompany($event)" 
+        [minLength]="3"
+        size="100%"
+        field="name" 
+        autoHighlight="true" 
+        [placeholder]="placeholder" 
+        [suggestions]="resultCompanies" 
+        (completeMethod)="searchCompany($event)">
+    </p-autoComplete><br>
+    <span class="admin-selected-info">{{selectedCompany?.name}}</span>
+</div>   

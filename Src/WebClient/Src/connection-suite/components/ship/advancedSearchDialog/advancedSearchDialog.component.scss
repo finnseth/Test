@@ -1,0 +1,71 @@
+@import '~styles.scss';
+
+/*
+* "Generel" style for this component
+*/
+.link {
+    font-size: 10px;
+    cursor: pointer;
+}
+
+:host /deep/ .ui-datatable .ui-datatable-scrollable-body {
+    min-height: 110px;
+}
+
+:host /deep/ .ui-dialog .ui-dialog-content {
+    margin: 1em;
+    margin-bottom: 4em;
+}
+
+
+/*
+* "Fleet" style for this component
+*/
+
+.icon-compare {
+    background-image: url('/assets/img/compareship.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center; 
+}
+
+:host /deep/ .fleet div.ui-datatable-header.ui-widget-header {
+    background-color: $dualog-blue60;
+    color: $dualog-black;
+}
+
+:host /deep/ .fleet .ui-datatable th {
+    background-color: $dualog-blue20;
+    color: $dualog-black;
+    font-weight: bold;
+}
+
+:host /deep/ .fleet .ui-datatable-scrollable .ui-datatable-scrollable-header {
+    background-color: $dualog-blue60;
+}
+
+
+/*
+* "Ship" style for this component
+*/
+.icon-ship {
+    background-image: url('/assets/img/ship.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center; 
+}
+
+:host /deep/ .ship div.ui-datatable-header.ui-widget-header {
+    background-color: $dualog-aqua;
+    color: $dualog-black;
+}
+
+:host /deep/ .ship .ui-datatable th {
+    background-color: $dualog-aqua60;
+    color: $dualog-black;
+    font-weight: bold;
+}
+
+:host /deep/ .ship .ui-datatable-scrollable .ui-datatable-scrollable-header {
+    background-color: $dualog-aqua;
+}

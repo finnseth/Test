@@ -1,0 +1,10 @@
+
+<dua-switchcompany *ngIf="isDualogAdmin"></dua-switchcompany>
+
+<div class="center-div disabled-info" *ngIf="!isReady">
+        <i class="fa fa-info fa-2x disabled-icon" aria-hidden="true"></i>
+        {{module}} is disabled.<br>
+        Select a company to enable site.
+</div>
+
+<router-outlet *ngIf="isReady"></router-outlet>

@@ -1,0 +1,55 @@
+@import '~styles.scss';
+$size: 16px;
+:host {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.search-bar {
+    box-sizing: border-box;
+    align-items: center;
+    input {
+        width: 90px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 30px;
+        box-sizing: border-box;
+        font-size: 14px;
+        border: $size/10 solid $dualog-blue20;
+        border-radius: 44px;
+        cursor: pointer;
+        background-color: transparent;
+        transition: all 0.5s ease-out;
+        &::placeholder {
+            color: $dualog-blue40;
+        }
+        &:hover {
+            background-color: $dualog-aqua40;
+            border: $size/10 solid $dualog-aqua60;
+        }
+        &:focus,
+        &:valid {
+            width: 200px;
+            border: $size/10 solid $dualog-aqua;
+            outline: none;
+            cursor: auto;
+            background-color: #FFF;
+            color: $dualog-blue;
+            &::placeholder {
+                color: #999;
+            }
+        }
+    }
+}
+
+.inlineicon {
+    position: absolute;
+    top: calc(50% - 0.5em);
+    left: calc(100% - 1.5em);
+    color: $dualog-blue80;
+    padding-right: 15px;
+}

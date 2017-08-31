@@ -1,0 +1,17 @@
+
+@import '~styles.scss';
+
+.fleetcardHeader {
+    display: flex;
+    background-color: $dualog-blue60;
+}
+
+.fleetcardheader-icon {
+    border: $dualog-aqua;    
+    border-style: solid;
+    background-color: $dualog-nordic-light40;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+

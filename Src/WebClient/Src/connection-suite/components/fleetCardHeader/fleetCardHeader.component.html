@@ -1,0 +1,26 @@
+
+<div class="ui-g fleetcardHeader">
+    
+    <div *ngIf="!isComparing" class="ui-g-2 ui-md-2 ui-lg-2 fleetcardheader-icon"
+        [style.background-image]="'url(/assets/img/fleet.png)'">
+            &nbsp;<br>&nbsp;
+    </div>
+
+    <div *ngIf="isComparing" class="ui-g-2 ui-md-2 ui-lg-2 fleetcardheader-icon"
+        [style.background-image]="'url(/assets/img/ship.png)'">
+            &nbsp;<br>&nbsp;
+    </div>
+    
+    <div class="ui-g-10 ui-md-10 ui-lg-10">
+        <div>Applies to</div>
+        
+        <dua-fleetcardsearch
+            [searchContext]="searchContext" 
+            (onCompareShipChanged)="compareShipChanged($event)"
+            (onFleetEnabledChanged)="fleetStatusChanged($event)"
+            >
+        </dua-fleetcardsearch>
+
+    </div>
+
+</div>

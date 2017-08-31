@@ -1,0 +1,57 @@
+
+<form *ngIf="userForm | async; let userForm; else loading" [formGroup]="userForm" (ngSubmit)="submitForm(userForm)">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="name">Name</label></div>
+            <div class="ui-grid-col-8"><input pInputText formControlName="name" pTooltip="Enter the name of the user. This field is required." tooltipPosition="bottom" /></div>
+        </div>
+
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="address">Address</label></div>
+            <div class="ui-grid-col-8"><input pInputText formControlName="address" pTooltip="Enter the name of the user. This field is required." tooltipPosition="bottom" /></div>
+        </div>
+
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="email">E-mail</label></div>
+            <div class="ui-grid-col-8"><input pInputText name="email" formControlName="email" pTooltip="Enter the users e-mail address. This field is required." tooltipPosition="bottom" /></div>
+        </div>
+
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="pn">Phone Number</label></div>
+            <div class="ui-grid-col-8"><input pInputText name="pn" formControlName="phoneNumber" pTooltip="Enter the users phone number." tooltipPosition="bottom" /></div>
+        </div>  
+        
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="pn">Permissions</label></div>
+            <div class="ui-grid-col-8">
+                <p-dataTable formArrayName="permissions" [responsive]="true">
+                    <p-column field="name" header="Vin"></p-column>
+                    <p-column field="origin" header="Brand"></p-column>
+                    <p-column field="accessType" header="Color"></p-column>
+                </p-dataTable>
+            </div>
+        </div>  
+        
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="pn">User groups</label></div>
+            <div class="ui-grid-col-8">
+
+                <div class="ui-grid ui-grid-responsive ui-fluid" formArrayName="permissions">
+                    <div *ngFor="let p of userForm.get('permissions').controls; index as i" class="ui-grid-row" [formGroup]="p">
+                        <div class="ui-grid-col-6">{{p.controls['name'].value}}</div>
+                        <div class="ui-grid-col-2"><p-radioButton name="g{{i}}" formControlName="allowType" value="0" label="No access"></p-radioButton></div>
+                        <div class="ui-grid-col-2"><p-radioButton name="g{{i}}" formControlName="allowType" value="1" label="Read"></p-radioButton></div>
+                        <div class="ui-grid-col-2"><p-radioButton name="g{{i}}" formControlName="allowType" value="2" label="Write"></p-radioButton></div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <div class="ui-grid-row">
+            <button type="submit" pButton icon="fa-save" label="Save" style="width: 70px" class=".ui-button-success"></button>
+        </div>
+
+    </div>
+</form>
+
+<ng-template #loading>Loading User Data...</ng-template>

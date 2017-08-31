@@ -1,0 +1,18 @@
+
+
+.linkroute {
+    text-decoration: none;
+}
+
+.linkroute-header {
+    font-size: 14px;
+}
+
+.linkroute-description {
+    font-size: 12px;
+    font-style: italic;
+}
+
+.linkroute-path {
+    font-size: 10px;
+}

@@ -1,0 +1,100 @@
+
+@import '~styles.scss';
+
+$fontFamily: 'Poppins', Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+$fontSize: 0.8rem;
+$borderRadius: 0px;
+$disabledOpacity: 0.35;
+
+//Header
+$headerBorderWidth: 1px;
+$headerBorderColor: $dualog-blue;
+$headerBgColor: $dualog-blue;
+$headerTextColor: $dualog-white;
+$headerFontWeight: 500;
+$headerIconTextColor: $dualog-aqua;
+
+//Content
+$contentBorderWidth: 1px;
+$contentBorderColor: $dualog-blue;
+$contentBgColor: $dualog-white;
+$contentTextColor: $dualog-blue;
+
+//Default State
+$stateDefaultBorderWidth: 1px;
+$stateDefaultBorderColor: $dualog-blue;
+$stateDefaultBgColor: $dualog-white;
+$stateDefaultTextColor: $dualog-blue;
+
+//Active State
+$stateActiveBorderColor: $dualog-blue;
+$stateActiveBgColor: $dualog-white;
+$stateActiveTextColor: $dualog-blue;
+
+//Highlight State
+$stateHighlightBorderColor: $dualog-blue;
+$stateHighlightBgColor: $dualog-blue20;
+$stateHighlightTextColor: $dualog-black;
+
+//Focus State
+$stateFocusBorderColor: $dualog-blue;
+$stateFocusBgColor: $dualog-aqua60;
+$stateFocusTextColor: $dualog-blue;
+
+//Error State
+$stateErrorBorderColor: $dualog-red;
+$stateErrorBgColor: $dualog-red;
+$stateErrorTextColor: $dualog-white;
+
+//Hover State
+$stateHoverBorderColor: $dualog-blue;
+$stateHoverBgColor: $dualog-aqua60;
+$stateHoverTextColor: $dualog-blue;
+
+//Forms
+$inputBgColor: $dualog-white;
+$inputTextColor: $dualog-blue;
+$inputGroupTextColor: $dualog-black;
+$invalidInputBorderColor: $dualog-red;
+
+@import '../../../node_modules/primeng/resources/themes/_theme';
+
+/* poppins-300 - latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  src: url('fonts/poppins-v2-latin-300.eot'); /* IE9 Compat Modes */
+  src: local('Poppins Light'), local('Poppins-Light'),
+       url('fonts/poppins-v2-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/poppins-v2-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
+       url('fonts/poppins-v2-latin-300.woff') format('woff'), /* Modern Browsers */
+       url('fonts/poppins-v2-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('fonts/poppins-v2-latin-300.svg#Poppins') format('svg'); /* Legacy iOS */
+}
+
+/* poppins-regular - latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/poppins-v2-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Poppins Regular'), local('Poppins-Regular'),
+       url('fonts/poppins-v2-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/poppins-v2-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('fonts/poppins-v2-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('fonts/poppins-v2-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('fonts/poppins-v2-latin-regular.svg#Poppins') format('svg'); /* Legacy iOS */
+}
+
+h4 {
+  font-size: 0.9rem;
+}
+
+label {
+  font-size: 0.8rem;
+}
+
+.ui-chkbox-label {
+  font-size: 0.8rem;  
+}

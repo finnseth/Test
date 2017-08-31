@@ -1,0 +1,35 @@
+
+<div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+        <div class="ui-grid-col-12">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+     <div *ngIf="showContent">        
+        <dua-card title="Dualog® Information something @todo"
+            subtitle="What's here" 
+            icon="/assets/configuration/dualog_suite_logo-01.png"
+            [enabled]="false" 
+            [showNewButton]="false">
+
+            <div class="ui-grid ui-grid-responsive ui-fluid">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12">
+                        <p>
+                            Something that explain what is possible to be found on the information 'layer'
+                        </p>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12 img-fill-90 center-div">
+                        <figure>
+                            <img src="/assets/information/overview.PNG" alt="Dualog information overview">
+                        </figure>
+                    </div>
+                </div>    
+            </div>
+        </dua-card>
+    </div>
+</div>
+

@@ -1,0 +1,10 @@
+<div class="menu-item" [ngClass]="{'router-link-active': isActiveRoute }">
+  <span *ngIf="item.icon" class="glyphicon fa {{ item.icon }}"></span>
+  <img *ngIf="item.image"class="menu-img"  [src]='item.image' alt="{{ item.text }}">
+  <span class="menu-text">{{ item.text }}</span>
+  <span *ngIf="item.submenu && !parentIsPopup" class="chevron bottom"></span>
+  <span *ngIf="item.submenu && parentIsPopup" class="chevron right"></span>
+</div>
+<dua-popup-menu *ngIf="mouseInPopup || mouseInItem" [menu]='item.submenu' (mouseleave)="onPopupMouseLeave($event)" (mouseenter)="onPopupMouseEnter($event)"
+  [style.top.px]="popupTop" [style.left.px]="popupLeft" @visibilityChanged>
+</dua-popup-menu>

@@ -1,0 +1,128 @@
+<div class="ui-grid ui-grid-responsive ui-fluid">
+
+    <dua-cards 
+        [selectedShip]="selectedShip" 
+        [selectedCompareShip]="selectedCompareShip" 
+        cardsTitle="Computer rules"
+        [verticalDirection]="viewDirection" 
+        (showFleet)="showFleet($event)" 
+        (updateShip)="handleShipChange($event)" 
+        (updateCompare)="handleCompareChange($event)"
+        [showNewButtonOnShipCard]="true"
+        [showNewButtonOnFleetCard]="true"
+        newButtonLabelOnFleet="Fleet rule"
+        (shipNewClicked)="newShipRule($event)"
+        (fleetNewClicked)="newFleetRule($event)"
+        advancedSearchContext="networkcontrol-computerrules">
+        
+        <div compareAdvancedSearch>             
+        </div>
+        <div shipAdvancedSearch>
+        </div>
+        <div compareShip>
+            <div class="ui-grid ui-grid-responsive ui-fluid">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12 rules">
+                        <form *ngIf="fleetForm | async; let fleetForm; else loading" [formGroup]="fleetForm" (ngSubmit)="submitForm(fleetForm)">
+                            <p-dataTable 
+                                [value]="leftrules" 
+                                [responsive]="true"
+                                [rowStyleClass]="getRowStyleClass"
+                                [editable]="true">
+                                <p-column *ngIf="!gotCompareShip" field="isCompanyRule" [editable]="false">
+                                    <ng-template let-col let-rule="rowData" pTemplate="body">
+                                        <div class="fleeticon">
+                                            &nbsp;          
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                                <p-column *ngIf="gotCompareShip" field="isCompanyRule" [editable]="false">
+                                    <ng-template let-col let-rule="rowData" pTemplate="body">
+                                        <div  [class.fleeticon]="rule.isCompanyRule" [class.fleetrule]="rule.isCompanyRule" [class.shipicon]="!rule.isCompanyRule">
+                                            &nbsp;          
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="description" header="Description" [editable]="true"></p-column>
+                                <p-column field="method.name" header="Method" [editable]="true"></p-column>
+                                <p-column field="sourceComputer" header="Source Computer" [editable]="true"></p-column>
+                                <p-column field="service.name" header="Service" [editable]="true"></p-column>
+                                <!--p-column field="destinations" header="Destinations" [editable]="true">
+                                    <ng-template let-col let-rule="rowData" pTemplate="body">
+                                        <i *ngIf="rule.destinations?.length === 0" class="fa fa-times" aria-hidden="true"></i>
+                                        <i *ngIf="rule.destinations?.length > 0" class="fa fa-check" aria-hidden="true"></i>
+                                    </ng-template>
+                                </p-column-->
+                                <!--p-column field="priority" header="Priority" [editable]="true">
+                                    <ng-template let-col let-rule="rowData" pTemplate="body">
+                                        <p-dropdown [options]="priorities" [style]="{'width':'100%'}" [(ngModel)]="rule.priority"></p-dropdown>
+                                    </ng-template>
+                                </p-column-->
+                                <p-column *ngIf="!gotCompareShip" field="isCompanyRule" [editable]="false">
+                                    <ng-template let-col let-rule="rowData" pTemplate="body">
+                                        <div (click)="onDeleteFleetRule($event, rule)">
+                                            <i class="fa fa-trash"></i>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable>
+                            <dua-applyrow *ngIf="!gotCompareShip" [shipStyle]="false" (onCancel)="onCancelFleetCard($event)" (onApply)="onApplyFleetCard($event)"></dua-applyrow> 
+                        </form>
+                        <ng-template #loading>Loading fleet computer rules...</ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div selectedShip>
+             <div class="ui-grid ui-grid-responsive ui-fluid">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12 rules" >
+                    <!--div class="ui-grid-col-12">
+                        <span>Active </span>
+                        Could be illustrated that it is inactive in another way than using a column                        
+                    </div-->
+                        <form *ngIf="shipForm | async; let shipForm; else loading" [formGroup]="shipForm" (ngSubmit)="submitForm(shipForm)">
+                            <p-dataTable 
+                                [value]="shiprules" 
+                                [responsive]="true" 
+                                [editable]="true" 
+                                [rowStyleClass]="getRowStyleClass">
+
+                                <p-column field="isCompanyRule" [editable]="false">
+                                    <ng-template let-col let-rule="rowData" pTemplate="body">
+                                        <div  [class.fleeticon]="rule.isCompanyRule" [class.fleetrule]="rule.isCompanyRule" [class.shipicon]="!rule.isCompanyRule">
+                                            &nbsp;          
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="description" header="Description" [editable]="true"></p-column>
+                                <p-column field="method.name" header="Method" [editable]="true"></p-column>
+                                <p-column field="sourceComputer" header="Source Computer" [editable]="true"></p-column>
+                                <p-column field="service.name" header="Service" [editable]="true"></p-column>
+                                <!--p-column field="destinations" header="Destinations" [editable]="configureFleet">
+                                    <ng-template let-col let-rule="rowData" pTemplate="body">
+                                        <i *ngIf="rule.destinations?.length === 0" class="fa fa-times" aria-hidden="true"></i>
+                                        <i *ngIf="rule.destinations?.length > 0" class="fa fa-check" aria-hidden="true"></i>
+                                    </ng-template>
+                                </p-column-->
+                                <!--p-column field="priority" header="Priority" [editable]="true">
+                                    <ng-template let-col let-rule="rowData" pTemplate="body">
+                                        <p-dropdown [options]="priorities" [style]="{'width':'100%'}" [(ngModel)]="rule.priority"></p-dropdown>
+                                    </ng-template>
+                                </p-column-->
+                                <p-column field="isCompanyRule" [editable]="false">
+                                    <ng-template let-col let-rule="rowData" pTemplate="body">
+                                        <div (click)="onDeleteShipRule($event, rule)">
+                                            <i class="fa fa-trash"></i>
+                                        </div>
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable>
+                            <dua-applyrow (onCancel)="onCancelShipCard($event)" (onApply)="onApplyShipCard($event)"></dua-applyrow>
+                        </form>
+                        <ng-template #loading>Loading ship computer rules...</ng-template>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+ </dua-cards>

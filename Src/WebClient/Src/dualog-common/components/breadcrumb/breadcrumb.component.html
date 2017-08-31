@@ -1,0 +1,10 @@
+
+<div class="ui-g breadcrumb-wrapper">
+    <div class="ui-g-12">
+        <a routerLink="" class="breadcrumb space">Home</a>
+        <span *ngFor="let breadcrumb of breadcrumbs">
+            <span class="breadcrumb">&nbsp;&gt;&nbsp;</span>
+            <a class="breadcrumb" [routerLink]="[breadcrumb.url, breadcrumb.params]" *ngIf="breadcrumb"> {{breadcrumb.label}} </a>
+        </span>        
+    </div>
+</div>

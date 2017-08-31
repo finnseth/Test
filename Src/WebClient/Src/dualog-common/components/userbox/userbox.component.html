@@ -1,0 +1,7 @@
+  <nav class="userbox">
+    <ul>
+      <li *ngFor="let item of menuService.userMenu">
+        <dua-menu-item [item]="item" [parentIsPopup]="false" [menuPosition]="'right'"></dua-menu-item>
+      </li>
+    </ul>
+  </nav>

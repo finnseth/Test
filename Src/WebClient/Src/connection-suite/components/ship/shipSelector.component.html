@@ -1,0 +1,29 @@
+
+<div *ngIf="!isChanging">
+    <label> 
+        {{placeholder}} 
+        <label class="link" (click)="enableChange($event);"><i class="fa fa-pencil" aria-hidden="true"></i></label>    
+    </label>    
+</div>
+
+<div *ngIf="isChanging" class="search-bar">
+    <!--input id="searchBox" type="text" placeholder="{{placeholder}}" required/>
+    <label for="searchBox" class="fa fa-search inlineicon"></label-->
+    <p-autoComplete class="search-field"
+        [(ngModel)]="ship" 
+        [minLength]="3" 
+        placeholder="{{placeholder}}" 
+        (onSelect)="selectShip($event)" 
+        [suggestions]="resultShips" 
+        field="name" 
+        (completeMethod)="search($event)"
+        (onBlur)="disableChanging($event)"
+        autoHighlight="true">
+    </p-autoComplete>
+    <label class="fa fa-search inlineicon"></label>
+
+    <dua-advanced-search-dialog class="search-advanced" [context]="advancedSearchContext" [searchStyle]="searchStyle" [title]="searchTitle" (selectedShip)="selectShip($event)">
+            <ng-content></ng-content>
+    </dua-advanced-search-dialog>
+</div>
+

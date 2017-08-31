@@ -1,0 +1,55 @@
+.dualog-communication-icon-16 {
+    background: url('dualog-communication.png');
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    background-size: contain;
+    background-position: center;
+}
+
+.dualog-distributionlist-icon-16 {
+    background: url('dualog-distributionlist.png');
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    background-size: contain;
+    background-position: center;
+}
+
+.dualog-email-icon-16 {
+    background: url('dualog-email.png');
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    background-size: contain;
+    background-position: center;
+}
+
+.dualog-g-icon-50 {
+    background: url('dualog-g.png');
+    background-repeat: no-repeat;
+    height: 50px;
+    width: 50px;
+    background-size: contain;
+    background-position: center;
+ }
+
+.dualog-networkcontrol-icon-16 {
+    background: url('dualog-networkcontrol.png');
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    background-size: contain;
+    background-position: center;
+}
+
+
+.dualog-quarantine-icon-16 {
+    background: url('dualog-quarantine.png');
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    background-size: contain;
+    background-position: center;
+}
+

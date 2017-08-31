@@ -1,0 +1,17 @@
+
+<button *ngIf="shipStyle" pButton type="button" class="ship-button"
+    [class.ship-unfocused]="!focus"
+    icon="{{icon}}"
+    iconPos="left" 
+    label="{{label}}" 
+    (click)="onButtonClicked($event)">
+</button>
+
+<button *ngIf="!shipStyle" pButton type="button" class="fleet-button"
+    icon="{{icon}}"
+    iconPos="left" 
+    [class.fleet-unfocused]="!focus"
+    label="{{label}}" 
+    (click)="onButtonClicked($event)">
+</button>
+

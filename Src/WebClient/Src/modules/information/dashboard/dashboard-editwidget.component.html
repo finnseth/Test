@@ -1,0 +1,38 @@
+<p-growl [value]="msgs" sticky="sticky"></p-growl>
+
+<form *ngIf="widgetForm | async; let widgetForm; else loading" [formGroup]="widgetForm" (ngSubmit)="submitForm(widgetForm)">
+  <p-panel header="Fantastic test">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+      <div class="ui-g">
+        <div class="ui-g-2">Title</div>
+        <div class="ui-g-6"><input pInputText formControlName="title"></div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-2">Widget Type</div>
+        <div class="ui-g-6"><p-dropdown formControlName="widgetType" [options]="widgetTypes"></p-dropdown></div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-2">Height</div>
+        <div class="ui-g-6"><p-spinner formControlName="height"></p-spinner></div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-2">Width</div>
+        <div class="ui-g-6"><p-spinner formControlName="width"></p-spinner></div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-2">Horizontal Rank</div>
+        <div class="ui-g-6"><p-spinner formControlName="horizontalRank"></p-spinner></div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-2">Vertical Rank</div>
+        <div class="ui-g-6"><p-spinner formControlName="verticalRank"></p-spinner></div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-6"></div>
+        <div class="ui-g-2"><button type="submit" pButton label="Save"></button></div>
+      </div>
+    </div>
+  </p-panel>
+  
+</form>
+<ng-template #loading>Loading User Data...</ng-template>

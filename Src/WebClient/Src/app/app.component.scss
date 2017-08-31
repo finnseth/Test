@@ -1,0 +1,30 @@
+@import '~styles.scss';
+
+header {
+    width: 100%;
+}
+
+.contextMenu-item {
+    background-color: $dualog-white;
+    border: $dualog-blue80;
+    border-style: solid;
+    border-width: 0.2px;
+    margin: 0.4em;
+    padding: 0.5em;
+}
+
+.center-content {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contextMenu-a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.userMenu {
+    cursor: pointer;
+}

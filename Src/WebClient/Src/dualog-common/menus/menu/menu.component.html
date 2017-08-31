@@ -1,0 +1,8 @@
+<nav>
+  <ul>
+    <li *ngFor="let item of menuService.subitems">
+      <dua-menu-item [item]="item" [parentIsPopup]="false">
+      </dua-menu-item>
+    </li>
+  </ul>
+</nav>

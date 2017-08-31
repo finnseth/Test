@@ -1,0 +1,28 @@
+
+@import '~styles.scss';
+
+.rules {
+    margin-bottom: 1em;
+}
+
+.expand-label {
+    font-weight: bold;
+}
+
+:host /deep/ .ui-widget-content .fleetrule {
+    background-color: $dualog-aqua20;
+}
+
+.fleeticon {
+    background-image: url('/assets/img/fleet.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center; 
+}
+
+.shipicon {
+    background-image: url('/assets/img/ship.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center; 
+}

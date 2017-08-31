@@ -1,0 +1,25 @@
+
+@import '~styles.scss';
+
+:host {
+    display: flex;
+    background-color: $dualog-nordic-dark40;
+    .ui-g-12 {
+        padding: 0em;
+    }
+}
+
+.breadcrumb-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb {
+    text-decoration: none;
+    font-size: 0.7em;
+    color: $dualog-blue80;
+}
+
+.space {
+    margin-left: 2em;
+}

@@ -1,0 +1,11 @@
+{
+    "authentication": {
+        "server": "http://devtask.dualog.net:85",
+        "clientId": "DualogNet.XXX",
+        "secret": "Secret"
+    },
+
+    "dualogApi": {
+        "server": "http://devtask.dualog.net:84"
+    }
+}

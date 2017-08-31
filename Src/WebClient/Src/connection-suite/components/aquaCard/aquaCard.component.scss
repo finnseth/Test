@@ -1,0 +1,13 @@
+
+@import '~styles.scss';
+
+:host {
+    flex-grow: 1;
+}
+
+
+.aquacardContent {
+    border: solid;
+    border-color: $dualog-aqua;
+    margin-top: 1em;
+}

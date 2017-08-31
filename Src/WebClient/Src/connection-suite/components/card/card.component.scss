@@ -1,0 +1,77 @@
+
+
+@import '~styles.scss';
+
+
+.card {
+    padding: 1em;
+}
+
+.card-search {
+    border: $dualog-aqua;    
+    border-style: solid;    
+}
+
+.card-icon {
+    border: $dualog-aqua;    
+    border-style: solid;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center; 
+}
+
+.card-applies {
+    padding-left: 1em;    
+}
+
+.card-disabled {
+    background-color: $dualog-blue60;
+    border: $dualog-blue60;
+    border-style: solid;
+    color: $dualog-black;
+}
+
+.card-enabled {
+    background-color: $dualog-aqua;
+    border: $dualog-aqua;
+    border-style: solid;
+    color: $dualog-black;
+}
+
+.card-focus {
+    border: $dualog-aqua;    
+    border-style: solid;
+}
+
+.card-comparemode {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.card-unfocused {
+    border: $dualog-blue60;
+    border-style: solid;
+    background-color: $dualog-blue20;
+}
+
+.card-content {
+    padding-right: 1em;
+    padding-left: 1em;
+    padding-top: 1em;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.card-save-buttonrow {
+    margin-top: 1em;
+}
+
+.card-fleet-new {
+    background-color: $dualog-blue40;
+    color: $dualog-white;
+}
+
+.card-ship-new {
+    background-color: $dualog-aqua;
+    color: $dualog-white;
+}

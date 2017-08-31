@@ -1,0 +1,118 @@
+$dualog-font: 'Poppins';
+
+$dualog-blue: #02405a;
+$dualog-blue80: #3c667a;
+$dualog-blue60: #6d8c9b;
+$dualog-blue40: #9db3bc;
+$dualog-blue20: #ced9de;
+
+$dualog-aqua: #51c1b7;
+$dualog-aqua80: #76cdc5;
+$dualog-aqua60: #98dad4;
+$dualog-aqua40: #e5f4f2;
+$dualog-aqua20: #f2f9f8;
+
+$dualog-nordic-dark: #d1d2d4;
+$dualog-nordic-dark80: #dadbdc;
+$dualog-nordic-dark60: #e3e4e5;
+$dualog-nordic-dark40: #f7f8f8;
+$dualog-nordic-dark20: #fbfbfb;
+
+$dualog-nordic-light:#e4e5e6;
+$dualog-nordic-light80: #eaebec;
+$dualog-nordic-light60: #eff0f0;
+$dualog-nordic-light40: #fbfbfb;
+$dualog-nordic-light20: #fdfdfd;
+
+$dualog-black: #000000;
+$dualog-red: #c81010;
+$dualog-orange: #faa010;
+$dualog-white: #ffffff;
+$dualog-yellow: #fabf0f;
+
+.dualog-aqua-text {
+    color: $dualog-aqua;
+}
+
+.dualog-aqua80-text {
+    color: $dualog-aqua80;
+}
+
+.dualog-red-text {
+    color: $dualog-red;
+}
+
+.dualog-blue {
+    background-color: $dualog-blue;
+    color: $dualog-white;
+}
+
+.dualog-blue-invert {
+    background-color: $dualog-white;
+    color: $dualog-blue;
+}
+
+.dualog-blue-second {
+    background-color: $dualog-blue80;
+    color: $dualog-white;
+}
+
+.dualog-blue-second-invert {
+    background-color: $dualog-white;
+    color: $dualog-blue80;
+}
+
+body {
+    font-family: $dualog-font, Verdana;
+    background-color: $dualog-white;
+}
+
+.center-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-fill-90 img {
+    max-height: 90%;
+    max-width: 90%;
+    border-style: outset;
+}
+
+form {
+    margin-bottom: 1em;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+:host /deep/ .menuitem .ui-panel-titlebar .ui-widget-header {
+    background-color: $dualog-yellow;
+}
+
+.a-menu {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.a-submenu {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.menu-wrapper {
+    border-style: outset;
+    padding: 3px;
+}
+
+.submenu-wrapper {
+    text-indent: 2em;
+}
+
+.menuright {
+    right: 0;
+    left: auto;
+}
+
+@import '~chevron.css';

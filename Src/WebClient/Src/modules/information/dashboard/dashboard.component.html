@@ -1,0 +1,35 @@
+
+
+<img src="../../assets/img/dashboard_description.png">
+
+<div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui_grid_row">
+        <div class="ui-grid-col-8">
+            <div class="ui-rtl" dir="rtl">
+                <div *ngIf="dashboards !== undefined">
+                    <span *ngFor="let dashboard of dashboards">
+                        <button pButton type="button" (click)="showWidgets(dashboard)" label="{{dashboard.name}}"></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedDashboard !== null" class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+    <div class="ui-g">
+        <div *ngFor="let widget of widgets" class="ui-g-4">
+            <p-panel header="{{widget.title}}">
+                <button routerLink="widget/{{widget.id}}">edit</button>
+
+                <p-chart *ngIf="widget.widgetType === 'Bar'" type="bar" [data]="widget.data" width="{{widget.width}}"></p-chart>
+                <p-chart *ngIf="widget.widgetType === 'Pie'" type="pie" [data]="widget.data"></p-chart>
+                <p-dataTable *ngIf="widget.widgetType === 'Table'" [value]="widget.data" [responsive]="true">
+                    <p-column *ngFor="let col of widget.columns" [field]="col.field" [header]="col.header"></p-column>
+                </p-dataTable>
+            </p-panel>
+        </div>
+    </div>
+</div>
+
+

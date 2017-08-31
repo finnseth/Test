@@ -1,0 +1,22 @@
+
+@import '~styles.scss';
+
+:host {
+    flex-grow: 1;
+}
+
+
+.cardHeader {
+    display: flex;
+    background-color: $dualog-aqua;
+}
+
+.cardheader-icon {
+    border: $dualog-aqua;    
+    border-style: solid;
+    background-color: $dualog-nordic-light40;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+

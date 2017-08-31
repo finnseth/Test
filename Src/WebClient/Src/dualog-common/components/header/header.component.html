@@ -1,0 +1,24 @@
+<div *screenBelowLarge class="header-small">
+  <span class="smallmainmenu fa fa-bars" (click)="menuService.showMainMenu()"></span>
+  <dua-vertical-bar></dua-vertical-bar>
+  <dua-logo></dua-logo>
+  <dua-searchbox></dua-searchbox>
+  <dua-vertical-bar></dua-vertical-bar>
+  <span class="smallusermenu fa fa-ellipsis-v"></span>
+</div>
+
+<div *screenLarge class="header">
+  <div class="logoandmenu">
+    <dua-logo></dua-logo>
+    <div class="topmenu">
+      <dua-topmenu></dua-topmenu>
+    </div>
+  </div>
+  <dua-vertical-bar></dua-vertical-bar>
+  <div class="mainmenu">
+    <dua-menu></dua-menu>
+  </div>
+  <dua-searchbox></dua-searchbox>
+  <dua-vertical-bar></dua-vertical-bar>
+  <dua-userbox></dua-userbox>  
+</div>
