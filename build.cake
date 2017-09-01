@@ -42,7 +42,7 @@ var service = "Dualog.PortalService";
 FilePath serviceProject = $"./Src/WebService/{service}/{service}/{service}.csproj";
 FilePath serviceUnitTestProject = $"./test/WebService/{service}.UnitTests/{service}.UnitTests.csproj";
 DirectoryPath webClientProject = "./Src/WebClient/";
-var copyright = $"\"Dualog Ⓒ {DateTime.Now.ToString("yyyy")}\"";
+var copyright = $"\"Dualog AS Ⓒ {DateTime.Now.ToString("yyyy")}\"";
 var dualogOctopusDeployServer = "http://192.168.1.150:88";
 var dualogCakeOctopusDeploymentApiKey = "API-E8JX7N6QMUIYB2KOYHNVPYH1FM"; 
 
@@ -150,7 +150,7 @@ Task("Pack")
             // Create Octopus Package (NuGet)
             OctoPack(packageId, new OctopusPackSettings
             {
-                Author = "Dualog AS",
+                Author = copyright,
                 BasePath = publishPath,
                 Description = endpoint.Id,
                 Title = packageId,
