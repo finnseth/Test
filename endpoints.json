@@ -4,7 +4,7 @@
 		"Directories": [
 			{
 				"SourcePath": "./src/WebService/Dualog.PortalService/Dualog.PortalService/bin/[BuildConfiguration]/net461/publish",
-				"TargetPath": "./application"
+				"TargetPath": "./"
 			}
 		]
 	},
@@ -13,7 +13,7 @@
 		"Directories": [
 			{
 				"SourcePath": "./src/WebClient/dist",
-				"TargetPath": "./application"
+				"TargetPath": "./"
 			}
 		]
 	}

@@ -128,7 +128,7 @@ Task("Test")
 		});
 	});
 
-Task("Publish")
+Task("Pack")
 	.IsDependentOn("Test")
     .Does(() =>
     {
@@ -144,7 +144,7 @@ Task("Publish")
         // iterate endpoints, postfix resulting packages and run octo pack
         foreach (var endpoint in endpoints)
         {
-            var publishPath = artifacts.Combine("publish").Combine(endpoint.Id + "." + version.NuGetVersion).Combine("application");
+            var publishPath = artifacts.Combine("publish").Combine(endpoint.Id + "." + version.NuGetVersion);
             var packageId = endpoint.Id + ".Deploy";
 
             // Create Octopus Package (NuGet)
@@ -158,6 +158,27 @@ Task("Publish")
                 Overwrite = true,
                 Version = version.NuGetVersion
             });
+        }
+    });
+
+Task("Publish")
+	.IsDependentOn("Pack")
+    .Does(() =>
+    {
+        // orchestrate package contents for octopus packages
+        EndpointCreate(endpoints, new EndpointCreatorSettings()
+        {
+            TargetRootPath = artifacts.Combine("publish").FullPath,
+            TargetPathPostFix = "." + version.NuGetVersion,
+            BuildConfiguration = configuration,
+            ZipTargetPath = false
+        });
+
+        // iterate endpoints, postfix resulting packages and run octo pack
+        foreach (var endpoint in endpoints)
+        {
+            var publishPath = artifacts.Combine("publish").Combine(endpoint.Id + "." + version.NuGetVersion);
+            var packageId = endpoint.Id + ".Deploy";
 
             // Upload package to Octopus server
             var octopusNuGetPath = artifacts.Combine("nuget/" + packageId + "." + version.NuGetVersion + ".nupkg");
