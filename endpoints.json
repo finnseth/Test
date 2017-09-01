@@ -1,0 +1,20 @@
+[
+	{
+		"Id": "PortalService",
+		"Directories": [
+			{
+				"SourcePath": "./src/WebService/Dualog.PortalService/Dualog.PortalService/bin/[BuildConfiguration]/net461/publish",
+				"TargetPath": "./application"
+			}
+		]
+	},
+	{
+		"Id": "PortalClient",
+		"Directories": [
+			{
+				"SourcePath": "./src/WebClient/dist",
+				"TargetPath": "./application"
+			}
+		]
+	}
+]
