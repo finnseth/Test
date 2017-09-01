@@ -107,7 +107,7 @@ Task("BuildServer")
         DotNetCorePublish(serviceProject.FullPath, new DotNetCorePublishSettings
     	{
 	    	Configuration = configuration,
-		    ArgumentCustomization = args => args.Append($"/p:Version={version.NuGetVersion} /p:Copyright=\"{copyright}\" /p:Author=\"{author}\"").Append($"--verbosity minimal").Append("--no-restore")
+		    ArgumentCustomization = args => args.Append($"/p:Version={version.NuGetVersion} /p:Copyright=\"{copyright}\" /p:Authors=\"{author}\"").Append($"--verbosity minimal").Append("--no-restore")
 	    });
 	});
 
