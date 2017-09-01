@@ -34,6 +34,8 @@ var configuration = Argument<string>("configuration", "Release");
 var framework = Argument<string>("framework", "net461");
 var testFilter = Argument<string>("testfilter", "");
 var noRestore = Argument<string>("no-restore", null);
+var clientOnly = Argument<string>("client-only", null);
+var serverOnly = Argument<string>("server-only", null);
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -85,53 +87,52 @@ Task("Clean")
 Task("Restore")
 	.Does(() =>
     {
-        if (noRestore != null) return;
+        if (noRestore != null) return; // -no-restore flag specified?
 
-        // run dotnet restore for webapi projects
-        var settings = new DotNetCoreRestoreSettings
+        if (clientOnly == null) 
         {
-             ArgumentCustomization = args => args.Append("--verbosity minimal")
-        };
+	        DotNetCoreRestore(serviceProject.FullPath);
+        }
 
-	    DotNetCoreRestore(serviceProject.FullPath);
-	    DotNetCoreRestore(serviceUnitTestProject.FullPath);
-
-        // run npm install for webapp project
-        DoInDirectory(webClientProject, () => { NpmInstall(); });
+        if (serverOnly == null)
+            DoInDirectory(webClientProject, () => { NpmInstall(); });
     });
 
-Task("BuildServer")
+Task("Build")
+	.IsDependentOn("SetTeamCityVersion")
 	.IsDependentOn("Restore")
     .Does(() =>
 	{
-        DotNetCorePublish(serviceProject.FullPath, new DotNetCorePublishSettings
-    	{
-	    	Configuration = configuration,
-		    ArgumentCustomization = args => args.Append($"/p:Version={version.NuGetVersion} /p:Copyright=\"{copyright}\" /p:Authors=\"{author}\"").Append($"--verbosity minimal").Append("--no-restore")
-	    });
-	});
+        if (clientOnly == null) 
+        {
+            DotNetCorePublish(serviceProject.FullPath, new DotNetCorePublishSettings
+            {
+                Configuration = configuration,
+                ArgumentCustomization = args => args.Append($"/p:Version={version.NuGetVersion} /p:Copyright=\"{copyright}\" /p:Authors=\"{author}\"").
+                    Append("--verbosity minimal --no-restore")
+            });
+        }
 
-Task("Build")
-	.IsDependentOn("BuildServer")
-    .Does(() =>
-	{
-        // run ng build to build into dist
-    	DoInDirectory( webClientProject, () => { NpmRunScript("ng", new List<string>{"build"}); });
+        if (serverOnly == null)
+        	DoInDirectory( webClientProject, () => { NpmRunScript("ng", new List<string>{"build"}); });
 	});
 
 Task("Test")
     .IsDependentOn("Build")
     .Does(() => {
-		DotNetCoreTest(serviceUnitTestProject.FullPath, new DotNetCoreTestSettings
-		{
-			Configuration = configuration,
-			ArgumentCustomization = args => {
-				if (!string.IsNullOrEmpty(testFilter)) {
-					args = args.Append("--where").AppendQuoted(testFilter);
-				}
-				return args.Append("--logger:trx").Append($"--verbosity minimal").Append("--no-restore");
-			}
-		});
+        if (clientOnly == null) 
+        {
+            DotNetCoreTest(serviceUnitTestProject.FullPath, new DotNetCoreTestSettings
+            {
+                Configuration = configuration,
+                ArgumentCustomization = args => {
+                    if (!string.IsNullOrEmpty(testFilter)) {
+                        args = args.Append("--where").AppendQuoted(testFilter);
+                    }
+                    return args.Append("--logger:trx").Append($"--verbosity minimal");
+                }
+            });
+        }
 	});
 
 Task("Pack")
@@ -152,6 +153,9 @@ Task("Pack")
         {
             var publishPath = artifacts.Combine("publish").Combine(endpoint.Id + "." + version.NuGetVersion);
             var packageId = endpoint.Id + ".Deploy";
+
+            if (packageId.Contains("Client") && serverOnly != null) continue;
+            if (packageId.Contains("Service") && clientOnly != null) continue;
 
             // Create Octopus Package (NuGet)
             OctoPack(packageId, new OctopusPackSettings
@@ -186,6 +190,9 @@ Task("Publish")
             var publishPath = artifacts.Combine("publish").Combine(endpoint.Id + "." + version.NuGetVersion);
             var packageId = endpoint.Id + ".Deploy";
 
+            if (packageId.Contains("Client") && serverOnly != null) continue;
+            if (packageId.Contains("Service") && clientOnly != null) continue;
+
             // Upload package to Octopus server
             var octopusNuGetPath = artifacts.Combine("nuget/" + packageId + "." + version.NuGetVersion + ".nupkg");
             OctoPush(dualogOctopusDeployServer, dualogCakeOctopusDeploymentApiKey, octopusNuGetPath.FullPath, new OctopusPushSettings 
@@ -212,31 +219,6 @@ Task("Publish")
                 Force = true
             });
         }
-    });
-
-Task("Run")
-	.IsDependentOn("Restore")
-	.Does( () =>
-    {
-        // start dotnet run task
-        var webApi = System.Threading.Tasks.Task.Factory.StartNew( () =>
-        {
-            DotNetCoreRun( serviceProject.GetFilename().ToString(), null, new DotNetCoreRunSettings
-            {
-                WorkingDirectory = serviceProject.GetDirectory().FullPath
-            });
-        });
-
-        // start npm run task
-        var webApp = System.Threading.Tasks.Task.Factory.StartNew( () =>
-        {
-            NpmRunScript( new NpmRunScriptSettings
-            {
-                ScriptName = "start",
-                WorkingDirectory = webClientProject.FullPath
-            });
-        });
-        System.Threading.Tasks.Task.WaitAll(webApi, webApp);
     });
 
 Task("Default")
