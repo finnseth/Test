@@ -42,7 +42,8 @@ var service = "Dualog.PortalService";
 FilePath serviceProject = $"./Src/WebService/{service}/{service}/{service}.csproj";
 FilePath serviceUnitTestProject = $"./test/WebService/{service}.UnitTests/{service}.UnitTests.csproj";
 DirectoryPath webClientProject = "./Src/WebClient/";
-var copyright = $"\"Dualog AS Ⓒ {DateTime.Now.ToString("yyyy")}\"";
+var author = "Dualog AS";
+var copyright = $"{author} Ⓒ {DateTime.Now.ToString("yyyy")}";
 var dualogOctopusDeployServer = "http://192.168.1.150:88";
 var dualogCakeOctopusDeploymentApiKey = "API-E8JX7N6QMUIYB2KOYHNVPYH1FM"; 
 
@@ -99,16 +100,21 @@ Task("Restore")
         DoInDirectory(webClientProject, () => { NpmInstall(); });
     });
 
-Task("Build")
+Task("BuildServer")
 	.IsDependentOn("Restore")
     .Does(() =>
 	{
         DotNetCorePublish(serviceProject.FullPath, new DotNetCorePublishSettings
     	{
 	    	Configuration = configuration,
-		    ArgumentCustomization = args => args.Append($"/p:Version={version.NuGetVersion} /p:Copyright={copyright}").Append($"--verbosity minimal").Append("--no-restore")
+		    ArgumentCustomization = args => args.Append($"/p:Version={version.NuGetVersion} /p:Copyright=\"{copyright}\" /p:Author=\"{author}\"").Append($"--verbosity minimal").Append("--no-restore")
 	    });
+	});
 
+Task("Build")
+	.IsDependentOn("BuildServer")
+    .Does(() =>
+	{
         // run ng build to build into dist
     	DoInDirectory( webClientProject, () => { NpmRunScript("ng", new List<string>{"build"}); });
 	});
@@ -150,7 +156,7 @@ Task("Pack")
             // Create Octopus Package (NuGet)
             OctoPack(packageId, new OctopusPackSettings
             {
-                Author = copyright,
+                Author = author,
                 BasePath = publishPath,
                 Description = endpoint.Id,
                 Title = packageId,

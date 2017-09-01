@@ -8,8 +8,6 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>Dualog.PortalService</AssemblyName>
     <PackageId>Dualog.PortalService</PackageId>
-    <Authors>Dualog AS</Authors>
-    <Company>Dualog AS</Company>
 
   </PropertyGroup>
 
