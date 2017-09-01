@@ -33,7 +33,12 @@
   "input": "./",
   "output": "./"
 },
-        {
+{
+  "glob": "web.config",
+  "input": "./",
+  "output": "./"
+},
+{
   "glob": "configuration.json",
   "input": "./",
   "output": "./"
