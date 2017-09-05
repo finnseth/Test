@@ -26,7 +26,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #tool "nuget:?package=Cake.CoreCLR"
-#tool "nuget:?package=GitVersion.CommandLine"
+#tool "nuget:?package=GitVersion.CommandLine&version=4.0.0-beta0012"
 #tool "nuget:?package=OctopusTools"
 
 
