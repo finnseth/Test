@@ -80,7 +80,7 @@ function MD5HashFile([string] $filePath)
     }
 }
 
-Write-Host "Preparing to run build script..."
+Write-Verbose -Message "Preparing to run build script..."
 
 if(!$PSScriptRoot){
     $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
@@ -184,6 +184,6 @@ if (!(Test-Path $CAKE_EXE)) {
 }
 
 # Start Cake
-Write-Host "Running build script..."
+Write-Verbose -Message "Running build script..."
 Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun -experimental $ScriptArgs"
 exit $LASTEXITCODE

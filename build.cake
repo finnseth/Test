@@ -63,8 +63,6 @@ GitVersion gitVersion = GitVersion();
 var version = gitVersion.NuGetVersion;
 var buildServer = BuildSystem.IsRunningOnTeamCity ? "TeamCity" : "local";
 
-Warning($"Building {service} version {version} on {buildServer}");
-
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
@@ -73,6 +71,11 @@ Task("SetTeamCityVersion")
     .Does(() => {
         if (BuildSystem.IsRunningOnTeamCity)
             BuildSystem.TeamCity.SetBuildNumber(version);
+    });
+
+Task("Version")
+    .Does(() => {
+        Information($"Current version: {version}");
     });
 
 Task("Clean")
@@ -104,7 +107,13 @@ Task("Restore")
         }
 
         if (serverOnly == null)
-            DoInDirectory(webClientProject, () => { NpmInstall(); });
+            DoInDirectory(webClientProject, () => 
+            { 
+                NpmInstall(new NpmInstallSettings
+                {
+                    LogLevel = NpmLogLevel.Silent
+                }); 
+            });
     });
 
 Task("Build")
@@ -112,6 +121,8 @@ Task("Build")
 	.IsDependentOn("Restore")
     .Does(() =>
 	{
+        Warning($"Building {service} version {version} on {buildServer}");
+
         if (clientOnly == null) 
         {
             DotNetCorePublish(serviceProject.FullPath, new DotNetCorePublishSettings
