@@ -133,8 +133,16 @@ Task("Build")
             });
         }
 
-        if (serverOnly == null)
-        	DoInDirectory( webClientProject, () => { NpmRunScript("ng", new List<string>{"build"}); });
+        if (serverOnly == null) {
+            var settings = new NpmRunScriptSettings
+            {
+                ScriptName = "ng",
+                LogLevel = NpmLogLevel.Silent
+            };
+            settings.Arguments.Add("build");
+
+            DoInDirectory( webClientProject, () => { NpmRunScript(settings); });
+        }
 	});
 
 Task("Test")
