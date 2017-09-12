@@ -49,7 +49,6 @@ var serverOnly = Argument<string>("server-only", null);
 
 var service = "Dualog.PortalService";
 FilePath serviceProject = $"./Src/WebService/{service}/{service}/{service}.csproj";
-FilePath serviceUnitTestProject = $"./test/WebService/{service}.UnitTests/{service}.UnitTests.csproj";
 DirectoryPath webClientProject = "./Src/WebClient/";
 var author = "Dualog AS";
 var copyright = $"{author} Ⓒ {DateTime.Now.ToString("yyyy")}";
@@ -150,15 +149,9 @@ Task("Test")
     .Does(() => {
         if (clientOnly == null) 
         {
-            DotNetCoreTest(serviceUnitTestProject.FullPath, new DotNetCoreTestSettings
-            {
-                Configuration = configuration,
-                ArgumentCustomization = args => {
-                    if (!string.IsNullOrEmpty(testFilter)) {
-                        args = args.Append("--where").AppendQuoted(testFilter);
-                    }
-                    return args.Append("--logger:trx").Append($"--verbosity minimal");
-                }
+            DoInDirectory($"./Test/WebService/{service}.UnitTests", () => {
+                DotNetCoreRestore();
+                DotNetCoreTool($".", "xunit", "");
             });
         }
 	});
