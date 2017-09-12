@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Dualog.Data.Entity;
-using Dualog.PortalService.Controllers.Quarantine.Model;
+using Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model;
 using Dualog.PortalService.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +10,9 @@ using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json.Linq;
 
-namespace Dualog.PortalService.Controllers.Quarantine
+namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
 {
     [Authorize]
-    [IsInCompany]
     [Route("api/v1")]
     public class QuarantineController : DualogController
     {
@@ -23,7 +22,6 @@ namespace Dualog.PortalService.Controllers.Quarantine
         /// <summary>
         /// Initializes a new instance of the <see cref="QuarantineController"/> class.
         /// </summary>
-        /// <param name="identityData">The identity data.</param>
         /// <param name="dcFactory">The dc factory.</param>
         public QuarantineController(IDataContextFactory dcFactory)
             : base( dcFactory )
@@ -33,12 +31,12 @@ namespace Dualog.PortalService.Controllers.Quarantine
 
 
         /// <summary>
-        /// Gets the company configuration for quarantine.
+        /// Get quarantine settings for company.
         /// </summary>
         /// <returns></returns>
         [ResourcePermission("EmailRestriction", AccessRights.Read)]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineCompanyConfig), "The operation was successful.")]
-        [HttpGet, Route("email/settings/quarantine")]
+        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineCompanyModel), "The operation was successful.")]
+        [HttpGet, Route("email/setup/quarantine/companyquarantine")]
         public async Task<IActionResult> GetCompanyConfig()
         {
             try
@@ -56,12 +54,12 @@ namespace Dualog.PortalService.Controllers.Quarantine
 
 
         /// <summary>
-        /// Gets the vessel information for quarantine.
+        /// Get qurantine settings for vessel.
         /// </summary>
         /// <returns></returns>
         [ResourcePermission("EmailRestriction", AccessRights.Read)]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineVesselConfig), "The operation was successful.")]
-        [HttpGet, Route("email/settings/quarantine/vessels")]
+        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineVesselModel), "The operation was successful.")]
+        [HttpGet, Route("email/setup/quarantine/shipquarantine")]
         public async Task<IActionResult> GetVesselList()
         {
             try
@@ -79,12 +77,12 @@ namespace Dualog.PortalService.Controllers.Quarantine
 
 
         /// <summary>
-        /// Gets the vessel information.
+        /// Get quarantine settings for one vessel.
         /// </summary>
         /// <returns></returns>
         [ResourcePermission("EmailRestriction", AccessRights.Read)]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineVesselConfig), "The operation was successful.")]
-        [HttpGet, Route("email/settings/quarantine/vessels/{vesselId}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineVesselModel), "The operation was successful.")]
+        [HttpGet, Route("email/setup/quarantine/shipquarantine/{vesselId}")]
         public async Task<IActionResult> GetVesselInformation(long vesselId)
         {
             try
@@ -101,67 +99,31 @@ namespace Dualog.PortalService.Controllers.Quarantine
 
 
         /// <summary>
-        /// Updates the company quarantine configuration for the current logged in user.
+        /// Update the company quarantine configuration for the current logged in user.
         /// </summary>
         /// <param name="json"></param>
+        /// <param name="quarantineId"></param>
         /// <returns></returns>
         [ResourcePermission("EmailRestriction", AccessRights.Write)]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineCompanyConfig), "The company quarantine configuration was successfully updated.")]
+        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineCompanyModel), "The company quarantine configuration was successfully updated.")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, typeof(ErrorObject), "Something went wrong when updating the company quarantine configuration.")]
-        [HttpPatch, Route("email/settings/quarantine")]
-        public async Task<IActionResult> PatchCompanyConfig([FromBody] JObject json)
-        {
-            try
-            {
-                var qcc = await _dbRepository.PatchCompanyConfigAsync(json, CompanyId);
-                return Ok(qcc);
-            }
-
-            catch (ValidationException exception)
-            {
-                Log.Warning($"{{Url}} {{Verb}} failed: {{result}}", Request.Path, Request.Method, exception.Message);
-                return new BadRequestObjectResult(new ErrorObject { Message = exception.Message });
-            }
-
-            catch (Exception exception)
-            {
-                Log.Error($"{{Url}} {{Verb}} failed: {{Exception}}", Request.Path, Request.Method, exception);
-                return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
-            }
-        }
+        [HttpPatch, Route("email/setup/quarantine/companyquarantine/{quarantineId}")]
+        public Task<IActionResult> PatchCompanyConfig([FromBody] JObject json, long quarantineId)
+             => this.HandlePatchAction(() => _dbRepository.PatchCompanyConfigAsync(json, CompanyId, quarantineId));
 
 
         /// <summary>
         /// Updates the quarantine configuration for the specified vessel.
         /// </summary>
-        /// <param name="vesselId">The id of the vessel to update quarantine configuration.</param>
+        /// <param name="quarantineId">The id of the quarantine entity to update </param>
         /// <param name="json"></param>
         /// <returns></returns>
         [ResourcePermission("EmailRestriction", AccessRights.Write)]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineCompanyConfig), "The vessel quarantine configuration was successfully updated.")]
+        [SwaggerResponse((int)HttpStatusCode.OK, typeof(QuarantineCompanyModel), "The vessel quarantine configuration was successfully updated.")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, typeof(ErrorObject), "Something went wrong when updating the vessel quarantine configuration.")]
-        [HttpPatch, Route("email/settings/quarantine/{vesselId}")]
-        public async Task<IActionResult> PatchVesselConfig(long vesselId, [FromBody] JObject json)
-        {
-            try
-            {
-                var qcc = await _dbRepository.PatchVesselConfigAsync(json, CompanyId, vesselId);
-                return Ok(qcc);
-            }
-
-
-            catch (ValidationException exception)
-            {
-                Log.Warning($"{{Url}} {{Verb}} failed: {{result}}", Request.Path, Request.Method, exception.Message);
-                return new BadRequestObjectResult(new ErrorObject { Message = exception.Message });
-            }
-
-            catch (Exception exception)
-            {
-                Log.Error($"{{Url}} {{Verb}} failed: {{Exception}}", Request.Path, Request.Method, exception);
-                return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
-            }
-        }
+        [HttpPatch, Route("email/setup/quarantine/shipquarantine/{quarantineId}")]
+        public Task<IActionResult> PatchVesselConfig([FromBody] JObject json, long quarantineId)
+             => this.HandlePatchAction(() => _dbRepository.PatchVesselConfigAsync(json, CompanyId, quarantineId));
 
     }
 }

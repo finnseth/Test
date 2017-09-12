@@ -2,6 +2,7 @@ import { AccessRights, PermissionMap } from 'connection-suite-shore/services/per
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from 'connection-suite-shore/services/auth-guard.service';
+import { PendingChangesGuard } from 'connection-suite-shore/services/pending_changes.service';
 import { CanActivateChild } from '@angular/router/router';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';

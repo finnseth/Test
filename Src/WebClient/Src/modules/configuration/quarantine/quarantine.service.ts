@@ -23,28 +23,36 @@ export class QuarantineService extends ApiService {
     }
 
     public getVesselConfigList(): Observable<QuarantineVesselConfig[]> {
-        return super.Get<QuarantineVesselConfig[]>( '/email/settings/quarantine/vessels');
+        return super.Get<QuarantineVesselConfig[]>( '/email/setup/quarantine/shipquarantine');
     }
 
     public getCompanyConfigList(): Observable<QuarantineCompanyConfig[]> {
-        return super.Get<QuarantineCompanyConfig[]>( '/email/settings/quarantine');
+        return super.Get<QuarantineCompanyConfig[]>( '/email/setup/quarantine/companyquarantine');
     }
 
     public getVesselConfigSchema(): Observable<JsonSchema> {
-        return super.GetSchema(`/email/settings/quarantine/vessels/0`);
+        return super.GetSchema(`/email/setup/quarantine/shipquarantine/0`);
     }
+
+    public PatchVesselQuarantine(id: number, payload: any ): Observable<QuarantineVesselConfig> {
+        return super.Patch<QuarantineVesselConfig[]>( `/email/setup/quarantine/shipquarantine/${id}`, payload );
+    }
+
+    public PatchCompanyQuarantine(id: number, payload: any ): Observable<QuarantineCompanyConfig> {
+        return super.Patch<QuarantineCompanyConfig[]>( `/email/setup/quarantine/companyquarantine/${id}`, payload );
+    }
+
 }
 
 export interface QuarantineCompanyConfig {
     quarantineId: number;
-    useThisLevel: boolean;
     onHoldStationaryUser: boolean;
     onHoldCrew: boolean;
     notificationOnHoldOriginal: boolean;
     notificationOnHoldRecipient: boolean;
     notificationOnHoldPostmaster: boolean;
-    notificationOnHoldAdmins: boolean;
-    notificationSender: boolean;
+    notificationOnHoldAdmins: string;
+    notificationSender: string;
     maxBodyLength: number;
     onHoldDuration: number;
 }
@@ -52,4 +60,5 @@ export interface QuarantineCompanyConfig {
 export interface QuarantineVesselConfig extends QuarantineCompanyConfig {
     vesselId: number;
     vesselName: string;
+    useThisLevel: boolean;
 }

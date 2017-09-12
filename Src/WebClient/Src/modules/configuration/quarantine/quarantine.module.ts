@@ -1,3 +1,5 @@
+import { CurrentShipService } from '../../../connection-suite-shore/services/currentship.service';
+import { PendingChangesGuard } from '../../../connection-suite-shore/services/pending_changes.service';
 import {
     CheckboxModule,
     InputTextModule,
@@ -12,6 +14,10 @@ import { AquaCardModule } from 'connection-suite/components/aquaCard/aquaCard.mo
 import { BlueCardModule } from 'connection-suite/components/blueCard/blueCard.module';
 import { CardsModule } from 'connection-suite/components/cards/cards.module';
 import { CommonModule } from '@angular/common';
+import { DuaCheckboxModule } from 'dualog-common/components/dua-checkbox/dua-checkbox.module';
+import { DuaCompareDirective } from 'dualog-common/directives/compare.directive';
+import { DuaInputEmailModule } from 'dualog-common/components/dua-input-email/dua-input-email.module';
+import { DuaSpinnerModule } from 'dualog-common/components/dua-spinner/dua-spinner.module';
 import { FleetCardHeaderModule } from 'connection-suite/components/fleetCardHeader/fleetCardHeader.module';
 import { NgModule } from '@angular/core';
 import { QuarantineComponent } from './quarantine.component';
@@ -33,15 +39,21 @@ import { ShipCardHeaderModule } from 'connection-suite/components/shipCardHeader
         ShipCardHeaderModule,
         FleetCardHeaderModule,
         AquaCardModule,
-        BlueCardModule
+        BlueCardModule,
+        DuaCheckboxModule,
+        DuaInputEmailModule,
+        DuaSpinnerModule
     ],
 
     declarations: [
-        QuarantineComponent
+        QuarantineComponent,
+        DuaCompareDirective
     ],
 
     providers: [
-        QuarantineService
+        QuarantineService,
+        PendingChangesGuard,
+        CurrentShipService
     ]
 
 })

@@ -74,7 +74,6 @@ export class FleetCardAdvancedSearchComponent implements OnInit {
   }
 
   closeDialog(event: Event) {
-    this.onShipSelected.emit(this.currentCompareShip);
   }
 
   advancedSearch(event: Event) {

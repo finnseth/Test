@@ -1,0 +1,21 @@
+<span [formGroup]="parentFormGroup">
+    <p-spinner
+        [step]="step"
+        [min]="min"
+        [max]="max"
+        [size]="size"
+        [placeholder]="placeholder"
+        [inputId]="inputId"
+        [disabled]="disabled"
+        [readonly]="readonly"
+        [decimalSeparator]="decimalSeparator"
+        [tabindex]="tabindex"
+        [formatInput]="formatInput"
+        [type]="type"
+        [required]="required"
+        [formControlName]="formControlName"
+        (onChange)="onChanged($event)"
+        (onFocus)="onFocused($event)"
+        (onBlur)="onBlured($event)">
+    </p-spinner>
+</span>

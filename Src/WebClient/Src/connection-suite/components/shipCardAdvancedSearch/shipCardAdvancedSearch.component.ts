@@ -14,9 +14,11 @@ export class ShipCardAdvancedSearchComponent implements OnInit {
   @ViewChild('advancedsearchtable') shipTable: DataTable;
 
   @Input() searchContext: string;
+  @Input() currentShip: Ship;
   
   @Output() onShipSelected = new EventEmitter<Ship>();
   
+
   _selectedShip: Ship;
   private enableAdvancedSearch = false;
   currentWorkingShip: Ship;
@@ -40,8 +42,7 @@ export class ShipCardAdvancedSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.currentWorkingShip = this.shipService.getSelectedShip();
+    this.currentWorkingShip = this.currentShip;
     if (this.currentWorkingShip !== undefined) {
       this.onShipSelected.emit(this.currentWorkingShip);
       this._selectedShip = this.currentWorkingShip;
@@ -71,17 +72,15 @@ export class ShipCardAdvancedSearchComponent implements OnInit {
 
   selectingShip(ship: Ship) {
     this.onShipSelected.emit(ship);
-    this.currentWorkingShip = this.shipService.getSelectedShip();
+    this.currentWorkingShip = this.currentShip;
     this.enableAdvancedSearch = false;
   }
 
   closeDialog(event: Event) {
-    if (this._selectedShip !== undefined) {
-      this.onShipSelected.emit(this._selectedShip);
-    }
   }
 
   advancedSearch(event: Event) {
+    this._selectedShip = this.currentShip;
     this.enableAdvancedSearch = true;
     this.isSearching = true;
 

@@ -1,10 +1,13 @@
 ﻿using Dualog.Data.Oracle.Shore.Model;
 using Dualog.PortalService.Core.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
-namespace Dualog.PortalService.Controllers.Quarantine.Model
+namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model
 {
-    public class QuarantineVesselConfig : QuarantineCompanyConfig
+    [KnownType(typeof(QuarantineCompanyModel))]
+
+    public class QuarantineVesselModel : QuarantineCompanyModel
     {
         public long VesselId { get; set; }
 
@@ -12,9 +15,13 @@ namespace Dualog.PortalService.Controllers.Quarantine.Model
         public bool UseThisLevel { get; set; }
 
 
-        public static new QuarantineVesselConfig FromDsQuarantine(DsQuarantine quarantine)
+        public static new QuarantineVesselModel FromDsQuarantine(DsQuarantine quarantine)
         {
-            return new QuarantineVesselConfig
+
+            //           var vesselconfig = (QuarantineVesselModel)QuarantineCompanyModel.FromDsQuarantine(quarantine);
+            //           vesselconfig.UseThisLevel = quarantine.UseThisLevel;
+
+            return new QuarantineVesselModel
             {
                 QuarantineId = quarantine.Id,
                 MaxBodyLength = quarantine.MaxBodyLength,
@@ -26,10 +33,11 @@ namespace Dualog.PortalService.Controllers.Quarantine.Model
                 OnHoldCrew = quarantine.OnHoldCrew,
                 OnHoldDuration = quarantine.OnHoldDuration,
                 OnHoldStationaryUser = quarantine.OnHoldStationaryUser,
-                VesselId = quarantine.Vessel?.Id ?? 0,
-                VesselName = quarantine.Vessel?.VesselName,
                 UseThisLevel = quarantine.UseThisLevel
-        };
+            };
+
+
+//            return vesselconfig;
         }
 
     }

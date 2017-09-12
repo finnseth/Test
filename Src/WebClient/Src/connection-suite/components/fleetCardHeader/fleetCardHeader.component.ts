@@ -10,6 +10,7 @@ import { Ship } from 'connection-suite/components/ship/interfaces'; // todo
 export class FleetCardHeaderComponent implements OnInit {
 
   @Input() searchContext: string;
+  @Input() currentCompareShip: Ship;
   
   @Output() onCompareShipChanged = new EventEmitter<Ship>();
   @Output() onFleetEnabledChanged = new EventEmitter<boolean>();

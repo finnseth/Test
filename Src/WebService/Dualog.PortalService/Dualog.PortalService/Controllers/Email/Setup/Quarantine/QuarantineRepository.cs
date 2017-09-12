@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dualog.Data.Entity;
 using Dualog.Data.Oracle.Shore.Model;
-using Dualog.PortalService.Controllers.Quarantine.Model;
+using Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model;
 using Dualog.PortalService.Core.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace Dualog.PortalService.Controllers.Quarantine
+namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
 {
     public class QuarantineRepository
     {
@@ -22,13 +22,13 @@ namespace Dualog.PortalService.Controllers.Quarantine
         }
 
 
-        public async Task<QuarantineCompanyConfig> GetCompanyConfig(long companyId)
+        public async Task<IEnumerable<QuarantineCompanyModel>> GetCompanyConfig(long companyId)
         {
             using (var dc = _dcFactory.CreateContext())
             {
                 var qc = from e in dc.GetSet<DsQuarantine>()
-                         where e.Company.Id == companyId && e.Vessel == null
-                         select new QuarantineCompanyConfig
+                         where (e.Company.Id == companyId || companyId == 0) && e.Vessel == null
+                         select new QuarantineCompanyModel
                          {
                              QuarantineId = e.Id,
                              MaxBodyLength = e.MaxBodyLength,
@@ -42,12 +42,12 @@ namespace Dualog.PortalService.Controllers.Quarantine
                              OnHoldStationaryUser = e.OnHoldStationaryUser,
                          };
 
-                return await qc.FirstOrDefaultAsync();
+                return await qc.ToListAsync();
             }
         }
 
 
-        public async Task<IEnumerable<QuarantineVesselConfig>> GetVesselConfigurationList(long companyId)
+        public async Task<IEnumerable<QuarantineVesselModel>> GetVesselConfigurationList(long companyId)
         {
             using (var dc = _dcFactory.CreateContext())
             {
@@ -56,7 +56,7 @@ namespace Dualog.PortalService.Controllers.Quarantine
             }
         }
 
-        public async Task<QuarantineVesselConfig> GetVesselConfiguration(long vesselId, long companyId)
+        public async Task<QuarantineVesselModel> GetVesselConfiguration(long vesselId, long companyId)
         {
             using (var dc = _dcFactory.CreateContext())
             {
@@ -68,11 +68,11 @@ namespace Dualog.PortalService.Controllers.Quarantine
             }
         }
 
-        private static IQueryable<QuarantineVesselConfig> GetVesselConfigQuery(long companyId, IDataContext dc)
+        private static IQueryable<QuarantineVesselModel> GetVesselConfigQuery(long companyId, IDataContext dc)
         {
             return from e in dc.GetSet<DsQuarantine>()
-                   where e.Company.Id == companyId  && e.Vessel != null
-                   select new QuarantineVesselConfig
+                   where (e.Company.Id == companyId || companyId == 0)  && e.Vessel != null
+                   select new QuarantineVesselModel
                    {
                        QuarantineId = e.Id,
                        VesselId = e.Vessel.Id,
@@ -91,23 +91,28 @@ namespace Dualog.PortalService.Controllers.Quarantine
         }
 
 
-        public async Task<QuarantineCompanyConfig> PatchCompanyConfigAsync(JObject config, long id )
+        public async Task<QuarantineCompanyModel> PatchCompanyConfigAsync(JObject config, long companyId , long quarantineId)
         {
 
 
             using (var dc = _dcFactory.CreateContext( ))
             {
-                JsonObjectGraph jog = new JsonObjectGraph(config, dc);
-                //jog.AddPropertyMap( "/" )
+                (dc as IHasChangeDetection)?.EnableChangeDetection();
 
+                JsonObjectGraph jog = new JsonObjectGraph(config, dc);
 
                 var entity = await dc.GetSet<DsQuarantine>().Include( q => q.Vessel )
-                                     .Where(q => q.Company.Id == id && q.Vessel == null)
+                                     .Where(q => (q.Company.Id == companyId || companyId == 0) && q.Vessel == null && q.Id ==quarantineId) 
                                      .FirstOrDefaultAsync();
+
+                if (entity == null)
+                    throw new NotFoundException();
+
+
 
                 await jog.ApplyToAsync(entity, new DefaultContractResolver() );
 
-                var result = QuarantineCompanyConfig.FromDsQuarantine(entity);
+                var result = QuarantineCompanyModel.FromDsQuarantine(entity);
                 if (result.Validate(out var message) == false)
                     throw new ValidationException(message);
 
@@ -116,17 +121,25 @@ namespace Dualog.PortalService.Controllers.Quarantine
             }
         }
 
-        public async Task<QuarantineVesselConfig> PatchVesselConfigAsync(JObject config, long companyId, long vesselId)
+        public async Task<QuarantineVesselModel> PatchVesselConfigAsync(JObject config, long companyId, long quarantineId)
         {
 
             using (var dc = _dcFactory.CreateContext())
             {
+                (dc as IHasChangeDetection)?.EnableChangeDetection();
+
                 JsonObjectGraph jog = new JsonObjectGraph(config, dc);
 
-                var entity = await dc.GetSet<DsQuarantine>().Where(q => q.Company.Id == companyId && q.Vessel.Id  == vesselId).FirstOrDefaultAsync();
+                var entity = await dc.GetSet<DsQuarantine>().Where(q => (q.Company.Id == companyId || companyId == 0) 
+                                                                        && q.Vessel != null 
+                                                                        && q.Id  == quarantineId).FirstOrDefaultAsync();
+
+                if (entity == null)
+                    throw new NotFoundException();
+
                 await jog.ApplyToAsync(entity, new DefaultContractResolver() );
 
-                var result = QuarantineVesselConfig.FromDsQuarantine(entity);
+                var result = QuarantineVesselModel.FromDsQuarantine(entity);
                 if (result.Validate(out var message) == false)
                     throw new ValidationException(message);
 
