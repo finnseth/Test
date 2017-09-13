@@ -1,40 +1,18 @@
-import { FormGroup } from '@angular/forms';
+import { Component, HostListener, OnInit } from '@angular/core';
 
-export class DualogController {
+import { ComponentCanDeactivate } from '../../connection-suite-shore/services/pending_changes.service';
+import { Observable } from 'rxjs/Rx';
 
-    private compareFields;
+export abstract class DualogController implements ComponentCanDeactivate {
 
-    protected CompareDiff(shipForm: FormGroup, compareForm: FormGroup, fields) {
-
-        this.compareFields = fields;
-
-        console.log(shipForm);
-        console.log(compareForm);
-
-        shipForm.valueChanges.subscribe( formElements => {
-            for (const key in this.compareFields) {
-                if (compareForm !== undefined) {
-                    if (compareForm.value[key] !== formElements[key]) {
-                        this.compareFields[key] = true;
-                    } else {
-                        this.compareFields[key] = false;
-                    }
-                }
-            }
-        });
-
-        if (compareForm !== undefined) {
-            compareForm.valueChanges.subscribe( formElements => {
-                for (const key in this.compareFields) {
-                    console.log('shipform: ' + shipForm);
-                    if (shipForm.value[key] !== formElements[key]) {
-                        this.compareFields[key] = true;
-                    } else {
-                        this.compareFields[key] = false;
-                    }
-                }
-            });
-        }
+    @HostListener('window:beforeunload',['$event'])
+    canDeactivate(): Observable<boolean> | boolean {
+        // insert logic to check if there are pending changes here;
+        // returning true will navigate without confirmation
+        // returning false will show a confirm dialog before navigating away
+        return !this.pendingChanges();
     }
-}
 
+    public abstract pendingChanges(): boolean;
+
+}

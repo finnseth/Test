@@ -35,8 +35,6 @@ export class DuaSpinnerComponent extends Spinner implements ControlValueAccessor
 
     @Input() inputId: string;
 
-    @Input() disabled: boolean;
-
     @Input() readonly: boolean;
 
     @Input() decimalSeparator = '.';

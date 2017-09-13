@@ -20,7 +20,6 @@ export class DuaCheckboxComponent extends Checkbox implements ControlValueAccess
 
     @Input() value: any;
     @Input() name: string;
-    @Input() disabled: boolean;
     @Input() binary: string;
     @Input() label: string;
     @Input() tabindex: number;
