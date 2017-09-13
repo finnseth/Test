@@ -191,12 +191,10 @@ try {
         Throw "An error occured while running build script"    
     }
 } catch {
-    [string]$isRunningUnderTeamCity = [environment]::GetEnvironmentVariable("TEAMCITY_VERSION","Process")
-    if ($isRunningUnderTeamCity) {
-        Write-Host "##teamcity[message text='BUILD FAILED' errorDetails='$_' status='ERROR']"
+    Write-Host $_
+    if (Test-Path env:TEAMCITY_VERSION) {
         [environment]::Exit(1)
     } else {
-        Write-Host $_
         exit 1
     }
 }
