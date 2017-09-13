@@ -185,5 +185,14 @@ if (!(Test-Path $CAKE_EXE)) {
 
 # Start Cake
 Write-Verbose -Message "Running build script..."
-Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun -experimental $ScriptArgs"
-exit $LASTEXITCODE
+try{
+    Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun -experimental $ScriptArgs"
+    if ($LASTEXITCODE -ne 0) {
+        Throw "Build script failed"
+    }
+}
+catch
+{
+    Write-Error $_ ##teamcity[buildStatus status='FAILURE']
+    exit 1
+}
