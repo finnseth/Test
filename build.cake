@@ -139,7 +139,14 @@ Task("Build")
                 LogLevel = NpmLogLevel.Silent
             };
             settings.Arguments.Add("build");
-
+            settings.Arguments.Add("--no-progress");
+            /*
+            ng build currently fails for production builds
+            if (configuration.Equals("Release", StringComparison.InvariantCultureIgnoreCase))
+                settings.Arguments.Add("--target production");
+            else
+                settings.Arguments.Add("--target development");
+            */
             DoInDirectory( webClientProject, () => { NpmRunScript(settings); });
         }
 	});
