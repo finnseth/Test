@@ -8,11 +8,14 @@
 .bluecardContent {
     border: solid;
     border-color: $dualog-blue60;
-    background-color: $dualog-blue20;
-    margin-top: 1em;
+    background-color: $dualog-blue20;    
 }
 
 .isComparing {
     pointer-events: none;
     opacity: 0.6;
+}
+
+.space {
+    margin-top: 1.6rem;
 }

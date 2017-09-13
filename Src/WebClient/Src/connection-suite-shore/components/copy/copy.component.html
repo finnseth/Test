@@ -1,0 +1,24 @@
+<i class="fa fa-clone copy" aria-hidden="true" (click)="showDialog()"></i>
+
+<p-dialog 
+    header="Copy configuration"
+    [(visible)]="display"
+    responsive="true"
+    resizable="true"
+    draggable="true"
+    closeOnEscape="true"
+    dismissableMask="true">
+        <p-dataTable
+            [value]="fields"
+            [(selection)]="selectedFields"
+            class="tablecontent"
+            responsive="true">
+                <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                <p-column field="name" header="Field"></p-column>
+                <p-column field="value" header="Value"></p-column>
+        </p-dataTable>
+        <div class="ui-rtl buttonrow" dir="rtl">
+            <dua-button [shipStyle]="false" label="COPY" icon="fa-floppy-o" (buttonClicked)="copySetting($event)"> </dua-button>
+            <dua-button [shipStyle]="false" label="CANCEL" icon="fa-ban" [focus]="false" (buttonClicked)="closeDialog()"> </dua-button>
+        </div>
+</p-dialog>

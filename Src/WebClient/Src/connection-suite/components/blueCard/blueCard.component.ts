@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+import { CopyField } from './../../../connection-suite-shore/components/copy/copy.component';
 
 @Component({
   selector: 'dua-bluecard',
@@ -8,10 +10,16 @@ import { Component, Input, OnInit } from '@angular/core';
 export class BlueCardComponent implements OnInit {
 
   @Input() isComparing = false;
+  @Input() fieldsToCopy: CopyField[];
+  
+  @Output() onCopySetting = new EventEmitter<CopyField[]>();
 
   constructor() {}
 
   ngOnInit() {
+  }
 
+  copySetting(fields: CopyField[]) {
+    this.onCopySetting.emit(fields);
   }
 }

@@ -8,8 +8,8 @@
             (onFleetEnabledChanged)="showFleet($event)"
             [currentCompareShip]="selectedCompareShip">
         </dua-fleetcardheader>
-   
-        <dua-bluecard [isComparing]="isCompareModeEnabled">
+
+        <dua-bluecard [isComparing]="isCompareModeEnabled" [fieldsToCopy]="copyFields" (onCopySetting)="copySettings($event, vqForm)">
             <form *ngIf="cqForm" [formGroup]="cqForm" (ngSubmit)="submitForm(cqForm)">
                 <div class="ui-grid ui-grid-responsive ui-fluid">
                     <div class="ui-grid-row">

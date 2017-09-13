@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { JsonSchema, SchemaFormBuilder } from '../../../dualog-common';
 import { QuarantineCompanyConfig, QuarantineService, QuarantineVesselConfig } from './quarantine.service';
 
+import { CopyField } from './../../../connection-suite-shore/components/copy/copy.component';
 import { CurrentShipService } from '../../../connection-suite-shore/services/currentship.service';
 import { DualogController } from '../dualog.controller';
 import { FormGroup } from '@angular/forms';
@@ -24,10 +25,13 @@ export class QuarantineComponent extends DualogController implements OnInit {
     selectedCompareShip: Ship;
     quarantinevessels: QuarantineVesselConfig[];
     schema: JsonSchema;
+    copyForm: FormGroup;
     vqForm: FormGroup;
     cqForm: FormGroup;
     vesselquarantinecols: any[];
     isCompareModeEnabled = false;
+
+    copyFields: CopyField[] = [];
 
     cqInitialValues: JsonSchema;
     vqInitialValues: JsonSchema;
@@ -137,6 +141,7 @@ export class QuarantineComponent extends DualogController implements OnInit {
                 this.isCompareModeEnabled = true;
                 this.cqForm = this.fb.Build( this.schema ,  shipSettings );
                 this.cqInitialValues = this.cqForm.value;
+                this.createCopyFields();
             }
         }
     }
@@ -205,5 +210,63 @@ export class QuarantineComponent extends DualogController implements OnInit {
             }
         }
         return null;
+    }
+
+    private createCopyFields () {
+        this.copyForm = this.cqForm;
+        this.copyFields = [];
+        for (const key in this.cqInitialValues) {
+            switch (key) {
+                case 'useThisLevel':
+                    this.addCopyField(key, 'Override fleet configuration', this.cqInitialValues[key]);
+                break;
+                case 'onHoldStationaryUser':
+                    this.addCopyField(key, 'Stationary users', this.cqInitialValues[key]);
+                break;
+                case 'onHoldCrew':
+                    this.addCopyField(key, 'Crew (personal) users', this.cqInitialValues[key]);
+                break;
+                case 'notificationOnHoldOriginal':
+                    this.addCopyField(key, 'Message originator', this.cqInitialValues[key]);
+                break;
+                case 'notificationOnHoldPostmaster':
+                    this.addCopyField(key, 'Ship administrator', this.cqInitialValues[key]);
+                break;
+                case 'notificationOnHoldRecipient':
+                    this.addCopyField(key, 'Message recipient(s)', this.cqInitialValues[key]);
+                break;
+                case 'notificationOnHoldAdmins':
+                    this.addCopyField(key, 'Shore administrator(s)', this.cqInitialValues[key]);
+                break;
+                case 'maxBodyLength':
+                    this.addCopyField(key, 'Max body length', this.cqInitialValues[key]);
+                break;
+                case 'onHoldDuration':
+                    this.addCopyField(key, 'Hold for duration', this.cqInitialValues[key]);
+                break;
+                case 'notificationSender':
+                    this.addCopyField(key, 'Custom notification sender', this.cqInitialValues[key]);
+                break;
+            }
+        }
+    }
+
+    // move to super
+    private addCopyField(key: string, name: string, value: any): void {
+        this.copyFields.push({
+            name: name,
+            key: key,
+            value: value
+        });
+    }
+
+    // move to super
+    private copySettings(fields: any[], formToUpdate: FormGroup) {
+        for (const field of fields) {
+            if (field.value !== formToUpdate.value[field.key]) {
+                formToUpdate.controls[field.key].setValue(field.value);
+                formToUpdate.controls[field.key].markAsDirty();
+            }
+        }
     }
 }
