@@ -110,7 +110,7 @@ Task("Restore")
             { 
                 NpmInstall(new NpmInstallSettings
                 {
-                    LogLevel = NpmLogLevel.Silent
+                    LogLevel = NpmLogLevel.Info
                 }); 
             });
     });
@@ -136,7 +136,7 @@ Task("Build")
             var settings = new NpmRunScriptSettings
             {
                 ScriptName = "ng",
-                LogLevel = NpmLogLevel.Silent
+                LogLevel = NpmLogLevel.Info
             };
             settings.Arguments.Add("build");
             settings.Arguments.Add("--no-progress");
