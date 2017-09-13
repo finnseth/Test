@@ -194,6 +194,6 @@ try{
 }
 catch
 {
-    Write-Error ##teamcity[buildStatus status='BUILD FAILED']
+    Write-Error "##teamcity[buildStatus status='BUILD FAILED']"
     exit 1
 }
