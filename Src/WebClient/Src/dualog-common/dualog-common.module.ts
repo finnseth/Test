@@ -5,6 +5,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { CommonModule } from '@angular/common';
 import { ConfigurationReader } from './services/configuration-reader.service';
 import { ContentComponent } from './components/content/content.component';
+import { DuaCheckboxModule } from './components/dua-checkbox/dua-checkbox.module';
 import { GlogoComponent } from './components/glogo/glogo.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LogoComponent } from './components/logo/logo.component';
@@ -32,7 +33,8 @@ import { VerticalBarComponent } from './components/vertical-bar/vertical-bar.com
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    DuaCheckboxModule
   ],
 
   providers: [
@@ -59,7 +61,7 @@ import { VerticalBarComponent } from './components/vertical-bar/vertical-bar.com
     SearchboxComponent,
     UserboxComponent,
     ScreenLarge,
-    ScreenBelowLarge,
+    ScreenBelowLarge
   ],
 
   exports: [

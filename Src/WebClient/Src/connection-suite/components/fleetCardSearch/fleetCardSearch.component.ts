@@ -11,6 +11,8 @@ import { ShipCardSearchService } from '../shipCardSearch/shipCardSearch.service'
 export class FleetCardSearchComponent implements OnInit {
 
   @Input() searchContext: string;
+  @Input() currentCompareShip: Ship;
+
   
   @Output() onCompareShipChanged = new EventEmitter<Ship>();
   @Output() onFleetEnabledChanged = new EventEmitter<boolean>();
@@ -45,7 +47,6 @@ export class FleetCardSearchComponent implements OnInit {
       this.showFleet(true);
     } else {
       this.compareShip = ship;
-      this.title = this.compareShip.name;
       this.onCompareShipChanged.emit(this.compareShip);
       this.onFleetEnabledChanged.emit(false);
       this.isSearching = false;

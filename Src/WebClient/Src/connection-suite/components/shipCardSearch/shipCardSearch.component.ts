@@ -11,6 +11,7 @@ import { ShipCardSearchService } from './shipCardSearch.service';
 export class ShipCardSearchComponent implements OnInit {
 
   @Input() searchContext: string;
+  @Input() currentShip: Ship;
   
   @Output() onShipChanged = new EventEmitter<Ship>();
 
@@ -22,12 +23,11 @@ export class ShipCardSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedShip = this.cardSearchService.getSelectedShip();
-    if (this.selectedShip !== undefined) {
-      this.title = this.selectedShip.name;
-    } else {
+
+    if (this.currentShip === undefined || this.currentShip == null){
       this.isSearching = true;
     }
+
   }
 
   enableSearch(event: Event): void {
@@ -36,16 +36,15 @@ export class ShipCardSearchComponent implements OnInit {
 
   disableSearch(event: MouseEvent): void {
     const isAdvancedClicked = (event.relatedTarget !== null);
-    if (this.selectedShip !== undefined && !isAdvancedClicked) {
+    if (this.currentShip !== undefined && !isAdvancedClicked) {
       this.isSearching = false;
     }
   }
 
   selectingShip(ship: Ship) {
     this.selectedShip = ship;
-    this.cardSearchService.setSelectedShip(this.selectedShip);
-    this.title = this.selectedShip.name;
     this.onShipChanged.emit(this.selectedShip);
+//    this.cardSearchService.setSelectedShip(this.selectedShip);
     this.isSearching = false;
   }
 }

@@ -18,7 +18,7 @@
             [searchContext]="searchContext" 
             (onCompareShipChanged)="compareShipChanged($event)"
             (onFleetEnabledChanged)="fleetStatusChanged($event)"
-            >
+            [currentCompareShip]="currentCompareShip">
         </dua-fleetcardsearch>
 
     </div>

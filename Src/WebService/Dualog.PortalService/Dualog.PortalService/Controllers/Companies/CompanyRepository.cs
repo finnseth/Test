@@ -2,7 +2,7 @@
 using Dualog.Data.Oracle.Entity;
 using Dualog.Data.Oracle.Shore.Model;
 using Dualog.PortalService.Controllers.Companies.Model;
-using Dualog.PortalService.Controllers.Quarantine;
+using Dualog.PortalService.Controllers.Email.Setup.Quarantine;
 using Dualog.PortalService.Controllers.Services;
 using Dualog.PortalService.Controllers.UserGroups;
 using Dualog.PortalService.Controllers.Vessels;

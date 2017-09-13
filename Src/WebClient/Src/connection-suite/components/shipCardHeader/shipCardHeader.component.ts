@@ -10,6 +10,7 @@ import { Ship } from 'connection-suite/components/ship/interfaces'; // todo
 export class ShipCardHeaderComponent implements OnInit {
 
   @Input() searchContext: string;
+  @Input() currentShip: Ship;
   
   @Output() onShipChanged = new EventEmitter<Ship>();
 

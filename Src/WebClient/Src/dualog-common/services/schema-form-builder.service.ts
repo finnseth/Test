@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl, ValidatorFn, AsyncValidatorFn, AbstractControl } from '@angular/forms';
-import { Observable } from 'rxjs/Rx';
+import { AbstractControl, AsyncValidatorFn, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+
 import { CustomValidators } from 'ng2-validation';
-
-import { JsonSchema } from './json-schema';
+import { Injectable } from '@angular/core';
 import { JsonPatchOperation } from '../';
-
+import { JsonSchema } from './json-schema';
+import { Observable } from 'rxjs/Rx';
 
 export class SchemaFormControl extends FormControl {
     constructor(

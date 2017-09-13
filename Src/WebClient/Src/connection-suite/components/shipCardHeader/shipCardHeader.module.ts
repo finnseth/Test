@@ -1,3 +1,4 @@
+import { Ship } from '../ship/interfaces';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/primeng';
@@ -11,7 +12,7 @@ import { ShipCardSearchModule } from 'connection-suite/components/shipCardSearch
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        ShipCardSearchModule
+        ShipCardSearchModule,
     ],
 
     exports: [
