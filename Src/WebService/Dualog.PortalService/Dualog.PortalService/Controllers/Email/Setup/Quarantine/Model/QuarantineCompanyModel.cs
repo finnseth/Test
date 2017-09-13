@@ -24,7 +24,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model
 
 
         [StringLength(2000, MinimumLength = 1, ErrorMessage = "Name must be between 1 and 2000 characters long.")]
-        [EmailAddress(ErrorMessage = "Invalid email address.")]
+        [MultipleEmailAddresses(ErrorMessage = "Invalid email address.")]
         [NoWhitespace]
         public string NotificationOnHoldAdmins { get; set; }
 
