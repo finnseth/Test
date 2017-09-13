@@ -190,9 +190,10 @@ try{
     if ($LASTEXITCODE -ne 0) {
         Throw "Build script failed"
     }
+    exit 0
 }
 catch
 {
-    Write-Error $_ ##teamcity[buildStatus status='FAILURE']
+    Write-Error ##teamcity[buildStatus status='BUILD FAILED']
     exit 1
 }
