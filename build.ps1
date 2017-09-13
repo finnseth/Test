@@ -185,15 +185,13 @@ if (!(Test-Path $CAKE_EXE)) {
 
 # Start Cake
 Write-Verbose -Message "Running build script..."
-try{
+try {
     Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun -experimental $ScriptArgs"
     if ($LASTEXITCODE -ne 0) {
-        Throw "BUILD FAILED"
+        Throw "An error occured while running build script"    
     }
-    exit 0
-}
-catch
-{
-    Write-Verbose -Message "$($_.Exception.Message)"  
-    [System.Environment]::Exit(1)
+} catch {
+    $ErrorMessage = $_.Exception.Message
+    Write-Output $ErrorMessage
+    exit(1)
 }
