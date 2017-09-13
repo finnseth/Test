@@ -120,7 +120,7 @@ Task("Build")
 	.IsDependentOn("Restore")
     .Does(() =>
 	{
-        Warning($"Building {service} version {version} on {buildServer}");
+        Information($"Building {service} version {version} on {buildServer}");
 
         if (clientOnly == null) 
         {
