@@ -116,27 +116,27 @@ form {
 }
 
 .input-required {
-    border-left: 2px;
-    border-left-color: $dualog-red;
+    border-left-color: $dualog-red !important;
     border-left-style: solid;
-    border-left-width: thick;
-    padding-left: 0.5rem;
+    border-left-width: medium;
+    display: block;
+    padding-left: 0.25rem;
 }
 
 .input-compare {
-    border-left: 2px;
     border-left-color: $dualog-orange !important;
     border-left-style: solid;
-    border-left-width: thick;
-    padding-left: 0.5rem;
+    border-left-width: medium;
+    display: block;
+    padding-left: 0.25rem;
 }
 
 .input-transparent {
-    border-left: 2px;
     border-left-color: transparent;
     border-left-style: solid;
-    border-left-width: thick;
-    padding-left: 0.5rem;
+    border-left-width: medium;
+    display: block;
+    padding-left: 0.25rem;
 }
 
 @import '~chevron.css';

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
-import { Ship } from 'connection-suite/components/ship/interfaces';
+import { Ship } from '../ship/interfaces';
 import { ShipCardSearchService } from './shipCardSearch.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class ShipCardSearchComponent implements OnInit {
 
   @Input() searchContext: string;
   @Input() currentShip: Ship;
-  
+
   @Output() onShipChanged = new EventEmitter<Ship>();
 
   selectedShip: Ship;

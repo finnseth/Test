@@ -1,28 +1,23 @@
 import * as assert from 'assert';
 
-import {
-    AccessRights,
-    Availability,
-    PermissionMap,
-} from 'connection-suite-shore/services/permission.service';
-import { Component, HostListener, OnInit } from '@angular/core';
-import { JsonSchema, SchemaFormBuilder } from 'dualog-common';
+import { Component, OnInit } from '@angular/core';
+import { JsonSchema, SchemaFormBuilder } from '../../../dualog-common';
 import { QuarantineCompanyConfig, QuarantineService, QuarantineVesselConfig } from './quarantine.service';
 
-import { ComponentCanDeactivate } from '../../../connection-suite-shore/services/pending_changes.service';
 import { CurrentShipService } from '../../../connection-suite-shore/services/currentship.service';
+import { DualogController } from '../dualog.controller';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
-import { PatchGraphDocument } from 'dualog-common/services/patchGraphDocument';
+import { PatchGraphDocument } from '../../../dualog-common/services/patchGraphDocument';
 import { SelectItem } from 'primeng/primeng';
-import { Ship } from 'connection-suite/components/ship/interfaces'; // todo
+import { Ship } from '../../../connection-suite/components/ship/interfaces'; // todo
 
 @Component({
   selector: 'app-quarantine',
   templateUrl: './quarantine.component.html',
   styleUrls: ['./quarantine.component.scss']
 })
-export class QuarantineComponent implements OnInit, ComponentCanDeactivate {
+export class QuarantineComponent extends DualogController implements OnInit {
 
     companyInfo: QuarantineCompanyConfig;
     selectedShip: Ship;
@@ -37,24 +32,13 @@ export class QuarantineComponent implements OnInit, ComponentCanDeactivate {
     cqInitialValues: JsonSchema;
     vqInitialValues: JsonSchema;
 
-    constructor( 
+    constructor(
         private quarantineService: QuarantineService,
         private fb: SchemaFormBuilder,
         private currentShip: CurrentShipService ) {
+            super();
             this.selectedShip = currentShip.getSelectedShip();
     }
-
-
-    @HostListener('window:beforeunload',['$event'])
-    canDeactivate(): Observable<boolean> | boolean {
-        // insert logic to check if there are pending changes here;
-        // returning true will navigate without confirmation
-        // returning false will show a confirm dialog before navigating away
-        return !this.pendingChanges();
-    }
-
-
-
 
     ngOnInit() {
 
@@ -76,13 +60,11 @@ export class QuarantineComponent implements OnInit, ComponentCanDeactivate {
         });
     }
 
-
-
-    private pendingChanges(): boolean {
+    pendingChanges(): boolean {
         if (this.pendingChangesCompany()) {
             return true;
         };
-        if (this.pendingChangesShip()){
+        if (this.pendingChangesShip()) {
             return true;
         };
 
@@ -90,16 +72,16 @@ export class QuarantineComponent implements OnInit, ComponentCanDeactivate {
     }
 
     private pendingChangesShip(): boolean {
-        if (JSON.stringify(this.vqForm.value) !== JSON.stringify(this.vqInitialValues)){
+        if (JSON.stringify(this.vqForm.value) !== JSON.stringify(this.vqInitialValues)) {
             return true;
         };
         return false;
     }
 
     private pendingChangesCompany(): boolean {
-        if (JSON.stringify(this.cqForm.value) !== JSON.stringify(this.cqInitialValues)){
+        if (JSON.stringify(this.cqForm.value) !== JSON.stringify(this.cqInitialValues)) {
             return true;
-        };       
+        };
         return false;
     }
 
@@ -116,9 +98,10 @@ export class QuarantineComponent implements OnInit, ComponentCanDeactivate {
 
     shipChanged(ship: Ship) {
 
-        if (ship !== undefined && this.selectedShip !== undefined && ship !== this.selectedShip){
+        if (ship !== undefined && this.selectedShip !== undefined && ship !== this.selectedShip) {
             if (this.pendingChangesShip()){
-               if (!confirm('WARNING: You have unsaved changes. Press Cancel to go back and save these changes, or OK to lose these changes.')){
+               if (!confirm('WARNING: You have unsaved changes. ' +
+                'Press Cancel to go back and save these changes, or OK to lose these changes.')) {
                 return;
                }
             }
@@ -139,7 +122,8 @@ export class QuarantineComponent implements OnInit, ComponentCanDeactivate {
 
         if (ship !== undefined && !this.isCompareModeEnabled){
             if (this.pendingChangesCompany()){
-               if (!confirm('WARNING: You have unsaved changes. Press Cancel to go back and save these changes, or OK to lose these changes.')){
+               if (!confirm('WARNING: You have unsaved changes. ' +
+                'Press Cancel to go back and save these changes, or OK to lose these changes.')) {
                 return;
                }
             }

@@ -1,10 +1,5 @@
 
-<div class="item" [class.isInvisible]="isSearching" [class.isVisible]="!isSearching">
-    
-    <label>{{currentShip?.name}}</label>    
-    <button class="icon" (click)="enableSearch($event)"><i class="fa fa-pencil"></i></button>
-</div>
-<div class="search-bar" [class.isInvisible]="!isSearching" [class.isVisible]="isSearching">
+<div class="search-bar">
     <input type="search" #search id="search" placeholder="{{currentShip?.name}}" autofocus (blur)="disableSearch($event)"/>
     <dua-shipcardadvancedsearch [searchContext]="searchContext" 
                                 [currentShip]="currentShip"
