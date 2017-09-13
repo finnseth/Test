@@ -59,8 +59,8 @@ Param(
 
 trap
 {
-    write-output $_
-    ##teamcity[buildStatus status='FAILURE' ]
+    Write-Host $_
+    ##teamcity[buildStatus status='FAILURE' text='Build script failed']
     exit 1
 }
 
