@@ -194,6 +194,6 @@ try{
 }
 catch
 {
-    Write-Warning -Message "##teamcity[buildStatus status='BUILD FAILED']"
-    exit 1
+    Write-Verbose -Message "##teamcity[buildStatus status='BUILD FAILED']"
+    [System.Environment]::Exit(1)
 }
