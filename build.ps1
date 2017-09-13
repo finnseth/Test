@@ -56,6 +56,14 @@ Param(
 )
 
 [Reflection.Assembly]::LoadWithPartialName("System.Security") | Out-Null
+
+trap
+{
+    write-output $_
+    ##teamcity[buildStatus status='FAILURE' ]
+    exit 1
+}
+
 function MD5HashFile([string] $filePath)
 {
     if ([string]::IsNullOrEmpty($filePath) -or !(Test-Path $filePath -PathType Leaf))
@@ -185,16 +193,7 @@ if (!(Test-Path $CAKE_EXE)) {
 
 # Start Cake
 Write-Verbose -Message "Running build script..."
-try {
-    Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun -experimental $ScriptArgs"
-    if ($LASTEXITCODE -ne 0) {
-        Throw "An error occured while running build script"    
-    }
-} catch {
-    Write-Host $_
-    if (Test-Path env:TEAMCITY_VERSION) {
-        [environment]::Exit(1)
-    } else {
-        exit 1
-    }
+Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun -experimental $ScriptArgs"
+if ($LASTEXITCODE -ne 0) {
+    Throw "An error occured while running build script"    
 }
