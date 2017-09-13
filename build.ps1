@@ -191,8 +191,6 @@ try {
         Throw "An error occured while running build script"    
     }
 } catch {
-    $ErrorMessage = $_.Exception.Message
-    Write-Output $ErrorMessage
-    Write-Host "##teamcity[message text='build failed' errorDetails='details' status='ERROR']"
+    Write-Host "##teamcity[message text='BUILD FAILED' errorDetails='$_.Exception.Message' status='ERROR']"
     exit(1)
 }
