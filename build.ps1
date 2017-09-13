@@ -188,12 +188,12 @@ Write-Verbose -Message "Running build script..."
 try{
     Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun -experimental $ScriptArgs"
     if ($LASTEXITCODE -ne 0) {
-        Throw "Build script failed"
+        Throw "BUILD FAILED"
     }
     exit 0
 }
 catch
 {
-    Write-Verbose -Message "##teamcity[buildStatus status='BUILD FAILED']"
+    Write-Verbose -Message "$($_.Exception.Message)"  
     [System.Environment]::Exit(1)
 }
