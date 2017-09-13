@@ -193,5 +193,6 @@ try {
 } catch {
     $ErrorMessage = $_.Exception.Message
     Write-Output $ErrorMessage
+    Write-Host "##teamcity[message text='build failed' errorDetails='details' status='ERROR']"
     exit(1)
 }
