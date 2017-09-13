@@ -191,7 +191,11 @@ try {
         Throw "An error occured while running build script"    
     }
 } catch {
-    Write-Output-Exception $_.Exception
-    # Write-Host "##teamcity[message text='BUILD FAILED' status='ERROR']"
-    exit 1
+    if ([string]::IsNullOrEmpty([environment]::GetEnvironmentVariable("TEAMCITY_VERSION","Process"))) {
+        Write-Host $_
+        exit 1
+    } else {
+        Write-Host "##teamcity[message text='BUILD FAILED' status='ERROR']"
+        [environment]::Exit(1)
+    }
 }
