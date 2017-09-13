@@ -57,13 +57,14 @@ Param(
 
 [Reflection.Assembly]::LoadWithPartialName("System.Security") | Out-Null
 
-trap
-{
-    Write-Host $_
-    ##teamcity[buildStatus status='FAILURE' text='Build script failed']
-    exit 1
+trap {
+    if (Test-Path env:TEAMCITY_VERSION) {
+        Write-Host "##teamcity[buildStatus status='FAILURE' text='Build script failed']"
+        [environment]::Exit(1)
+    } else {
+        exit 1
+    }
 }
-
 function MD5HashFile([string] $filePath)
 {
     if ([string]::IsNullOrEmpty($filePath) -or !(Test-Path $filePath -PathType Leaf))
