@@ -219,8 +219,15 @@ Task("Deploy")
 	.IsDependentOn("Publish")
     .Does(() =>
     {
-        if (BuildSystem.IsLocalBuild) 
+        if (BuildSystem.IsLocalBuild) {
             Warning("Doing DEPLOY from local build");
+        }
+        else {
+            if (!gitVersion.BranchName.Equals("master", StringComparison.InvariantCultureIgnoreCase)) {
+                Warning("Will only perform DEPLOY from master branch");
+                return;          
+            }
+        }
 
         // orchestrate package contents for octopus packages
         EndpointCreate(endpoints, new EndpointCreatorSettings()
