@@ -1,3 +1,4 @@
+import { EmailValidator } from '../../directives/emailvalidator.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
@@ -14,7 +15,8 @@ import { NgModule } from '@angular/core';
     ],
 
     declarations: [
-        DuaInputEmailComponent
+        DuaInputEmailComponent,
+        EmailValidator
     ],
 
     exports: [
