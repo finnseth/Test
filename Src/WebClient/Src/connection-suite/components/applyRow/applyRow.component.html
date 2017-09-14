@@ -6,12 +6,25 @@
 
 <div class="ui-grid-row dua-button-spacer">
     <div class="ui-grid-col-12">
-        <dua-button [shipStyle]="shipStyle" label="APPLY" icon="fa-floppy-o" (buttonClicked)="onApplyClicked($event)"> </dua-button>
+        <dua-button [shipStyle]="shipStyle" 
+                    label="APPLY" 
+                    icon="fa-floppy-o" 
+                    (buttonClicked)="onApplyClicked($event)"
+                    [disabled]="disableapply"
+                    > 
+        </dua-button>
     </div>      
 </div>
 
 <div class="ui-grid-row dua-button-spacer">
     <div class="ui-grid-col-12">
-        <dua-button [shipStyle]="shipStyle" label="CANCEL" icon="fa-ban" [focus]="false" (buttonClicked)="onCancelClicked($event)"> </dua-button>                                                
+        <dua-button [shipStyle]="shipStyle" 
+                    label="CANCEL" 
+                    icon="fa-ban" 
+                    [focus]="false" 
+                    (buttonClicked)="onCancelClicked($event)"
+                    [disabled]="disablereset"
+                    > 
+        </dua-button>                                                
     </div>
 </div>

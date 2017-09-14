@@ -10,7 +10,9 @@ export class ApplyRowComponent implements OnInit {
   @Output() onApply = new EventEmitter<any>();
   @Output() onCancel = new EventEmitter<any>();
   @Input() shipStyle = true;
-
+  @Input() disableapply = false;
+  @Input() disablereset = false;
+  
   constructor() { }
 
   ngOnInit() {

@@ -11,6 +11,7 @@ export class DButtonComponent implements OnInit {
   @Input() icon: string;
   @Input() shipStyle = true;
   @Input() focus = true;
+  @Input() disabled = false;
   @Output() buttonClicked = new EventEmitter<any>();
 
   constructor() { }

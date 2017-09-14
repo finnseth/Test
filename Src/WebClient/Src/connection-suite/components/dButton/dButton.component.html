@@ -4,6 +4,7 @@
     icon="{{icon}}"
     iconPos="left" 
     label="{{label}}" 
+    [disabled]="disabled"
     (click)="onButtonClicked($event)">
 </button>
 
@@ -12,6 +13,7 @@
     iconPos="left" 
     [class.fleet-unfocused]="!focus"
     label="{{label}}" 
+    [disabled]="disabled"
     (click)="onButtonClicked($event)">
 </button>
 

@@ -176,6 +176,7 @@ export class QuarantineComponent extends DualogController implements OnInit {
 
     onCancelShipCard(fg: FormGroup) {
         this.vqForm.setValue(this.vqInitialValues);
+        this.vqForm.markAsPristine();
     }
 
     onApplyFleetCard(fg: FormGroup) {
@@ -200,6 +201,7 @@ export class QuarantineComponent extends DualogController implements OnInit {
 
     onCancelFleetCard(event: Event) {
         this.cqForm.setValue(this.cqInitialValues);
+        this.cqForm.markAsPristine();
     }
 
     getShipFieldSetting(ship: Ship, field: string) {

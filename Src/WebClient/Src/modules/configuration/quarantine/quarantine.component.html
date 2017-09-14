@@ -128,7 +128,13 @@
                         </div>
                     </div>
 
-                    <dua-applyrow *ngIf="!isCompareModeEnabled" [shipStyle]="false" (onCancel)="onCancelFleetCard($event)" (onApply)="onApplyFleetCard(cqForm)"></dua-applyrow>  
+                    <dua-applyrow *ngIf="!isCompareModeEnabled" 
+                                    [shipStyle]="false" 
+                                    (onCancel)="onCancelFleetCard($event)" 
+                                    (onApply)="onApplyFleetCard(cqForm)"
+                                    [disableapply]="cqForm.pristine || !cqForm.valid"
+                                    [disablereset]="cqForm.pristine"
+                                    ></dua-applyrow>  
                 </div>
             </form>
             <ng-template #loading>
@@ -279,7 +285,11 @@
                             </div>
                         </div>
                         
-                        <dua-applyrow (onCancel)="onCancelShipCard(vqForm)" (onApply)="onApplyShipCard(vqForm)"></dua-applyrow>  
+                        <dua-applyrow (onCancel)="onCancelShipCard(vqForm)" 
+                                      (onApply)="onApplyShipCard(vqForm)"
+                                      [disableapply]="vqForm.pristine || !vqForm.valid"
+                                      [disablereset]="vqForm.pristine"
+                                      ></dua-applyrow>  
                     </div>
                 </form>
                 <ng-template #loading>
