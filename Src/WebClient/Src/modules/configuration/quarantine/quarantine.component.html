@@ -9,7 +9,7 @@
             [currentCompareShip]="selectedCompareShip">
         </dua-fleetcardheader>
 
-        <dua-bluecard [isComparing]="isCompareModeEnabled" [fieldsToCopy]="copyFields" (onCopySetting)="copySettings($event, vqForm)">
+        <dua-bluecard [isComparing]="isCompareModeEnabled" [fieldsToCopy]="copyFields" [fields]="vqForm?.value" (onCopySetting)="copySettings($event, vqForm)">
             <form *ngIf="cqForm" [formGroup]="cqForm" (ngSubmit)="submitForm(cqForm)">
                 <div class="ui-grid ui-grid-responsive ui-fluid">
                     <div class="ui-grid-row">

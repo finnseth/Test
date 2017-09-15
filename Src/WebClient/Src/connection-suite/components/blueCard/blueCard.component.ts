@@ -11,7 +11,8 @@ export class BlueCardComponent implements OnInit {
 
   @Input() isComparing = false;
   @Input() fieldsToCopy: CopyField[];
-  
+  @Input() fields: any[];
+
   @Output() onCopySetting = new EventEmitter<CopyField[]>();
 
   constructor() {}

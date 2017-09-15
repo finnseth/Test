@@ -1,5 +1,5 @@
 
-<dua-copy *ngIf="fieldsToCopy?.length > 0 && isComparing" [fields]="fieldsToCopy" (onCopySetting)="copySetting($event)"></dua-copy>
+<dua-copy *ngIf="fieldsToCopy?.length > 0 && isComparing" [fieldsToCopy]="fieldsToCopy" [fields]="fields" (onCopySetting)="copySetting($event)"></dua-copy>
 
 <div class="ui-g ui-g-nopad" [class.isComparing]="isComparing" [class.space]="!isComparing || (isComparing && fieldsToCopy === undefined)">
     <div class="ui-g-12 bluecardContent">
