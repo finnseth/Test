@@ -10,7 +10,8 @@ export class CopyComponent implements OnInit {
   display = false;
   selectedFields: CopyField[];
 
-  @Input() fields: CopyField[];
+  @Input() fieldsToCopy: CopyField[];
+  @Input() fields: any[];
   @Output() onCopySetting = new EventEmitter<CopyField[]>();
 
   constructor() { }
@@ -20,7 +21,20 @@ export class CopyComponent implements OnInit {
 
   showDialog() {
     this.display = true;
-    this.selectedFields = this.fields;
+    this.selectedFields = [];
+    if (this.fields !== undefined) {
+      for (const key in this.fields) {
+        for (const copyField of this.fieldsToCopy) {
+          if (copyField.key === key) {
+            if (copyField.value !== this.fields[key]) {
+              this.selectedFields.push(copyField);
+            }
+          }
+        }
+      }
+    } else {
+      this.selectedFields = this.fieldsToCopy;
+    }
   }
 
   closeDialog() {
