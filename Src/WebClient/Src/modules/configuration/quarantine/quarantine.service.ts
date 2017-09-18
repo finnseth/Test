@@ -26,6 +26,10 @@ export class QuarantineService extends ApiService {
         return super.Get<QuarantineVesselConfig[]>( '/email/setup/quarantine/shipquarantine');
     }
 
+    public getVesselConfig(shipid:number): Observable<QuarantineVesselConfig> {
+        return super.Get<QuarantineVesselConfig>( `/email/setup/quarantine/shipquarantine/${shipid}`);
+    }
+
     public getCompanyConfigList(): Observable<QuarantineCompanyConfig[]> {
         return super.Get<QuarantineCompanyConfig[]>( '/email/setup/quarantine/companyquarantine');
     }

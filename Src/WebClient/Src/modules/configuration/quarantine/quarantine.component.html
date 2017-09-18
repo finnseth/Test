@@ -4,13 +4,13 @@
 
     <dua-fleetcardheader
             searchContext="quarantine"
-            (onCompareShipChanged)="compareShipChanged($event)"
-            (onFleetEnabledChanged)="showFleet($event)"
+            (onCompareShipChanged)="onCompare($event)"
+            (onFleetEnabledChanged)="onFleet($event)"
             [currentCompareShip]="selectedCompareShip">
         </dua-fleetcardheader>
 
-        <dua-bluecard [isComparing]="isCompareModeEnabled" [fieldsToCopy]="copyFields" [fields]="vqForm?.value" (onCopySetting)="copySettings($event, vqForm)">
-            <form *ngIf="cqForm" [formGroup]="cqForm" (ngSubmit)="submitForm(cqForm)">
+        <dua-bluecard *ngIf="!isCompareModeEnabled" [isComparing]="isCompareModeEnabled">
+            <form *ngIf="getFormGroup('companyform')" [formGroup]="getFormGroup('companyform')" (ngSubmit)="submitForm(cqForm)">
                 <div class="ui-grid ui-grid-responsive ui-fluid">
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
@@ -18,7 +18,7 @@
                             <dua-checkbox
                                 *ngIf="isCompareModeEnabled" 
                                 label="Override fleet configuration"
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="useThisLevel"
                                 binary="true">
                             </dua-checkbox>
@@ -35,7 +35,7 @@
                         <div class="ui-grid-col-12">
                             <dua-checkbox
                                 label="Stationary users"
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="onHoldStationaryUser"
                                 binary="true">
                             </dua-checkbox>
@@ -45,7 +45,7 @@
                         <div class="ui-grid-col-12">
                             <dua-checkbox
                                 label="Crew (personal) users"
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="onHoldCrew"
                                 binary="true">
                             </dua-checkbox>
@@ -61,7 +61,7 @@
                         <div class="ui-grid-col-12">
                             <dua-checkbox
                                 label="Message originator"
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="notificationOnHoldOriginal"
                                 binary="true">
                             </dua-checkbox>
@@ -71,7 +71,7 @@
                         <div class="ui-grid-col-12">
                             <dua-checkbox
                                 label="Ship administrator"
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="notificationOnHoldPostmaster"
                                 binary="true">
                             </dua-checkbox>
@@ -81,7 +81,7 @@
                         <div class="ui-grid-col-12">
                             <dua-checkbox
                                 label="Message recipient(s)"
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="notificationOnHoldRecipient"
                                 binary="true">
                             </dua-checkbox>
@@ -92,7 +92,7 @@
                             <br>
                             <label for="name">Shore administrator(s)</label>
                             <dua-input-email
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="notificationOnHoldAdmins">
                             </dua-input-email>
                         </div>
@@ -102,7 +102,7 @@
                         <div class="ui-grid-col-12">
                             <label>Max body length</label>
                             <dua-spinner
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="maxBodyLength">
                             </dua-spinner>
                         </div>
@@ -112,7 +112,7 @@
                         <div class="ui-grid-col-12">
                             <label for="name">Hold for duration</label>
                             <dua-spinner
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="onHoldDuration">
                             </dua-spinner>
                         </div>
@@ -122,7 +122,7 @@
                         <div class="ui-grid-col-12">
                             <label>Custom notification sender</label>
                             <dua-input-email
-                                [parentFormGroup]="cqForm"
+                                [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="notificationSender">
                             </dua-input-email>
                         </div>
@@ -130,10 +130,9 @@
 
                     <dua-applyrow *ngIf="!isCompareModeEnabled" 
                                     [shipStyle]="false" 
-                                    (onCancel)="onCancelFleetCard($event)" 
-                                    (onApply)="onApplyFleetCard(cqForm)"
-                                    [disableapply]="cqForm.pristine || !cqForm.valid"
-                                    [disablereset]="cqForm.pristine"
+                                    (onCancel)="onCancelFleetCard()" 
+                                    (onApply)="onApplyFleetCard(getFormGroup('companyform'))"
+                                    [disableapply]="getFormGroup('companyform').pristine || !getFormGroup('companyform').valid"
                                     ></dua-applyrow>  
                 </div>
             </form>
@@ -141,6 +140,135 @@
                 Loading quarantine data...
             </ng-template>
         </dua-bluecard>         
+
+        <dua-copy *ngIf="isCompareModeEnabled" (onCopySetting)="onCopy($event,getFormGroup('shipform'))" [fieldsToCopy]="getFieldToCopy('shipform')" [copyfromform]="getFormGroup('compareform')" [copytoform]="getFormGroup('shipform')"></dua-copy>
+        <dua-bluecard *ngIf="isCompareModeEnabled" [isComparing]="isCompareModeEnabled">
+            <form *ngIf="getFormGroup('compareform')" [formGroup]="getFormGroup('compareform')">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <span *ngIf="!isCompareModeEnabled">&nbsp; </span>
+                            <dua-checkbox
+                                *ngIf="isCompareModeEnabled" 
+                                label="Override fleet configuration"
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="useThisLevel"
+                                binary="true">
+                            </dua-checkbox>
+                        </div>
+                    </div>
+                            
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">                                      
+                            <h4>Hold messages for</h4>
+                        </div>
+                    </div>
+                                        
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <dua-checkbox
+                                label="Stationary users"
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="onHoldStationaryUser"
+                                binary="true">
+                            </dua-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <dua-checkbox
+                                label="Crew (personal) users"
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="onHoldCrew"
+                                binary="true">
+                            </dua-checkbox>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">                                      
+                            <h4>Send notification to</h4>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <dua-checkbox
+                                label="Message originator"
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="notificationOnHoldOriginal"
+                                binary="true">
+                            </dua-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <dua-checkbox
+                                label="Ship administrator"
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="notificationOnHoldPostmaster"
+                                binary="true">
+                            </dua-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <dua-checkbox
+                                label="Message recipient(s)"
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="notificationOnHoldRecipient"
+                                binary="true">
+                            </dua-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <br>
+                            <label for="name">Shore administrator(s)</label>
+                            <dua-input-email
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="notificationOnHoldAdmins">
+                            </dua-input-email>
+                        </div>
+                    </div>
+                    
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <label>Max body length</label>
+                            <dua-spinner
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="maxBodyLength">
+                            </dua-spinner>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label for="name">Hold for duration</label>
+                            <dua-spinner
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="onHoldDuration">
+                            </dua-spinner>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label>Custom notification sender</label>
+                            <dua-input-email
+                                [parentFormGroup]="getFormGroup('compareform')"
+                                formControlName="notificationSender">
+                            </dua-input-email>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            <ng-template #loading>
+                Loading quarantine data...
+            </ng-template>
+        </dua-bluecard>         
+
+
 
     </div>
     <div class="ui-g-6 ui-md-6 ui-lg-6 ui-sm-12">
@@ -153,13 +281,13 @@
         </dua-shipcardheader>
 
         <dua-aquacard>
-            <form *ngIf="vqForm" [formGroup]="vqForm" (ngSubmit)="submitForm(vqForm)">
+            <form *ngIf="getFormGroup('shipform')" [formGroup]="getFormGroup('shipform')" (ngSubmit)="submitForm(vqForm)">
                     <div class="ui-grid ui-grid-responsive ui-fluid">
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">                                        
                                 <dua-checkbox
                                     label="Override fleet configuration"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="useThisLevel"
                                     binary="true">
                                 </dua-checkbox>
@@ -174,10 +302,10 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
                                 <dua-checkbox 
-                                    [duaCompare]="cqForm"
+                                    [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
                                     label="Stationary users"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="onHoldStationaryUser"
                                     binary="true">
                                 </dua-checkbox>                            
@@ -186,10 +314,10 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
                                 <dua-checkbox 
-                                    [duaCompare]="cqForm"
+                                    [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
                                     label="Crew (personal) users"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="onHoldCrew"
                                     binary="true">
                                 </dua-checkbox>
@@ -204,10 +332,10 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12"> 
                                 <dua-checkbox
-                                    [duaCompare]="cqForm"
+                                    [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
                                     label="Message originator"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="notificationOnHoldOriginal"
                                     binary="true">
                                 </dua-checkbox>
@@ -216,10 +344,10 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12"> 
                                 <dua-checkbox
-                                    [duaCompare]="cqForm"
+                                    [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
                                     label="Ship administrator"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="notificationOnHoldPostmaster"
                                     binary="true">
                                 </dua-checkbox>
@@ -228,10 +356,10 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
                                 <dua-checkbox
-                                    [duaCompare]="cqForm"
+                                    [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
                                     label="Ship administrator"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="notificationOnHoldRecipient"
                                     binary="true">
                                 </dua-checkbox>                                
@@ -242,9 +370,9 @@
                                 <br>
                                 <label>Shore administrator(s)</label>
                                 <dua-input-email 
-                                    [duaCompare]="cqForm"
+                                    [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="notificationOnHoldAdmins">
                                 </dua-input-email>
                             </div>
@@ -254,9 +382,9 @@
                             <div class="ui-grid-col-12"> 
                                 <label>Max body length</label>
                                 <dua-spinner 
-                                    [duaCompare]="cqForm"
+                                    [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="maxBodyLength">
                                 </dua-spinner>
                             </div>
@@ -266,9 +394,9 @@
                             <div class="ui-grid-col-12"> 
                                 <label>Hold for duration</label>
                                 <dua-spinner 
-                                    [duaCompare]="cqForm"
+                                    [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="onHoldDuration">
                                 </dua-spinner>
                             </div>
@@ -277,18 +405,18 @@
                             <div class="ui-grid-col-12"> 
                                 <label>Custom notification sender</label>
                                 <dua-input-email 
-                                    [duaCompare]="cqForm"
+                                    [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
-                                    [parentFormGroup]="vqForm"
+                                    [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="notificationSender">
                                 </dua-input-email>
                             </div>
                         </div>
                         
-                        <dua-applyrow (onCancel)="onCancelShipCard(vqForm)" 
-                                      (onApply)="onApplyShipCard(vqForm)"
-                                      [disableapply]="vqForm.pristine || !vqForm.valid"
-                                      [disablereset]="vqForm.pristine"
+                        <dua-applyrow (onCancel)="onCancelShipCard()" 
+                                      (onApply)="onApplyShipCard()"
+                                      [disableapply]="getFormGroup('shipform').pristine || !getFormGroup('shipform').valid"
+                                      [disablereset]="getFormGroup('shipform').pristine"
                                       ></dua-applyrow>  
                     </div>
                 </form>
