@@ -1,0 +1,8 @@
+@import '~styles.scss';
+
+div.item {
+    border: 1px solid $dualog-blue;
+    padding: 0.4em;
+    margin: 0.15em 0 0.15em 0;
+    overflow: hidden;
+}

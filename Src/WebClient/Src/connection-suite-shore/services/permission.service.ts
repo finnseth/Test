@@ -8,7 +8,8 @@ import { Observable } from 'rxjs/Rx';
 import { SessionService } from 'connection-suite-shore/services/session.service';
 
 @Injectable()
-export class PermissionService extends ApiService {
+export class PermissionService
+       extends ApiService  {
 
     permissions: Permission[] = null;
 

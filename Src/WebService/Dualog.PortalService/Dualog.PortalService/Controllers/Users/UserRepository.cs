@@ -1,53 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Dualog.Data.Entity;
 using Dualog.Data.Oracle.Shore.Model;
-using System.Data.Entity;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Data;
+using Dualog.PortalService.Controllers.Permissions;
 using Dualog.PortalService.Controllers.Users.Model;
-using Dualog.Data.Oracle.Entity;
+using Dualog.PortalService.Core;
+using Dualog.PortalService.Core.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using Dualog.PortalService.Core.Data;
-using Microsoft.AspNetCore.Mvc;
-using Dualog.PortalService.Controllers.Permissions;
-using Dualog.PortalService.Core;
 
 namespace Dualog.PortalService.Controllers.Users
 {
     public class UserRepository
     {
-        readonly IDataContextFactory _dcFactory;
+        readonly IDataContextFactory _db;
 
-        public UserRepository( IDataContextFactory dcFactory )
+        public UserRepository(IDataContextFactory dcFactory)
         {
-            _dcFactory = dcFactory;
+            _db = dcFactory;
         }
 
         /// <summary>
         /// Get all users for a given company
         /// </summary>
         /// <param name="companyId">The id of the company.</param>
+        /// <param name="pagination">The pagination.</param>
+        /// <param name="includeTotalCount">if set to <c>true</c> [include total count].</param>
         /// <returns></returns>
-        public async Task<IEnumerable<UserSummaryModel>> GetUsersAsync( long companyId )
-        {
-            using( var dc = _dcFactory.CreateContext() )
+        public Task<UserListDetails> GetUsersAsync(long companyId, Pagination pagination, bool includeTotalCount = false)
+            => _db.CreateContext().Use(async dc =>
             {
-                var q = from u in dc.GetSet<DsUser>()
-                        where u.Company.Id == companyId
-                        select new UserSummaryModel
-                        {
-                            Id = u.Id,
-                            Email = u.Email,
-                            Name = u.Name,
-                            IsVesselUser = u.VesselUser ?? false,
-                        };
+                var query = from u in dc.GetSet<DsUser>()
+                            where u.Company.Id == companyId
+                            orderby u.Name ascending
+                            select new UserSummaryModel
+                            {
+                                Id = u.Id,
+                                Email = u.Email,
+                                Name = u.Name,
+                                IsVesselUser = u.VesselUser ?? false,
+                            };
 
-                return await q.ToListAsync();
-            }
-        }
+                return new UserListDetails()
+                {
+                    Users = await query.Paginate(pagination).ToListAsync(),
+                    TotalCount = includeTotalCount ? await query.CountAsync() : 0
+                };
+            });
 
         /// <summary>
         /// Gets the specifier user asynchronously.
@@ -55,9 +57,8 @@ namespace Dualog.PortalService.Controllers.Users
         /// <param name="id">The id of the user to get</param>
         /// <param name="companyId">The logged in users company id.</param>
         /// <returns></returns>
-        public async Task<UserDetailsModel> GetUserDetailsAsync( long id, long companyId )
-        {
-            using( var dc = _dcFactory.CreateContext() )
+        public Task<UserDetailsModel> GetUserDetailsAsync(long id, long companyId)
+            => _db.CreateContext().Use(async dc =>
             {
                 var q = from u in dc.GetSet<DsUser>()
                         where u.Id == id && u.Company.Id == companyId
@@ -81,31 +82,23 @@ namespace Dualog.PortalService.Controllers.Users
                                              Name = ug.Name,
                                              Description = ug.Description
                                          },
-                            //Permissions = from p in u.Permissions
-                            //              select new Permission
-                            //              {
-                            //                  Name = p.Function.Name,
-                            //                  AllowType = (short) p.AllowType
-                            //              }
                         };
 
                 var user = await q.FirstOrDefaultAsync();
-
-                if( user == null )
+                if (user == null)
                     throw new NotFoundException();
 
-
-                var qPermissions = PermissionRepository.CreateRegularPermissionQuery( id, dc );
+                var qPermissions = PermissionRepository.CreateRegularPermissionQuery(id, dc);
                 user.Permissions = await qPermissions.ToListAsync();
 
                 return user;
-            }
-        }
+
+            });
 
 
-        public async Task<IEnumerable<UserGroupModel>> GetUserGroups( long companyId )
+        public async Task<IEnumerable<UserGroupModel>> GetUserGroups(long companyId)
         {
-            using( var dc = _dcFactory.CreateContext() )
+            using (var dc = _db.CreateContext())
             {
                 var q = from ug in dc.GetSet<DsUserGroup>()
                         where ug.Company.Id == companyId
@@ -121,179 +114,157 @@ namespace Dualog.PortalService.Controllers.Users
         }
 
 
-        public async Task CreateUser( UserDetailsModel user, long companyId )
+        public Task CreateUser(UserDetailsModel user, long companyId)
+            => _db.CreateContext().Use(async dc => await InternalCreateUser(dc, user, companyId));
+
+        public static async Task InternalCreateUser(IDataContext dc, UserDetailsModel userDetails, long companyId)
         {
-            using( var dc = _dcFactory.CreateContext() )
+            ICanCreateSequenceNumbers seq = dc as ICanCreateSequenceNumbers;
+            userDetails.Id = await seq.GetSequenceNumberAsync<DsUser>();
+
+            var newUser = dc.Add(new DsUser
             {
-                await InternalCreateUser( dc, user, companyId );
-            }
-        }
+                Id = userDetails.Id,
+                Language = 2, // English
 
-        public static async Task InternalCreateUser( IDataContext dc, UserDetailsModel userDetails, long companyId )
-        {
-            try
+                Company = dc.Attach<DsCompany>(c => c.Id = companyId),
+                Name = userDetails.Name,
+                Address = userDetails.Address,
+                PhoneNr = userDetails.PhoneNumber,
+                CreatedAt = DateTime.UtcNow,
+                Email = userDetails.Email,
+
+            });
+
+            var sq = dc as ICanCreateSequenceNumbers;
+
+            // Save the permissions
+            if (userDetails.Permissions?.Any() == true)
             {
-                ICanCreateSequenceNumbers seq = dc as ICanCreateSequenceNumbers;
-                userDetails.Id = await seq.GetSequenceNumberAsync<DsUser>();
 
-                var newUser = dc.Add(new DsUser
+                newUser.Permissions = new List<DsPermissionFunction>();
+
+                var functions = await dc.GetSet<DsFunction>()
+                                            .Where(f => f.RowStatus == 0 && f.Id >= 1000)
+                                            .ToDictionaryAsync(k => k.Name, v => v);
+
+                int i = 0;
+                var sequenceNumbers = await sq.GetSequenceNumbersAsync<DsPermissionFunction>(userDetails.Permissions.Count());
+                foreach (var permission in userDetails.Permissions)
                 {
-                    Id = userDetails.Id,
-                    Language = 2, // English
+                    if (functions.TryGetValue(permission.Name, out var function) == false)
+                        continue;
 
-                    Company = dc.Attach<DsCompany>( c => c.Id = companyId),
-                    Name = userDetails.Name,
-                    Address = userDetails.Address,
-                    PhoneNr = userDetails.PhoneNumber,
-                    CreatedAt = DateTime.UtcNow,
-                    Email = userDetails.Email,
 
-                });
-
-                var sq = dc as ICanCreateSequenceNumbers;
-
-                // Save the permissions
-                if( userDetails.Permissions?.Any() == true )
-                {
-
-                    newUser.Permissions = new List<DsPermissionFunction>();
-
-                    var functions = await dc.GetSet<DsFunction>()
-                                            .Where( f => f.RowStatus == 0 && f.Id >= 1000 )
-                                            .ToDictionaryAsync( k => k.Name, v => v );
-
-                    int i = 0;
-                    var sequenceNumbers = await sq.GetSequenceNumbersAsync<DsPermissionFunction>( userDetails.Permissions.Count() );
-                    foreach( var permission in userDetails.Permissions )
+                    var entity = dc.Add(new DsPermissionFunction
                     {
-                        if( functions.TryGetValue( permission.Name, out var function ) == false )
-                            continue;
+                        Id = sequenceNumbers[i++],
+                        AllowType = (int)permission.AllowType,
+                        Function = function,
+                        User = newUser
+                    });
 
-
-                        var entity = dc.Add( new DsPermissionFunction
-                        {
-                            Id = sequenceNumbers[i++],
-                            AllowType = (int) permission.AllowType,
-                            Function = function,
-                            User = newUser
-                        } );
-
-                        newUser.Permissions.Add( entity );
-                    }
+                    newUser.Permissions.Add(entity);
                 }
-
-
-                await dc.SaveChangesAsync();
-
             }
-            catch( Exception exception )
-            {
-                throw exception;
-            }
+
+            await dc.SaveChangesAsync();
         }
 
 
 
-        public async static Task InternalGrantPermission( IDataContext dc, string permissionName, short allowType, long userId, long companyId )
+        public async static Task InternalGrantPermission(IDataContext dc, string permissionName, short allowType, long userId, long companyId)
         {
-            try
+            var eq = dc as ICanCreateSequenceNumbers;
+
+            var function = await dc.GetSet<DsFunction>()
+                            .Where(f => f.Name.ToLower() == permissionName.ToLower())
+                            .Select(f => f.Id)
+                            .FirstOrDefaultAsync();
+
+            dc.Add(new DsPermissionFunction
             {
-                var eq = dc as ICanCreateSequenceNumbers;
+                Id = await eq.GetSequenceNumberAsync<DsPermissionFunction>(),
+                AllowType = allowType,
+                Function = dc.Attach<DsFunction>(f => f.Id = function),
+                User = dc.Attach<DsUser>(u => u.Id = userId),
+            });
 
-                var function = await dc.GetSet<DsFunction>()
-                                .Where( f => f.Name.ToLower() == permissionName.ToLower() )
-                                .Select( f => f.Id )
-                                .FirstOrDefaultAsync();
-
-
-
-                dc.Add( new DsPermissionFunction
-                {
-                    Id = await eq.GetSequenceNumberAsync<DsPermissionFunction>(),
-                    AllowType = allowType,
-                    Function = dc.Attach<DsFunction>( f => f.Id = function ),
-                    User = dc.Attach<DsUser>( u => u.Id = userId ),
-                } );
-
-                await dc.SaveChangesAsync();
-            }
-            catch( Exception exception )
-            {
-                throw exception;
-            }
+            await dc.SaveChangesAsync();
         }
 
-        public static async Task InternalRevokePermission( IDataContext dc, string permissionName, long userId, long companyId )
+        public static async Task InternalRevokePermission(IDataContext dc, string permissionName, long userId, long companyId)
         {
             var function = await dc.GetSet<DsFunction>()
-                                .Where( f => f.Name.ToLower() == permissionName )
-                                .Select( f => f.Id )
+                                .Where(f => f.Name.ToLower() == permissionName)
+                                .Select(f => f.Id)
                                 .FirstOrDefaultAsync();
 
             var eq = dc as ICanExecuteQuery;
 
             var sql = @"DELETE FROM DS_PERMISSIONFUNCTION WHERE FUN_FUNCTIONID = :f AND USR_USERID = :u";
-            await eq.ExecuteSqlCommandAsync( sql, function, userId );
+            await eq.ExecuteSqlCommandAsync(sql, function, userId);
         }
 
-        public async Task DeleteAllUsersInCompany( long companyId )
+        public async Task DeleteAllUsersInCompany(long companyId)
         {
-            using( var dc = _dcFactory.CreateContext() )
+            using (var dc = _db.CreateContext())
             {
-                await InternalDeleteAllUsersInCompany( dc, companyId );
+                await InternalDeleteAllUsersInCompany(dc, companyId);
             }
         }
 
-        public static async Task InternalDeleteAllUsersInCompany( IDataContext dc, long companyId )
+        public static async Task InternalDeleteAllUsersInCompany(IDataContext dc, long companyId)
         {
             var eq = dc as ICanExecuteQuery;
 
             string sql = @"DELETE FROM DS_USER WHERE COM_COMPANYID = :cmp";
-            await eq?.ExecuteSqlCommandAsync( sql, companyId );
+            await eq?.ExecuteSqlCommandAsync(sql, companyId);
         }
 
-        public async Task DeleteUser( long id, long companyId )
-        {
-            using( var dc = _dcFactory.CreateContext() )
+        public Task<bool> DeleteUser(long id, long companyId) =>
+            _db.CreateContext().Use(async dc =>
             {
                 var eq = dc as ICanExecuteQuery;
 
                 string sql = @"UPDATE DS_USER 
                                SET USR_ROWSTATUS = 2 
                                WHERE COM_COMPANYID = :cmp AND USR_USERID = :usr";
-                await eq?.ExecuteSqlCommandAsync( sql, companyId, id );
-            }
-        }
+                await eq?.ExecuteSqlCommandAsync(sql, companyId, id);
+
+                return true;
+            });
 
 
-        public async Task<UserDetailsModel> PatchUserAsync( JObject json, long id )
-        {
-            using( var dc = _dcFactory.CreateContext() )
+        public Task<UserDetailsModel> PatchUserAsync(JObject json, long id) =>
+            _db.CreateContext().Use(async dc =>
             {
                 (dc as IHasChangeDetection)?.EnableChangeDetection();
 
                 var user = dc.GetSet<DsUser>()
-                                .Where( u => u.Id == id )
-                                .Include( "UserGroups" )
-                                .Include( "Permissions.Function" )
+                                .Where(u => u.Id == id)
+                                .Include("UserGroups")
+                                .Include("Permissions.Function")
                                 .FirstOrDefault();
 
-                if( user == null )
+                if (user == null)
                     throw new NotFoundException();
 
+                // Get all allowTypes and convert them to numbers
+                ConvertAllowTypesFromStringToNumber(json);
 
                 var jog = new JsonObjectGraph(json, dc);
 
-                jog.AddPropertyMap( "PhoneNumber", "PhoneNr" );
-                jog.AddPropertyMap( "IsVesselUser", "VesselUser" );
+                jog.AddPropertyMap("PhoneNumber", "PhoneNr");
+                jog.AddPropertyMap("IsVesselUser", "VesselUser");
 
-                jog.LookupObjectById = ( path, value ) =>
+                jog.LookupObjectById = (path, value) =>
                 {
-                    if( path == "/permissions/delete" || path == "/permissions/update" )
+                    if (path.StartsWith("/permissions"))
                     {
-                        var pf = user.Permissions.FirstOrDefault( p => p.Function.Name.ToLower() == value.ToString().ToLower() );
-                        if( pf == null )
-                            throw new ValidationException( $"The permission with the name {value} was not found." );
+                        var pf = user.Permissions.FirstOrDefault(p => p.Function.Name.ToLower() == value.ToString().ToLower());
+                        if (pf == null)
+                            throw new ValidationException($"The permission with the name {value} was not found.");
 
                         return pf;
                     }
@@ -301,26 +272,26 @@ namespace Dualog.PortalService.Controllers.Users
                 };
 
 
-                jog.CollectionChanging += async ( s, e ) =>
+                jog.CollectionChanging += async (s, e) =>
                 {
                     var jItem = e.Json;
 
-                    switch( e.Path )
+                    switch (e.Path)
                     {
                         case "/permissions":
-                            string functionName = jItem.GetValue( "name", StringComparison.OrdinalIgnoreCase ).Value<string>()?.ToLower();
+                            string functionName = jItem.GetValue("name", StringComparison.OrdinalIgnoreCase).Value<string>()?.ToLower();
 
                             var function = await dc.GetSet<DsFunction>()
-                                           .Where( pf => pf.Name.ToLower() == functionName )
+                                           .Where(pf => pf.Name.ToLower() == functionName)
                                            .FirstOrDefaultAsync();
 
-                            if( function == null )
+                            if (function == null)
                             {
-                                e.Exception = new ValidationException( $"The permission with name {functionName} does not exists." );
+                                e.Exception = new ValidationException($"The permission with name {functionName} does not exists.");
                                 return;
                             }
 
-                            if( function != null )
+                            if (function != null)
                             {
                                 var permission = e.Value as DsPermissionFunction;
                                 permission.Function = function;
@@ -330,13 +301,26 @@ namespace Dualog.PortalService.Controllers.Users
 
                 };
 
-                await jog.ApplyToAsync( user, new DefaultContractResolver() );
+                await jog.ApplyToAsync(user, new DefaultContractResolver());
+                var rUserDetails = UserDetailsModel.FromDsUser(user);
 
-                var rUserDetails = UserDetailsModel.FromDsUser( user );
-
+                dc.Log = s => Serilog.Log.Debug(s);
 
                 await dc.SaveChangesAsync();
                 return rUserDetails;
+            });
+
+        private static void ConvertAllowTypesFromStringToNumber(JObject json)
+        {
+            var b = json.SelectTokens("$..allowType")
+                        .Select(jp => jp.Parent)
+                        .OfType<JProperty>()
+                        .Cast<JProperty>();
+
+            foreach (var jp in b)
+            {
+                if (Enum.TryParse<AccessRights>(jp.Value.ToObject<string>(), out var ar) == true)
+                    jp.Value = (int)ar;
             }
         }
     }

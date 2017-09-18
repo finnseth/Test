@@ -15,13 +15,9 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DualogServerApi": {
+    "Dualog.PortalService": {
       "commandName": "Executable",
-      "executablePath": ".\\bin\\Debug\\net461\\Dualog.PortalService.exe",
-      "launchUrl": "http://localhost:84",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      "executablePath": ".\\bin\\Debug\\net461\\Dualog.PortalService.exe"
     }
   }
 }

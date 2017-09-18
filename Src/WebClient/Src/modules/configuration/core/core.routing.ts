@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'connection-suite-shore/services/auth-guard.service';
 import { CoreComponent } from './core.component';
 import { EditUserComponent } from './../users/edit-user/edit-user.component';
-import { ListUsersComponent } from './../users/list-users';
 import { ModuleWithProviders } from '@angular/core';
 import { communicationRoutes } from '../communication/communication.routing';
 import { userRoutes } from './../users/users.routing';

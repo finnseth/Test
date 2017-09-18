@@ -7,6 +7,7 @@ import { MenuService } from 'connection-suite-shore/services/menu.service';
 import { NgModule } from '@angular/core';
 import { PermissionService } from 'connection-suite-shore/services/permission.service';
 import { SessionService } from 'connection-suite-shore/services/session.service';
+import { UserGroupService } from 'connection-suite-shore/services/userGroup.service';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { SessionService } from 'connection-suite-shore/services/session.service'
         AuthenticationService,
         MenuService,
         AuthGuard,
-        SessionService
+        SessionService,
+        UserGroupService
     ]
 
 })

@@ -1,10 +1,37 @@
-import { Headers, Http, RequestOptions, Response } from '@angular/http';
+import { Headers, Http, RequestOptions, Response, URLSearchParams } from '@angular/http';
 
 import { AuthenticationService } from 'connection-suite-shore/services/authentication.service';
 import { ConfigurationReader } from './configuration-reader.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { SessionService } from 'connection-suite-shore/services/session.service';
+
+export class PaginationInfo {
+    offset?: number;
+    count?: number;
+    includeTotalCount: boolean;
+
+    constructor( offset?: number, count?: number, includeTotalCount = false) {
+
+        this.count = count;
+        this.offset = offset;
+        this.includeTotalCount = includeTotalCount;
+    }
+
+    public toURLSearchParams(): URLSearchParams {
+        const qs = new URLSearchParams();
+
+        if (this.offset != null) {
+            qs.set('offset', this.offset.toString() );
+        }
+        if (this.count != null) {
+            qs.set('count', this.count.toString());
+        }
+        qs.set('includeTotalCount', `${this.includeTotalCount}`);
+
+        return qs;
+    }
+}
 
 export abstract class ApiService {
 
@@ -17,14 +44,23 @@ export abstract class ApiService {
          protected configurationReader: ConfigurationReader) {}
 
     // Returns an  Observable with the data returned from the API
-    public Get<T>( url: string ): Observable<T> {
+    public Get<T>( url: string, qs: URLSearchParams = null ): Observable<T> {
 
         const config = this.configurationReader.GetConfiguration();
-        const opt = new RequestOptions({
-            headers: new Headers({
-                'content-type': 'application/json'
-            })
+        // const opt = new RequestOptions({
+        //     params: qs,
+        //     headers: new Headers({
+        //         'content-type': 'application/json'
+        //     })
+        // });
+
+
+        const opt = new RequestOptions();
+        opt.params = qs;
+        opt.headers = new Headers({
+            'content-type': 'application/json'
         });
+
 
         // Send the GET request and return the response as a json object
         return this.AuthGet( config.dualogApi.server + '/api/v1' + url, opt  ).map( (response: Response) => {

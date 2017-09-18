@@ -57,13 +57,13 @@ namespace Dualog.PortalService.Controllers.UserGroups.UserGroupsControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var added = await client.AddAsync( "/api/v1/usersGroups", userGroup );
+                var added = await client.AddAsync("/api/v1/userGroups", userGroup );
                 userGroup.Id = added.Id;
                 ugPatch.Id = added.Id;
 
-                var patched = await client.PatchAsync<UserGroupDetails>($"/api/v1/usersGroups/{added.Id}", JObject.Parse( patch ));
+                var patched = await client.PatchAsync<UserGroupDetails>($"/api/v1/userGroups/{added.Id}", JObject.Parse( patch ));
 
-                var stored = await client.GetAsync<UserGroupDetails>($"/api/v1/usersGroups/{userGroup.Id}");
+                var stored = await client.GetAsync<UserGroupDetails>($"/api/v1/userGroups/{userGroup.Id}");
                 stored.ShouldBeEquivalentTo( patched );
             }
         }
@@ -92,12 +92,12 @@ namespace Dualog.PortalService.Controllers.UserGroups.UserGroupsControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var added = await client.AddAsync( "/api/v1/usersGroups", userGroup );
+                var added = await client.AddAsync("/api/v1/userGroups", userGroup );
                 userGroup.Id = added.Id;
 
-                var patched = await client.PatchAsync<UserGroupDetails>($"/api/v1/usersGroups/{added.Id}", JObject.Parse( patch ));
+                var patched = await client.PatchAsync<UserGroupDetails>($"/api/v1/userGroups/{added.Id}", JObject.Parse( patch ));
 
-                var stored = await client.GetAsync<UserGroupDetails>($"/api/v1/usersGroups/{userGroup.Id}");
+                var stored = await client.GetAsync<UserGroupDetails>($"/api/v1/userGroups/{userGroup.Id}");
                 stored.ShouldBeEquivalentTo( patched );
 
 
@@ -132,10 +132,10 @@ namespace Dualog.PortalService.Controllers.UserGroups.UserGroupsControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var added = await client.AddAsync( "/api/v1/usersGroups", userGroup );
+                var added = await client.AddAsync("/api/v1/userGroups", userGroup );
                 userGroup.Id = added.Id;
 
-                var patched = await client.PatchAsync<UserGroupDetails>($"/api/v1/usersGroups/{added.Id}", JObject.Parse( patch ), HttpStatusCode.BadRequest );
+                var patched = await client.PatchAsync<UserGroupDetails>($"/api/v1/userGroups/{added.Id}", JObject.Parse( patch ), HttpStatusCode.BadRequest );
             }
         }
 
@@ -154,10 +154,10 @@ namespace Dualog.PortalService.Controllers.UserGroups.UserGroupsControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var added = await client.AddAsync( "/api/v1/usersGroups", userGroup );
+                var added = await client.AddAsync("/api/v1/userGroups", userGroup );
                 userGroup.Id = added.Id;
 
-                var patched = await client.PatchAsync<UserGroupDetails>($"/api/v1/usersGroups/{1}", JObject.Parse( patch ), HttpStatusCode.NotFound );
+                var patched = await client.PatchAsync<UserGroupDetails>($"/api/v1/userGroups/{1}", JObject.Parse( patch ), HttpStatusCode.NotFound );
             }
         }
 

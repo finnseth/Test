@@ -1,0 +1,15 @@
+@import '~styles.scss';
+
+
+.line {
+    padding: 0.3em;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.line-even {
+}
+
+.line-odd {
+    background-color: $dualog-blue20;
+}

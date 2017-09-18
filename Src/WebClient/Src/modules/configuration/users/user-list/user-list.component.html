@@ -1,0 +1,5 @@
+<p-dataList [value]="users | async" styleClass="height: 100px;" [scrollHeight]="100" [lazy]="true" [paginator]="true" [rows]="10" (onLazyLoad)="loadUsers($event)" [totalRecords]="totalCount | async">
+    <ng-template let-user pTemplate="item">
+        <dualog-user-list-item [user]="user" (userSelected)="selectUser(user)"></dualog-user-list-item>
+    </ng-template>
+</p-dataList>

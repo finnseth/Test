@@ -58,6 +58,11 @@ namespace Dualog.PortalService.Controllers.Users.Model
                 IsVesselUser = user.VesselUser ?? false,
                 Name = user.Name,
                 PhoneNumber = user.PhoneNr,
+                MessageFormat = user.MimeFormat ? "Mime" : "Dualog",
+                HideInAddressBook = user.HideInAddressBook,
+                AddrCpttoaddrBook = user.AddrCpttoaddrBook,
+                ForwardCopy = user.ForwardCopy,
+                ForwardTo = user.ForwardTo, 
                 Permissions = from p in user.Permissions
                               select new PermissionDetails
                               {

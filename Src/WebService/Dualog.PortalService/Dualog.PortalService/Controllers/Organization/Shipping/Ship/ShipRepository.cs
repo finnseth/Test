@@ -97,7 +97,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.Ship
                              ImoNumber = ves.ImoNumber,
                              DialinPassword = ves.DialInPassword,
                              AccountEnabled = (short)ves.AccountEnabled,
-                             Billing = (long)ves.CostumerNumber,
+                             Billing = (long)ves.CustomerNumber,
                              Category = (ShipCategory)ves.Category,
                              DualogUnit = ves.VesselType.Id,
                              TimeAdded = ves.TimeAdded

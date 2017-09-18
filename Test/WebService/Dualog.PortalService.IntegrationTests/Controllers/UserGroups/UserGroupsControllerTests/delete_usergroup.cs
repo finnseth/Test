@@ -24,12 +24,12 @@ namespace Dualog.PortalService.Controllers.UserGroups.UserGroupsControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var added = await client.AddAsync( "/api/v1/usersGroups", userGroup );
+                var added = await client.AddAsync("/api/v1/userGroups", userGroup );
 
-                var result = await client.DeleteAsync($"/api/v1/usersGroups/{added.Id}" );
+                var result = await client.DeleteAsync($"/api/v1/userGroups/{added.Id}" );
                 result.StatusCode.Should().Be( HttpStatusCode.OK );
 
-                var ugResult = await client.GetAsync<UserGroupDetails>($"/api/v1/usersGroups/{added.Id}", HttpStatusCode.OK);
+                var ugResult = await client.GetAsync<UserGroupDetails>($"/api/v1/userGroups/{added.Id}", HttpStatusCode.OK);
             }
 
         }

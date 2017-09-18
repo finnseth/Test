@@ -254,20 +254,9 @@ namespace Dualog.PortalService.Core.Data
                     entity = LookupObjectById( GetPropertyPath( property.Path ), val ) as IEntity;
 
 
-                // Attach the entity
-                if(entity != null && _dataContext != null )
-                {
-                    // Get the dataset by reflection
-                    var getSetMethod = typeof(IDataContext).GetMethod(nameof(IDataContext.GetSet)).MakeGenericMethod(listType);
-                    var ds = getSetMethod.Invoke(_dataContext, null);
-
-                    getSetMethod = ds.GetType().GetMethod( "Remove" );
-                    getSetMethod.Invoke( ds, new[] { entity } );
-                }
-                else if( entity != null && _dataContext == null)
-                {
-                    list.Remove( entity );
-                }
+                // Remove the entity
+                if (entity != null)
+                    list.Remove(entity);
             }
         }
 
@@ -309,15 +298,19 @@ namespace Dualog.PortalService.Core.Data
 
 
             // Attach the entity
-            if( _dataContext != null )
+            if ( _dataContext != null )
             {
                 // Get the dataset by reflection
                 var getSetMethod = typeof(IDataContext).GetMethod(nameof(IDataContext.GetSet)).MakeGenericMethod(listType);
                 var ds = getSetMethod.Invoke(_dataContext, null);
 
-                getSetMethod = ds.GetType().GetMethod( "Add" );
+                getSetMethod = ds.GetType().GetMethod( "Attach" );
                 getSetMethod.Invoke( ds, new[] { entity } );
+
+                ds.GetType().GetMethod("GetState");
             }
+
+            list.Add(entity);
         }
 
 

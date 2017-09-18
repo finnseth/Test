@@ -1,0 +1,46 @@
+<form *ngIf="userService.userForm; let userForm; else loading" [formGroup]="userForm">
+    <h2>{{userService.currentUser.name}}</h2>
+
+    <p-messages [(value)]="msgs"></p-messages>
+    
+    <!-- <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="submit" label="Save" class=".ui-button-success"  [disabled]="userForm.pristine"></button>                    
+        </div>
+    </p-toolbar>-->
+
+    <p-accordion>
+        <p-accordionTab header="General" [selected]="true">
+            <div class="ui-g">
+                <label for="name" class="ui-lg-3 ui-md-12">Name</label>
+                <input pInputText formControlName="name" pTooltip="Enter the name of the user. This field is required." tooltipPosition="bottom" class="ui-lg-9 ui-md-12" />
+            </div>
+            
+            <div class="ui-g">
+                <label for="email" class="ui-lg-3 ui-md-12">E-mail</label>
+                <input pInputText name="email" formControlName="email" pTooltip="Enter the users e-mail address. This field is required." tooltipPosition="bottom" class="ui-lg-9 ui-md-12" />
+            </div>
+            
+            <div class="ui-g">
+                <label for="address" class="ui-lg-3 ui-md-12">Address</label>
+                <input pInputText formControlName="address" pTooltip="Enter the name of the user. This field is required." tooltipPosition="bottom" class="ui-lg-9 ui-md-12" />                    
+            </div>
+            
+            <div class="ui-g">
+                <label for="pn" class="ui-lg-3 ui-md-12">Phone Number</label>
+                <input pInputText name="pn" formControlName="phoneNumber" pTooltip="Enter the users phone number." tooltipPosition="bottom" class="ui-lg-9 ui-md-12" />
+            </div>
+        </p-accordionTab>
+
+        <p-accordionTab header="Groups ({{userForm.get('userGroups').controls.length}})">
+            <dualog-user-usergroup-list [userGroups]="userForm.get('userGroups')" [schema]="userService.schema"></dualog-user-usergroup-list>
+        </p-accordionTab>
+        
+        <p-accordionTab header="Permissions ({{userForm.get('permissions').controls.length}})">
+            <dualog-user-permission-list [schema]="userService.schema" [permissions]="userForm.get('permissions')"></dualog-user-permission-list>
+        </p-accordionTab>
+    </p-accordion>
+</form>
+
+<ng-template #loading>Loading User Data...</ng-template>
+    

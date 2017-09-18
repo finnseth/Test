@@ -1,16 +1,14 @@
-﻿using Dualog.PortalService.Controllers.UserGroups.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
+using Dualog.PortalService.Controllers.Permissions.Model;
+using Dualog.PortalService.Controllers.UserGroups.Model;
+using Dualog.PortalService.Core;
+using FluentAssertions;
 using Ploeh.AutoFixture;
 using Xunit;
-using FluentAssertions;
-using Dualog.PortalService.Controllers.Users.Model;
-using System.Net;
-using Dualog.PortalService.Controllers.Permissions.Model;
-using Dualog.PortalService.Core;
 
 namespace Dualog.PortalService.Controllers.UserGroups.UserGroupsControllerTests
 {
@@ -30,12 +28,12 @@ namespace Dualog.PortalService.Controllers.UserGroups.UserGroupsControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var result = await client.AddAsync( "/api/v1/usersGroups", userGroup );
+                var result = await client.AddAsync("/api/v1/userGroups", userGroup );
                 userGroup.Id = result.Id;
 
                 result.ShouldBeEquivalentTo( userGroup );
 
-                var stored = await client.GetAsync<UserGroupDetails>($"/api/v1/usersGroups/{userGroup.Id}" );
+                var stored = await client.GetAsync<UserGroupDetails>($"/api/v1/userGroups/{userGroup.Id}" );
                 stored.ShouldBeEquivalentTo( userGroup );
             }
         }
@@ -54,7 +52,7 @@ namespace Dualog.PortalService.Controllers.UserGroups.UserGroupsControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var result = await client.AddAsync( "/api/v1/usersGroups", userGroup, HttpStatusCode.BadRequest );
+                var result = await client.AddAsync("/api/v1/userGroups", userGroup, HttpStatusCode.BadRequest );
             }
         }
 

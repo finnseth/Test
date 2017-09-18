@@ -1,22 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Dualog.PortalService.Core;
+using Dualog.PortalService.Core.Validation;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using NJsonSchema.Annotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Dualog.PortalService.Core;
-using System.ComponentModel.DataAnnotations;
-using Dualog.PortalService.Core.Validation;
 
 namespace Dualog.PortalService.Controllers.Permissions.Model
 {
-    public enum PermissionOrigin
-    {
-        UserGroup = 1,
-        User = 2
-    }
-
     public class PermissionDetails
     {
         [JsonSchemaExtensionData( "key", true)]
@@ -27,7 +19,6 @@ namespace Dualog.PortalService.Controllers.Permissions.Model
         [JsonConverter(typeof(StringEnumConverter))]
         public AccessRights AllowType { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public PermissionOrigin Origin { get; set; }
+        public string Origin { get; set; }
     }
 }

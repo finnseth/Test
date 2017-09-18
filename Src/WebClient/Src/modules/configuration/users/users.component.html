@@ -1,0 +1,24 @@
+
+<div class="ui-g">
+    <p-toolbar class="ui-g-12">
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="New user" icon="fa-plus" class=".ui-button-secondary"></button>
+            <button pButton type="button" label="Refresh" icon="fa-refresh"></button>
+        </div>
+
+        <div class="ui-toolbar-group-right">
+            <button *ngIf="userService.userForm" pButton type="button" label="Save" icon="fa-refresh" 
+                    [disabled]="userService.userForm.pristine" (click)="userService.saveUser()"></button>
+        </div>                
+    </p-toolbar>
+
+    <!-- The list -->
+    <div class="ui-g-6 list">
+        <dualog-user-list></dualog-user-list>
+    </div>
+
+    <!-- The details -->
+    <div class="ui-g-6 details">
+        <dualog-user-details></dualog-user-details>
+    </div>
+</div>

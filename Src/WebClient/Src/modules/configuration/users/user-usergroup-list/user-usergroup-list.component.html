@@ -1,0 +1,8 @@
+<p-pickList [source]="availableUserGroups | async" [target]="userGroups.controls" sourceHeader="Available" targetHeader="Selected" [responsive]="true" dragdrop="true" dragdropScope="userGroups"
+            [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="addUserGroups($event)" (onMoveToSource)="removeUserGroups($event)">
+    <ng-template let-userGroup pTemplate="item">
+        <div class="ui-helper-clearfix">
+            <div class="ui-grid-col-10">{{userGroup.controls['name'].value}}</div>
+        </div>
+    </ng-template>
+</p-pickList>

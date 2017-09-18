@@ -17,7 +17,7 @@ import { OverlayPanelModule } from 'primeng/primeng'
 import { PopupMenuComponent } from './menus/popup-menu/popup-menu.component';
 import { PopupTopMenuComponent } from './menus/popup-topmenu/popup-topmenu.component';
 import { RouterModule } from '@angular/router';
-import { SchemaFormBuilder } from './services/schema-form-builder.service';
+import { SchemaFormBuilder } from './schema/schema-form-builder';
 import { ScreenBelowLarge } from './directives/screen-below-large.directive';
 import { ScreenLarge } from './directives/screen-large.directive';
 import { ScreenService } from './services/screen.service';

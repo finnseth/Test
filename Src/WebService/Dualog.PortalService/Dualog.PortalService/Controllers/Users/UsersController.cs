@@ -16,7 +16,6 @@ namespace Dualog.PortalService.Controllers.Users
     /// <summary>
     /// Defines endpoints to work with User resources
     /// </summary>
-    /// <seealso cref="Dualog.PortalService.Controllers.DualogController" />
     [Authorize]
     [IsInCompany]
     [Route("api/v1")]
@@ -37,12 +36,11 @@ namespace Dualog.PortalService.Controllers.Users
         /// <summary>
         /// Gets all users for the company for which the authorized user belongs to.
         /// </summary>
-        [HttpGet, Route("users")]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(UserSummaryModel), "The operation was successful.")]
-        public async Task<IActionResult> AllAsync()
-        {
-            return Ok(await _userRepository.GetUsersAsync(CompanyId));
-        }
+        [HttpGet, Route( "users" )]
+        [SwaggerResponse( (int) HttpStatusCode.OK, typeof( UserSummaryModel ), "The operation was successful." )]
+        public Task<IActionResult> AllAsync( 
+            [FromQuery] bool includeTotalCount = false ) 
+                => this.HandleGetAction( () => _userRepository.GetUsersAsync( CompanyId, HttpContext.Pagination(), includeTotalCount ) );
 
 
         /// <summary>
@@ -50,27 +48,10 @@ namespace Dualog.PortalService.Controllers.Users
         /// </summary>
         /// <param name="id">The id of the user to get.</param>
         /// <returns></returns>
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(UserDetailsModel), "The operation was successful.")]
-        [HttpGet, Route("users/{id}")]
-        public async Task<IActionResult> GetUserById(long id)
-        {
-            try
-            {
-                return Ok( await _userRepository.GetUserDetailsAsync( id, CompanyId ) );
-            }
-
-            catch( NotFoundException exception )
-            {
-                Log.Error( "{Url} {Verb} failed: {Exception}", exception );
-                return NotFound();
-            }
-
-            catch( Exception exception )
-            {
-                Log.Error( "{Url} {Verb} failed: {Exception}", exception );
-                return new StatusCodeResult( (int) HttpStatusCode.InternalServerError );
-            }
-        }
+        [SwaggerResponse( (int) HttpStatusCode.OK, typeof( UserDetailsModel ), "The operation was successful." )]
+        [HttpGet, Route( "users/{id}" )]
+        public Task<IActionResult> GetUserById( long id ) 
+            => this.HandleGetAction( () => _userRepository.GetUserDetailsAsync( id, CompanyId ) );
 
 
         /// <summary>
@@ -106,19 +87,8 @@ namespace Dualog.PortalService.Controllers.Users
         /// <returns></returns>
         [HttpDelete, Route( "users/{id}" )]
         [SwaggerResponse( (int) HttpStatusCode.OK, Description = "The operation was successful." )]
-        public async Task<IActionResult> DeleteUser( long id )
-        {
-            try
-            {
-                await _userRepository.DeleteUser( id, CompanyId );
-                return Ok();
-            }
-            catch( Exception exception )
-            {
-                Log.Error( "{Url} {Verb} failed: {Exception}", exception );
-                return new StatusCodeResult( (int) HttpStatusCode.InternalServerError );
-            }
-        }
+        public Task<IActionResult> DeleteUser( long id ) 
+            => this.HandleDeleteAction( () => _userRepository.DeleteUser( id, CompanyId ) );
 
         /// <summary>
         /// Patch the user with the given id.
@@ -134,33 +104,9 @@ namespace Dualog.PortalService.Controllers.Users
         [SwaggerResponse( (int) HttpStatusCode.OK, typeof( UserDetailsModel ), "The operation was successful." )]
         [SwaggerResponse( (int) HttpStatusCode.InternalServerError )]
         [SwaggerResponse( (int) HttpStatusCode.NotFound )]
-        [SwaggerResponse( (int) HttpStatusCode.BadRequest, typeof(ErrorObject), Description = "The operation failed because of an invalid patch document." )]
-        public async Task<IActionResult> PatchUser( long id, [FromBody] JObject json )
-        {
-            try
-            {
-                var userDetails = await _userRepository.PatchUserAsync( json, id );
-                return Ok( userDetails );
-            }
-
-            catch( ValidationException exception )
-            {
-                Log.Error( "{Url} {Verb} failed: {Exception}", exception );
-                return BadRequest( new ErrorObject { Message = exception.Message } );
-            }
-
-            catch( NotFoundException exception )
-            {
-                Log.Error( "{Url} {Verb} failed: {Exception}", exception );
-                return NotFound();
-            }
-
-            catch( Exception exception )
-            {
-                Log.Error( "{Url} {Verb} failed: {Exception}", exception );
-                return new StatusCodeResult( (int) HttpStatusCode.InternalServerError );
-            }
-        }
+        [SwaggerResponse( (int) HttpStatusCode.BadRequest, typeof( ErrorObject ), Description = "The operation failed because of an invalid patch document." )]
+        public Task<IActionResult> PatchUser( long id, [FromBody] JObject json ) 
+            => this.HandlePatchAction( () => _userRepository.PatchUserAsync( json, id ) );
 
     }
 }

@@ -76,9 +76,10 @@ namespace Dualog.PortalService.Controllers.Permissions
                     {
                         Name = e.Function.Name,
                         AllowType = (AccessRights) g.Select(j => j.AllowType).Max(),
-                        Origin = (PermissionOrigin) (e.UserGroup != null ? 1 : 2)
+                        Origin = e.UserGroup != null ? e.UserGroup.Name : null
                     };
-            return q;
+
+            return q.OrderBy( p => p.Name );
         }
     }
 

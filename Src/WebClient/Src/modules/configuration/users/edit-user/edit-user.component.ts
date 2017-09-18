@@ -1,7 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { JsonSchema, SchemaFormBuilder } from 'dualog-common';
-import { User, UserGroup, UserService } from '../user.service';
+import { User, UserGroup, UserApiService } from '../user-api.service';
 
 import { FormGroup, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
@@ -33,7 +33,7 @@ export class EditUserComponent {
 
     constructor( private route: ActivatedRoute,
                  private router: Router,
-                 private userService: UserService,
+                 private userApiService: UserApiService,
                  private fb: SchemaFormBuilder ) {
     }
 
@@ -51,7 +51,7 @@ export class EditUserComponent {
         const jsonPatch = pgd.CreatePatchDocument(  fg );
         if (jsonPatch ) {
 
-            this.userService.PatchUserById( this.id, jsonPatch ).subscribe( result => {
+            this.userApiService.PatchUserById( this.id, jsonPatch ).subscribe( result => {
 
                 fg.markAsPristine();
             } );
@@ -59,15 +59,15 @@ export class EditUserComponent {
     }
 
     loadData(): void {
-        const schema = this.userService.GetUserSchema().share();
-        const user = this.userService.GetUser( this.id );
+        const schema = this.userApiService.GetUserSchema().share();
+        const user = this.userApiService.GetUser( this.id );
         this.userForm = this.fb.ReactiveBuild( schema, user );
     }
 
    getUserGroupSuggestions(event) {
 
         if (!this.userGroups) {
-            this.userGroups = this.userService.GetUserGroups();
+            this.userGroups = this.userApiService.GetUserGroups();
         }
 
         this.userGroups = this.userGroups.map( ug => {

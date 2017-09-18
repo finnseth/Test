@@ -93,8 +93,6 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
 
         public async Task<QuarantineCompanyModel> PatchCompanyConfigAsync(JObject config, long companyId , long quarantineId)
         {
-
-
             using (var dc = _dcFactory.CreateContext( ))
             {
                 (dc as IHasChangeDetection)?.EnableChangeDetection();

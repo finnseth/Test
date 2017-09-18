@@ -8,6 +8,63 @@ using System.Threading.Tasks;
 
 namespace Dualog.PortalService.Controllers
 {
+    public class Result
+    {
+        public bool Success { get; private set; }
+        public string Error { get; private set; }
+        public bool Failure => !Success;
+
+        protected Result( bool success, string error ) {
+
+            Success = success;
+            Error = error;
+        }
+
+        public static Result Fail( string message )
+        {
+            return new Result( false, message );
+        }
+
+        public static Result<T> Ok<T>( T value )
+        {
+            return new Result<T>( value, true, string.Empty );
+        }
+    }
+
+    public class Result<T> : Result
+    {
+        public T Value { get; private set; }
+
+        protected internal Result( T value, bool success, string error )
+            : base( success, error )
+        {
+            Value = value;
+        }
+    }
+
+    public static class Functional
+    {
+        public static void Use<T>( this T obj, Action<T> action ) where T : IDisposable
+        {
+            using( obj )
+            {
+                action( obj );
+            }
+        }
+
+        public static R Use<T, R>( this T obj, Func<T, R> action ) where T : IDisposable
+        {
+            R result = default(R);
+
+            using( obj )
+            {
+                result = action( obj );
+            }
+
+            return result;
+        }
+    }
+
     public static class WebApiFuncs
     {
         public static async Task<IActionResult> HandleGetAction<T>( this DualogController controller, Func<Task<T>> action )

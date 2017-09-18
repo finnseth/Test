@@ -76,7 +76,7 @@ export let mainMenu: Array<MainMenuItem> = [
                     {
                         text: 'User',
                         icon: '',
-                        route: null,
+                        route: '/configuration/core/users',
                         submenu: null
                     }
                 ]
