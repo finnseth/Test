@@ -1,3 +1,4 @@
+import { CopyModule } from '../../../connection-suite-shore/components/copy/copy.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
     ListboxModule,
@@ -37,6 +38,7 @@ import { ShipCardHeaderModule } from 'connection-suite/components/shipCardHeader
         DuaCheckboxModule,
         DuaInputEmailModule,
         DuaSpinnerModule,
+        CopyModule
     ],
 
     declarations: [
