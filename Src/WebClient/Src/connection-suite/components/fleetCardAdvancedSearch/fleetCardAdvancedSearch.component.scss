@@ -58,13 +58,14 @@
 }
 
 
-:host /deep/ .ui-dialog .ui-dialog-titlebar {
-    background-color: $dualog-blue;
-}
-
 :host /deep/ .ui-datatable .ui-datatable-scrollable-body {
     min-height: 210px;
     margin-bottom: 2em;
+}
+
+/*
+:host /deep/ .ui-dialog .ui-dialog-titlebar {
+    background-color: $dualog-blue;
 }
 
 :host /deep/ div.ui-datatable-header.ui-widget-header {
@@ -81,3 +82,4 @@
 :host /deep/ .ui-datatable-scrollable .ui-datatable-scrollable-header {
     background-color: $dualog-blue;
 }
+*/

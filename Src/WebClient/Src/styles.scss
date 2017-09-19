@@ -1,3 +1,4 @@
+
 $dualog-font: 'Poppins';
 
 $dualog-blue: #02405a;
@@ -29,6 +30,16 @@ $dualog-red: #c81010;
 $dualog-orange: #faa010;
 $dualog-white: #ffffff;
 $dualog-yellow: #fabf0f;
+
+$fontFamily: 'Poppins', Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+$fontSizeNormal: 0.8rem;
+$fontSizeSmall: 0.7rem;
+$fontSizeBig: 0.9rem;
+$borderRadius: 0px;
+$disabledOpacity: 0.35;
+
+
+
 
 .dualog-aqua-text {
     color: $dualog-aqua;

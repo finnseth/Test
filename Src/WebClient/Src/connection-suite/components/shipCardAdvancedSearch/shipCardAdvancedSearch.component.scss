@@ -57,15 +57,16 @@
     align-items: center;
 }
 
+/*
 :host /deep/ .ui-dialog .ui-dialog-titlebar {
     background-color: $dualog-aqua;
 }
-
+*/
 :host /deep/ .ui-datatable .ui-datatable-scrollable-body {
     min-height: 210px;
     margin-bottom: 2em;
 }
-
+/*
 :host /deep/ div.ui-datatable-header.ui-widget-header {
     background-color: $dualog-aqua;
     color: $dualog-black;
@@ -80,3 +81,4 @@
 :host /deep/ .ui-datatable-scrollable .ui-datatable-scrollable-header {
     background-color: $dualog-aqua;
 }
+*/
