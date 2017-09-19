@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 
-import { CacheType, CardType, DualogController } from '../dualog.controller';
+import { CacheType, CardType, FormType, DualogController } from '../dualog.controller';
 import { Component, OnInit } from '@angular/core';
 import { JsonSchema, SchemaFormBuilder } from '../../../dualog-common';
 import { QuarantineCompanyConfig, QuarantineService, QuarantineVesselConfig } from './quarantine.service';
@@ -32,16 +32,19 @@ export class QuarantineComponent extends DualogController implements OnInit {
 
     ngOnInit() {
 
-        this.registerCardForm('companyform', () => this.quarantineService.getVesselConfigSchema(),
+        this.registerCardForm('companyform', FormType.SingleRow,
+            () => this.quarantineService.getVesselConfigSchema(),
             () => this.quarantineService.getCompanyConfigList(),
             CacheType.All, CardType.Company,
             (quarantineid: number, json: PatchGraphDocument) => this.quarantineService.PatchCompanyQuarantine(quarantineid, json));
 
-        this.registerCardForm('compareform', () => this.quarantineService.getVesselConfigSchema(),
+        this.registerCardForm('compareform', FormType.SingleRow,
+            () => this.quarantineService.getVesselConfigSchema(),
             (shipid: number) => this.quarantineService.getVesselConfig(shipid),
             CacheType.No, CardType.Compare);
 
-        this.registerCardForm('shipform', () => this.quarantineService.getVesselConfigSchema(),
+        this.registerCardForm('shipform', FormType.SingleRow, 
+            () => this.quarantineService.getVesselConfigSchema(),
             (shipid: number) => this.quarantineService.getVesselConfig(shipid),
             CacheType.No, CardType.Ship,
             (quarantineid: number, json: PatchGraphDocument) => this.quarantineService.PatchVesselQuarantine(quarantineid, json));

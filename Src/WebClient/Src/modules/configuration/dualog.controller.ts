@@ -1,3 +1,4 @@
+import { any } from 'codelyzer/util/function';
 import { Component, HostListener, OnInit } from '@angular/core';
 
 import { ComponentCanDeactivate } from '../../connection-suite-shore/services/pending_changes.service';
@@ -22,6 +23,11 @@ export enum CardType {
     Compare = 3
 }
 
+export enum FormType {
+    SingleRow = 1,
+    MultipleRow = 2
+}
+
 export interface ICompareField {
     key: string,
     prettyname: string
@@ -35,6 +41,7 @@ export interface IDataSet {
     intialvalues?: JsonSchema,
     cachestrategy?: CacheType,
     card: CardType;
+    formtype: FormType;
     schema?: JsonSchema,
     patchfunc?: any,
     compareform?: string,
@@ -74,7 +81,8 @@ export abstract class DualogController implements ComponentCanDeactivate {
      * @param {(patchid: number, obj?: PatchGraphDocument) => Observable<any>} [patchfunc]
      * @memberof DualogController
      */
-    public registerCardForm(name: string, schemafunc: () => Observable<JsonSchema>,
+    public registerCardForm(name: string, formtype: FormType,
+        schemafunc: () => Observable<JsonSchema>,
         datafunc: (shipid?: number) => Observable<any>,
         cache: CacheType = CacheType.No,
         card: CardType = CardType.Ship,
@@ -83,6 +91,7 @@ export abstract class DualogController implements ComponentCanDeactivate {
         this.cardForm.push({
             name: name,
             form: undefined,
+            formtype: formtype,
             schemafunc: schemafunc,
             retrievefunc: datafunc,
             cachestrategy: cache,
@@ -129,7 +138,7 @@ export abstract class DualogController implements ComponentCanDeactivate {
                 singleset.schemafunc().subscribe(s => {
                     singleset.schema = s;
                     singleset.retrievefunc().share().subscribe(m => {
-                        singleset.form = this.fb2.Build(s, m[0]);
+                        this.buildForm(singleset.name, m);
                         singleset.intialvalues = singleset.form.value;
                     })
                 })
@@ -137,6 +146,25 @@ export abstract class DualogController implements ComponentCanDeactivate {
         }
     }
 
+
+    private buildForm(setname: string, m: any){
+        let set = this.getDataSet(setname);
+        if (set){
+            if (set.formtype === FormType.SingleRow) {
+                if (m instanceof Array ) {
+                    set.form = this.fb2.Build(set.schema, m[0]);                          
+                } else {
+                    set.form = this.fb2.Build(set.schema, m);                          
+                }
+            } else {
+                if (m instanceof Array ) {
+                    set.form = this.fb2.Build(set.schema, m);                          
+                } else {
+                    set.form = this.fb2.Build(set.schema, [m]);                          
+                }
+            }
+        }
+    }
 
     /**
      * Loop through all the forms, and if any ship is selected it retrieve
@@ -202,7 +230,7 @@ export abstract class DualogController implements ComponentCanDeactivate {
                 if (dt.cachestrategy === CacheType.No) {
                     if (dt.schema) {
                         dt.retrievefunc(ship.id).share().subscribe(m => {
-                            dt.form = this.fb2.Build(dt.schema, m);
+                            this.buildForm(dt.name, m);
                             dt.intialvalues = dt.form.value;
                             s.next(true);
                         })
