@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { MenuService } from 'connection-suite-shore/services/menu.service';
 import { Observable } from 'rxjs/Rx';
 import { SessionService } from 'connection-suite-shore/services/session.service';
-import { Ship } from 'connection-suite/components/ship/interfaces';
+import { Ship } from 'dualog-common/components/ship/interfaces';
 
 @Injectable()
 export class QuarantineService extends ApiService {

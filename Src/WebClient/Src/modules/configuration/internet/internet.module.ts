@@ -4,7 +4,6 @@ import {
 } from 'primeng/primeng';
 import { RouterModule, Routes } from '@angular/router';
 
-import { CardModule } from 'connection-suite/components/card/card.module';
 import { CommonModule } from '@angular/common';
 import { ComputerRuleModule } from './../networkcontrol/computerrule/computerrule.module';
 import { InternetComponent } from './internet.component';
@@ -19,7 +18,6 @@ import { NgModule } from '@angular/core';
         PanelModule,
         RouterModule,
         ComputerRuleModule,
-        CardModule
     ],
 
     declarations: [

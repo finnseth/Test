@@ -12,7 +12,7 @@ import { NumberFormatStyle } from '@angular/common/src/pipes/intl';
 import { Observable } from 'rxjs/Rx';
 import { PatchGraphDocument } from '../../../dualog-common/services/patchGraphDocument';
 import { SelectItem } from 'primeng/primeng';
-import { Ship } from '../../../connection-suite/components/ship/interfaces'; // todo
+import { Ship } from 'dualog-common/components/ship/interfaces'; // todo
 import { number } from 'ng2-validation/dist/number';
 
 @Component({

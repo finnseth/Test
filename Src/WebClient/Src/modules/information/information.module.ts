@@ -6,7 +6,6 @@ import {
 } from 'primeng/primeng';
 import { RouterModule, Routes } from '@angular/router';
 
-import { CardModule } from 'connection-suite/components/card/card.module';
 import { CommonModule } from '@angular/common';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { InformationComponent } from './information.component';
@@ -25,7 +24,6 @@ import { informationRouting } from './information.routing';
         MegaMenuModule,
         CommonModule,
         MenubarModule,
-        CardModule
     ],
     declarations: [
         InformationComponent

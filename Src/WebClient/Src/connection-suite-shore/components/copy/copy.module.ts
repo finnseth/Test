@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
 import { CopyComponent } from './copy.component';
-import { DButtonModule } from './../../../connection-suite/components/dButton/dButton.module';
+import { DuaButtonModule } from 'dualog-common/components/dua-button/dua-button.module';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { NgModule } from '@angular/core';
         DataTableModule,
         SharedModule,
         ButtonModule,
-        DButtonModule
+        DuaButtonModule
     ],
 
     exports: [

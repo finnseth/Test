@@ -8,7 +8,7 @@ import { JsonSchema } from '../../dualog-common';
 import { Observable } from 'rxjs/Rx';
 import { PatchGraphDocument } from '../../dualog-common/services/patchGraphDocument';
 import { SchemaFormBuilder } from '../../dualog-common';
-import { Ship } from '../../connection-suite/components/ship/interfaces';
+import { Ship } from 'dualog-common/components/ship/interfaces';
 import { observable } from 'rxjs/symbol/observable';
 import { strictEqual } from 'assert';
 

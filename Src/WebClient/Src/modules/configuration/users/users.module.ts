@@ -15,24 +15,21 @@ import {
     SharedModule,
     SpinnerModule,
     TabViewModule,
+    ToolbarModule,
     TooltipModule,
     TreeNode,
-    TreeTableModule,
-    ToolbarModule
+    TreeTableModule
 } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CardsModule } from 'connection-suite/components/cards/cards.module';
 import { CommonModule } from '@angular/common';
 import { EditUserComponent } from './edit-user/edit-user.component';
-import { HorizontalSubMenuModule } from 'connection-suite/components/hSubMenu/hSubMenu.module';
-import { UsersComponent } from './users.component';
 import { NgModule } from '@angular/core';
 import { UserApiService } from './user-api.service';
-import { UserService } from './user.service';
-
-import { UserListModule } from './user-list/user-list.module';
 import { UserDetailsModule } from './user-details/user-details.module';
+import { UserListModule } from './user-list/user-list.module';
+import { UserService } from './user.service';
+import { UsersComponent } from './users.component';
 
 @NgModule({
     imports: [
@@ -53,8 +50,6 @@ import { UserDetailsModule } from './user-details/user-details.module';
         ChipsModule,
         AutoCompleteModule,
         MultiSelectModule,
-        HorizontalSubMenuModule,
-        CardsModule,
         CheckboxModule,
         RadioButtonModule,
         ToolbarModule,

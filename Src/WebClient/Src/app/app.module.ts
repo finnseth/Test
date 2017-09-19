@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
-import { LogoutModule } from 'connection-suite/components/logout/logout.module';
+import { LogoutModule } from 'dualog-common/components/logout/logout.module';
 import { RouterModule } from '@angular/router';
 import { RoutesearchComponent } from 'connection-suite-shore/routesearch/routesearch.component';
 import { UnauthorizedComponent } from 'app/unauthorized/unauthorized.component';

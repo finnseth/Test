@@ -1,7 +1,7 @@
 import { AccessRights, Availability, Permission, PermissionService } from './permission.service';
 import { Route, Routes } from '@angular/router';
 
-import { ArrayHelpers } from 'connection-suite/array';
+import { ArrayHelpers } from 'dualog-common/array';
 import { Injectable } from '@angular/core';
 import { MenuItem } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';

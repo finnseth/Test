@@ -1,4 +1,4 @@
-<div class="ui-grid ui-grid-responsive ui-fluid">
+<!--div class="ui-grid ui-grid-responsive ui-fluid">
 
     <dua-cards 
         [selectedShip]="selectedShip" 
@@ -58,7 +58,7 @@
                                         <p-dropdown [options]="priorities" [style]="{'width':'100%'}" [(ngModel)]="rule.priority"></p-dropdown>
                                     </ng-template>
                                 </p-column-->
-                                <p-column *ngIf="!gotCompareShip" field="isCompanyRule" [editable]="false">
+                                <!--p-column *ngIf="!gotCompareShip" field="isCompanyRule" [editable]="false">
                                     <ng-template let-col let-rule="rowData" pTemplate="body">
                                         <div (click)="onDeleteFleetRule($event, rule)">
                                             <i class="fa fa-trash"></i>
@@ -81,7 +81,7 @@
                         <span>Active </span>
                         Could be illustrated that it is inactive in another way than using a column                        
                     </div-->
-                        <form *ngIf="shipForm | async; let shipForm; else loading" [formGroup]="shipForm" (ngSubmit)="submitForm(shipForm)">
+                        <!--form *ngIf="shipForm | async; let shipForm; else loading" [formGroup]="shipForm" (ngSubmit)="submitForm(shipForm)">
                             <p-dataTable 
                                 [value]="shiprules" 
                                 [responsive]="true" 
@@ -110,7 +110,7 @@
                                         <p-dropdown [options]="priorities" [style]="{'width':'100%'}" [(ngModel)]="rule.priority"></p-dropdown>
                                     </ng-template>
                                 </p-column-->
-                                <p-column field="isCompanyRule" [editable]="false">
+                                <!--p-column field="isCompanyRule" [editable]="false">
                                     <ng-template let-col let-rule="rowData" pTemplate="body">
                                         <div (click)="onDeleteShipRule($event, rule)">
                                             <i class="fa fa-trash"></i>
@@ -125,4 +125,4 @@
                 </div>
             </div>
         </div>
- </dua-cards>
+ </dua-cards-->

@@ -9,7 +9,7 @@ import { JsonSchema, SchemaFormBuilder } from 'dualog-common';
 
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
-import { Ship } from 'connection-suite/components/ship/interfaces';
+import { Ship } from 'dualog-common/components/ship/interfaces';
 
 @Component({
   selector: 'dua-nc-computerrule',

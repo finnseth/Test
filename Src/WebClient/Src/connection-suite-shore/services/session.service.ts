@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { MenuItem } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
 import { Routes } from '@angular/router';
-import { Ship } from 'connection-suite/components/ship/interfaces';
+import { Ship } from 'dualog-common/components/ship/interfaces';
 
 @Injectable()
 export class SessionService {
