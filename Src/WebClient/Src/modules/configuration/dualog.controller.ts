@@ -233,12 +233,13 @@ export abstract class DualogController implements ComponentCanDeactivate {
                             this.buildForm(dt.name, m);
                             dt.intialvalues = dt.form.value;
                             s.next(true);
-                        })
-                    }
-                }
-            }
+                        },
+                        err =>{s.next(false)})
+                    } else {s.next(false);}
+                } else {s.next(false);}
+            } else {s.next(false);}
 
-            s.next(false);
+            
         })
     }
 
@@ -258,10 +259,18 @@ export abstract class DualogController implements ComponentCanDeactivate {
                 }
             }
         }
+        var localCompareMode: boolean = false;
+        if (this.isCompareModeEnabled){
+            localCompareMode = this.isCompareModeEnabled;
+            this.isCompareModeEnabled = false;
+        }
+
         if (ship !== undefined) {
             for (const singleset of this.cardForm) {
                 if (singleset.card === CardType.Ship) {
-                    this.createForm(singleset, ship).subscribe(res => { })
+                    this.createForm(singleset, ship).subscribe(res => { 
+                        if (localCompareMode) this.isCompareModeEnabled = true;
+                    })
                 }
             }
             this.currentShip.setSelectedShip(ship);
@@ -288,11 +297,13 @@ export abstract class DualogController implements ComponentCanDeactivate {
         }
 
         if (ship !== undefined) {
+            this.isCompareModeEnabled = false;
             for (const singleset of this.cardForm) {
                 if (singleset.card === CardType.Compare) {
                     if (singleset.schema) {
                         this.createForm(singleset, ship).subscribe(res => {
                             if (res) {
+                                singleset.form.disable();
                                 this.selectedCompareShip = ship;
                                 this.isCompareModeEnabled = true;
                             }
@@ -415,7 +426,9 @@ export abstract class DualogController implements ComponentCanDeactivate {
     public onCopy(fields: any[], formToUpdate: FormGroup) {
         for (const field of fields) {
             if (field.value !== formToUpdate.value[field.key]) {
-                formToUpdate.controls[field.key].setValue(field.value);
+                var obj = {};
+                obj[field.key] = field.value;
+                formToUpdate.controls[field.key].setValue(obj);
                 formToUpdate.controls[field.key].markAsDirty();
             }
         }
