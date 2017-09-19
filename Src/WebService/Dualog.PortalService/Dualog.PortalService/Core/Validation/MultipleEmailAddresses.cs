@@ -13,6 +13,9 @@ namespace Dualog.PortalService.Core.Validation
         {
 
             string text = value as string;
+            if(text == null)
+                return ValidationResult.Success;
+
             // Emails must be separated with ','
             string[] emails = text.Split(',');
             foreach (string email in emails)
