@@ -37,7 +37,7 @@ namespace Dualog.PortalService.Core.Data.JsonObjectGraphTests
 
             await jog.ApplyToAsync(entity, new DefaultContractResolver());
 
-            dsMock.Verify(m => m.Add(It.IsAny<Entity>()), Times.Exactly(3));
+            dsMock.Verify(m => m.Attach(It.IsAny<Entity>()), Times.Exactly(3));
         }
 
     }
