@@ -1,4 +1,9 @@
-<i class="fa fa-clone copy" aria-hidden="true" (click)="showDialog()"></i>
+<div class="copywrapper">
+    <dua-button *ngIf="layout==='button'" [shipStyle]="false" label="COPY" icon="fa-clone" (buttonClicked)="showDialog()"> </dua-button>
+
+    <i *ngIf="layout==='icon'" class="fa fa-clone copy" aria-hidden="true" (click)="showDialog()"></i>
+</div>
+
 
 <p-dialog 
     header="Copy configuration"

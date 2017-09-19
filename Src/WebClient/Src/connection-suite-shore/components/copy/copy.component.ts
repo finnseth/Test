@@ -1,6 +1,7 @@
-import { comparefield } from '../../../modules/configuration/dualog.controller';
-import { FormGroup } from '@angular/forms';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+import { FormGroup } from '@angular/forms';
+import { ICompareField } from '../../../modules/configuration/dualog.controller';
 
 @Component({
   selector: 'dua-copy',
@@ -10,24 +11,25 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class CopyComponent implements OnInit {
 
   display = false;
-  selectedFields: CopyField[];
-  copyField: CopyField[] = [];
+  selectedFields: ICopyField[];
+  copyField: ICopyField[] = [];
 
-
-  @Input() fieldsToCopy: comparefield[];
+  @Input() fieldsToCopy: ICompareField[];
   @Input() copyfromform: FormGroup;
   @Input() copytoform: FormGroup;
+  @Input() layout = 'button';
 
 
-  @Output() onCopySetting = new EventEmitter<CopyField[]>();
+  @Output() onCopySetting = new EventEmitter<ICopyField[]>();
 
   constructor() { }
 
   ngOnInit() {
-debugger;
     for (const field of this.fieldsToCopy ){
-      let value = "";
-      if (this.copyfromform.value.hasOwnProperty(field.key)) value = this.copyfromform.value[field.key];
+      let value = '';
+      if (this.copyfromform.value.hasOwnProperty(field.key)) {
+        value = this.copyfromform.value[field.key];
+      }
       this.copyField.push({name: field.prettyname, value: value})
     }
   }
@@ -37,12 +39,11 @@ debugger;
     this.selectedFields = [];
     if (this.fieldsToCopy !== undefined) {
       for (const field of this.fieldsToCopy) {
-        let valuefrom = "";
-        if (this.copyfromform.value.hasOwnProperty(field.key)) valuefrom = this.copyfromform.value[field.key];
-        let valueto = "";
-        if (this.copytoform.value.hasOwnProperty(field.key)) valueto = this.copytoform.value[field.key];
 
-        if (valuefrom !== valueto){
+        const valuefrom = (this.copyfromform.value.hasOwnProperty(field.key)) ? this.copyfromform.value[field.key] : '';
+        const valueto = (this.copytoform.value.hasOwnProperty(field.key)) ? this.copytoform.value[field.key] : '';
+
+        if (valuefrom !== valueto) {
           this.selectedFields.push({name: field.prettyname, value: valuefrom});
         }
       }
@@ -59,7 +60,7 @@ debugger;
   }
 }
 
-export interface CopyField {
+export interface ICopyField {
   name: string;
   value: any;
 }

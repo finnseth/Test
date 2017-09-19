@@ -10,18 +10,11 @@
         </dua-fleetcardheader>
 
         <dua-bluecard *ngIf="!isCompareModeEnabled" [isComparing]="isCompareModeEnabled">
-            <form *ngIf="getFormGroup('companyform')" [formGroup]="getFormGroup('companyform')" (ngSubmit)="submitForm(cqForm)">
+            <form *ngIf="getFormGroup('companyform')" [formGroup]="getFormGroup('companyform')">
                 <div class="ui-grid ui-grid-responsive ui-fluid">
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <span *ngIf="!isCompareModeEnabled">&nbsp; </span>
-                            <dua-checkbox
-                                *ngIf="isCompareModeEnabled" 
-                                label="Override fleet configuration"
-                                [parentFormGroup]="getFormGroup('companyform')"
-                                formControlName="useThisLevel"
-                                binary="true">
-                            </dua-checkbox>
+                            <span>&nbsp; </span>                            
                         </div>
                     </div>
                             
@@ -128,28 +121,19 @@
                         </div>
                     </div>
 
-                    <dua-applyrow *ngIf="!isCompareModeEnabled" 
-                                    [shipStyle]="false" 
-                                    (onCancel)="onCancelFleetCard()" 
-                                    (onApply)="onApplyFleetCard(getFormGroup('companyform'))"
-                                    [disableapply]="getFormGroup('companyform').pristine || !getFormGroup('companyform').valid"
-                                    ></dua-applyrow>  
+                    <dua-applyrow [shipStyle]="false" (onCancel)="onCancelFleetCard()"  (onApply)="onApplyFleetCard(getFormGroup('companyform'))"
+                                    [disableapply]="getFormGroup('companyform').pristine || !getFormGroup('companyform').valid">
+                    </dua-applyrow>  
                 </div>
             </form>
-            <ng-template #loading>
-                Loading quarantine data...
-            </ng-template>
         </dua-bluecard>         
 
-        <dua-copy *ngIf="isCompareModeEnabled" (onCopySetting)="onCopy($event,getFormGroup('shipform'))" [fieldsToCopy]="getFieldToCopy('shipform')" [copyfromform]="getFormGroup('compareform')" [copytoform]="getFormGroup('shipform')"></dua-copy>
         <dua-bluecard *ngIf="isCompareModeEnabled" [isComparing]="isCompareModeEnabled">
             <form *ngIf="getFormGroup('compareform')" [formGroup]="getFormGroup('compareform')">
                 <div class="ui-grid ui-grid-responsive ui-fluid">
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <span *ngIf="!isCompareModeEnabled">&nbsp; </span>
                             <dua-checkbox
-                                *ngIf="isCompareModeEnabled" 
                                 label="Override fleet configuration"
                                 [parentFormGroup]="getFormGroup('compareform')"
                                 formControlName="useThisLevel"
@@ -260,16 +244,16 @@
                             </dua-input-email>
                         </div>
                     </div>
-
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <dua-copy *ngIf="isCompareModeEnabled" (onCopySetting)="onCopy($event,getFormGroup('shipform'))" [fieldsToCopy]="getFieldToCopy('shipform')" 
+                                [copyfromform]="getFormGroup('compareform')" [copytoform]="getFormGroup('shipform')">
+                            </dua-copy>
+                        </div>
+                    </div>                    
                 </div>
-            </form>
-            <ng-template #loading>
-                Loading quarantine data...
-            </ng-template>
+            </form>            
         </dua-bluecard>         
-
-
-
     </div>
     <div class="ui-g-6 ui-md-6 ui-lg-6 ui-sm-12">
     
@@ -420,9 +404,6 @@
                                       ></dua-applyrow>  
                     </div>
                 </form>
-                <ng-template #loading>
-                    Select a ship to modify                    
-                </ng-template>
         </dua-aquacard>
     </div>
 </div>

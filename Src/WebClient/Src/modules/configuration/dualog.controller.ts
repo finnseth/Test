@@ -1,52 +1,52 @@
-import { observable } from 'rxjs/symbol/observable';
-import { strictEqual } from 'assert';
-import { PatchGraphDocument } from '../../dualog-common/services/patchGraphDocument';
-import { Ship } from '../../connection-suite/components/ship/interfaces';
-import { CurrentShipService } from '../../connection-suite-shore/services/currentship.service';
-import { SchemaFormBuilder } from '../../dualog-common';
-import { JsonSchema } from '../../dualog-common';
-import { FormGroup } from '@angular/forms';
 import { Component, HostListener, OnInit } from '@angular/core';
 
 import { ComponentCanDeactivate } from '../../connection-suite-shore/services/pending_changes.service';
+import { CurrentShipService } from '../../connection-suite-shore/services/currentship.service';
+import { FormGroup } from '@angular/forms';
+import { JsonSchema } from '../../dualog-common';
 import { Observable } from 'rxjs/Rx';
+import { PatchGraphDocument } from '../../dualog-common/services/patchGraphDocument';
+import { SchemaFormBuilder } from '../../dualog-common';
+import { Ship } from '../../connection-suite/components/ship/interfaces';
+import { observable } from 'rxjs/symbol/observable';
+import { strictEqual } from 'assert';
 
-export enum cachetype {
+export enum CacheType {
     No = 1,
     All = 2
 }
 
-export enum cardtype {
+export enum CardType {
     Company = 1,
     Ship = 2,
     Compare = 3
 }
 
-export interface comparefield {
+export interface ICompareField {
     key: string,
     prettyname: string
 }
 
-export interface dataSet {
+export interface IDataSet {
     name: string,
     form: FormGroup,
     schemafunc: any,
     retrievefunc: any,
     intialvalues?: JsonSchema,
-    cachestrategy?: cachetype,
-    card: cardtype;
+    cachestrategy?: CacheType,
+    card: CardType;
     schema?: JsonSchema,
     patchfunc?: any,
     compareform?: string,
-    copyfield?: comparefield[]
+    copyfield?: ICompareField[]
 }
 
 
 export abstract class DualogController implements ComponentCanDeactivate {
 
-    cardForm: dataSet[] = [];
+    cardForm: IDataSet[] = [];
     selectedShip: Ship;
-    isCompareModeEnabled: boolean = false;
+    isCompareModeEnabled = false;
     selectedCompareShip: Ship;
 
     constructor(
@@ -54,7 +54,6 @@ export abstract class DualogController implements ComponentCanDeactivate {
         private currentShip: CurrentShipService) {
         this.selectedShip = currentShip.getSelectedShip();
     }
-
 
     @HostListener('window:beforeunload', ['$event'])
     canDeactivate(): Observable<boolean> | boolean {
@@ -64,14 +63,24 @@ export abstract class DualogController implements ComponentCanDeactivate {
         return !this.pendingChanges();
     }
 
-
+    /**
+     * Function to register a form for a given card.
+     *
+     * @param {string} name
+     * @param {() => Observable<JsonSchema>} schemafunc
+     * @param {(shipid?: number) => Observable<any>} datafunc
+     * @param {CacheType} [cache=CacheType.No]
+     * @param {CardType} [card=CardType.Ship]
+     * @param {(patchid: number, obj?: PatchGraphDocument) => Observable<any>} [patchfunc]
+     * @memberof DualogController
+     */
     public registerCardForm(name: string, schemafunc: () => Observable<JsonSchema>,
         datafunc: (shipid?: number) => Observable<any>,
-        cache: cachetype = cachetype.No,
-        card: cardtype = cardtype.Ship,
+        cache: CacheType = CacheType.No,
+        card: CardType = CardType.Ship,
         patchfunc?: (patchid: number, obj?: PatchGraphDocument) => Observable<any>,
     ): void {
-        let obj = {
+        this.cardForm.push({
             name: name,
             form: undefined,
             schemafunc: schemafunc,
@@ -79,14 +88,19 @@ export abstract class DualogController implements ComponentCanDeactivate {
             cachestrategy: cache,
             card: card,
             patchfunc: patchfunc,
-        };
-
-        this.cardForm.push(obj);
+        });
     }
 
-
-    public registerCompare(name: string, compareformname: string, copyfield: comparefield[]) {
-        let currentdataset = this.getDataSet(name);
+    /**
+     * Function to register forms to compare and fields in the form.
+     *
+     * @param {string} name
+     * @param {string} compareformname
+     * @param {ICompareField[]} copyfield
+     * @memberof DualogController
+     */
+    public registerCopy(name: string, compareformname: string, copyfield: ICompareField[]) {
+        const currentdataset = this.getDataSet(name);
         if (currentdataset) {
             currentdataset.compareform = compareformname;
             currentdataset.copyfield = copyfield;
@@ -94,15 +108,24 @@ export abstract class DualogController implements ComponentCanDeactivate {
 
     }
 
+    /**
+     * Function to initalize the cards
+     *
+     * @memberof DualogController
+     */
     public init(): void {
         this.buildCompanyCard();
         this.buildShipCard();
-
     }
 
+    /**
+     * Loop throug all forms on the company card and retreive the content
+     *
+     * @memberof DualogController
+     */
     public buildCompanyCard(): void {
-        for (let singleset of this.cardForm) {
-            if (singleset.card === cardtype.Company) {
+        for (const singleset of this.cardForm) {
+            if (singleset.card === CardType.Company) {
                 singleset.schemafunc().subscribe(s => {
                     singleset.schema = s;
                     singleset.retrievefunc().share().subscribe(m => {
@@ -115,43 +138,68 @@ export abstract class DualogController implements ComponentCanDeactivate {
     }
 
 
+    /**
+     * Loop through all the forms, and if any ship is selected it retrieve
+     * it's information
+     *
+     * @memberof DualogController
+     */
     public buildShipCard(): void {
-        for (let singleset of this.cardForm) {
-            if (singleset.card === cardtype.Ship) {
+        for (const singleset of this.cardForm) {
+            if (singleset.card === CardType.Ship) {
                 singleset.schemafunc().subscribe(s => {
                     singleset.schema = s;
-                    this.createForm(singleset, this.selectedShip).subscribe(res => {})
+                    this.createForm(singleset, this.selectedShip).subscribe(res => { })
                 })
             }
         }
     }
 
-
-    public getDataSet(name: string): dataSet {
-        for (let singleset of this.cardForm) {
-            if (singleset.name === name) return singleset;
+    /**
+     * Get the dataset for a given form
+     *
+     * @param {string} name
+     * @returns {IDataSet}
+     * @memberof DualogController
+     */
+    public getDataSet(name: string): IDataSet {
+        for (const singleset of this.cardForm) {
+            if (singleset.name === name) { return singleset };
         }
         return null;
     }
 
+    /**
+     * Get the FormGroup based on a name
+     *
+     * @param {string} name
+     * @returns {FormGroup}
+     * @memberof DualogController
+     */
     public getFormGroup(name: string): FormGroup {
-        let ds = this.getDataSet(name);
-        if (ds) return ds.form;
+        const ds = this.getDataSet(name);
+        if (ds) { return ds.form; }
         return null;
     }
 
-    public getFieldToCopy(name: string): comparefield[] {
-        let currentds = this.getDataSet(name);
-        if (currentds) return currentds.copyfield;
+    /**
+     * Get the fields to copy for a given form
+     *
+     * @param {string} name
+     * @returns {ICompareField[]}
+     * @memberof DualogController
+     */
+    public getFieldToCopy(name: string): ICompareField[] {
+        const currentds = this.getDataSet(name);
+        if (currentds) { return currentds.copyfield; }
         return null;
     }
 
-    public createForm(dt: dataSet, ship: Ship): Observable<boolean> {
-
-         return Observable.create( s => {
+    public createForm(dt: IDataSet, ship: Ship): Observable<boolean> {
+        return Observable.create(s => {
 
             if (ship !== undefined) {
-                if (dt.cachestrategy === cachetype.No) {
+                if (dt.cachestrategy === CacheType.No) {
                     if (dt.schema) {
                         dt.retrievefunc(ship.id).share().subscribe(m => {
                             dt.form = this.fb2.Build(dt.schema, m);
@@ -164,13 +212,18 @@ export abstract class DualogController implements ComponentCanDeactivate {
 
             s.next(false);
         })
-}
+    }
 
-
-    shipChanged(ship: Ship) {
-
+    /**
+     * Function is called when current ship is changed in the cards header
+     * 
+     * @param {Ship} ship
+     * @returns {void}
+     * @memberof DualogController
+     */
+    shipChanged(ship: Ship): void {
         if (ship !== undefined && this.selectedShip !== undefined && ship.id !== this.selectedShip.id) {
-            if (this.pendingCardChanges(cardtype.Ship)) {
+            if (this.pendingCardChanges(CardType.Ship)) {
                 if (!confirm('WARNING: You have unsaved changes. ' +
                     'Press Cancel to go back and save these changes, or OK to lose these changes.')) {
                     return;
@@ -178,9 +231,9 @@ export abstract class DualogController implements ComponentCanDeactivate {
             }
         }
         if (ship !== undefined) {
-            for (let singleset of this.cardForm) {
-                if (singleset.card === cardtype.Ship) {
-                    this.createForm(singleset, ship).subscribe(res => {})
+            for (const singleset of this.cardForm) {
+                if (singleset.card === CardType.Ship) {
+                    this.createForm(singleset, ship).subscribe(res => { })
                 }
             }
             this.currentShip.setSelectedShip(ship);
@@ -189,11 +242,16 @@ export abstract class DualogController implements ComponentCanDeactivate {
     }
 
 
-
-    onCompare(ship: Ship) {
-
+    /**
+     * Function is called when a compare ship is selected in the cards header
+     *
+     * @param {Ship} ship
+     * @returns {void}
+     * @memberof DualogController
+     */
+    onCompare(ship: Ship): void {
         if (ship !== undefined && !this.isCompareModeEnabled) {
-            if (this.pendingCardChanges(cardtype.Company)) {
+            if (this.pendingCardChanges(CardType.Company)) {
                 if (!confirm('WARNING: You have unsaved changes. ' +
                     'Press Cancel to go back and save these changes, or OK to lose these changes.')) {
                     return;
@@ -202,11 +260,11 @@ export abstract class DualogController implements ComponentCanDeactivate {
         }
 
         if (ship !== undefined) {
-            for (let singleset of this.cardForm) {
-                if (singleset.card === cardtype.Compare) {
+            for (const singleset of this.cardForm) {
+                if (singleset.card === CardType.Compare) {
                     if (singleset.schema) {
                         this.createForm(singleset, ship).subscribe(res => {
-                            if (res){
+                            if (res) {
                                 this.selectedCompareShip = ship;
                                 this.isCompareModeEnabled = true;
                             }
@@ -215,7 +273,8 @@ export abstract class DualogController implements ComponentCanDeactivate {
                         singleset.schemafunc().subscribe(s => {
                             singleset.schema = s;
                             this.createForm(singleset, ship).subscribe(res => {
-                                if (res){
+                                if (res) {
+                                    singleset.form.disable();
                                     this.selectedCompareShip = ship;
                                     this.isCompareModeEnabled = true;
                                 }
@@ -224,9 +283,6 @@ export abstract class DualogController implements ComponentCanDeactivate {
                     }
                 }
             }
-
-
-            //                this.createCopyFields();
         }
     }
 
@@ -237,20 +293,18 @@ export abstract class DualogController implements ComponentCanDeactivate {
         }
     }
 
-
     pendingChanges(): boolean {
-        if (this.pendingCardChanges(cardtype.Company)) {
+        if (this.pendingCardChanges(CardType.Company)) {
             return true;
         };
-        if (this.pendingCardChanges(cardtype.Ship)) {
+        if (this.pendingCardChanges(CardType.Ship)) {
             return true;
         };
-
         return false;
     }
 
-    pendingCardChanges(card: cardtype): boolean {
-        for (let singleset of this.cardForm) {
+    pendingCardChanges(card: CardType): boolean {
+        for (const singleset of this.cardForm) {
             if (singleset.card === card) {
                 if (singleset.form && singleset.intialvalues) {
                     if (JSON.stringify(singleset.form.value) !== JSON.stringify(singleset.intialvalues)) {
@@ -264,8 +318,8 @@ export abstract class DualogController implements ComponentCanDeactivate {
 
 
     onCancelFleetCard() {
-        for (let singleset of this.cardForm) {
-            if (singleset.card === cardtype.Company) {
+        for (const singleset of this.cardForm) {
+            if (singleset.card === CardType.Company) {
                 singleset.form.setValue(singleset.intialvalues);
                 singleset.form.markAsPristine();
             }
@@ -274,8 +328,8 @@ export abstract class DualogController implements ComponentCanDeactivate {
 
 
     onCancelShipCard() {
-        for (let singleset of this.cardForm) {
-            if (singleset.card === cardtype.Ship) {
+        for (const singleset of this.cardForm) {
+            if (singleset.card === CardType.Ship) {
                 singleset.form.setValue(singleset.intialvalues);
                 singleset.form.markAsPristine();
             }
@@ -283,8 +337,8 @@ export abstract class DualogController implements ComponentCanDeactivate {
     }
 
 
-    public isCardValid(cardtype: cardtype): boolean {
-        for (let singleset of this.cardForm) {
+    public isCardValid(cardtype: CardType): boolean {
+        for (const singleset of this.cardForm) {
             if (singleset.card === cardtype) {
                 if (singleset.form.valid === false) {
                     return false;
@@ -297,13 +351,13 @@ export abstract class DualogController implements ComponentCanDeactivate {
 
 
 
-    applyCard(cardtype: cardtype) {
+    applyCard(cardtype: CardType) {
         if (!this.isCardValid(cardtype)) {
             console.log('The form is invalid.');
             return;
         }
 
-        for (let singleset of this.cardForm) {
+        for (const singleset of this.cardForm) {
             if (singleset.card === cardtype) {
                 if (singleset.patchfunc) {
                     const pgd = new PatchGraphDocument();
@@ -323,15 +377,13 @@ export abstract class DualogController implements ComponentCanDeactivate {
 
 
     onApplyFleetCard() {
-        this.applyCard(cardtype.Company);
+        this.applyCard(CardType.Company);
     }
-
 
     public onApplyShipCard() {
-        this.applyCard(cardtype.Ship);
+        this.applyCard(CardType.Ship);
     }
 
-    // move to super
     public onCopy(fields: any[], formToUpdate: FormGroup) {
         for (const field of fields) {
             if (field.value !== formToUpdate.value[field.key]) {
@@ -340,5 +392,4 @@ export abstract class DualogController implements ComponentCanDeactivate {
             }
         }
     }
-
 }
