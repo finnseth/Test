@@ -1,6 +1,6 @@
 # Project structure
 
-Names shown in _italic_ are concrete file system folder names.
+Names shown in **´bold´** are concrete file system folder names.
 
 This project has the following high-level source code structure:
 
