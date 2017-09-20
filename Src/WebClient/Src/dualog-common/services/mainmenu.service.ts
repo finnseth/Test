@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MainMenuItem } from './mainmenu.service';
 
 export interface MainMenuItem {
   text: string,
@@ -15,12 +16,8 @@ export class MainMenuService {
   userMenu: Array<MainMenuItem>;
   selectedItem: MainMenuItem;
 
-  public SetSelectedItem(text: string): void {
-    for ( const item of this.items ) {
-      if (item.text === text) {
-        this.selectedItem = item;
-        this.subitems = item.submenu;
-      }
-    }
+  public SetSelectedItem(item: MainMenuItem): void {
+    this.selectedItem = item;
+    this.subitems = item.submenu;
   }
 }

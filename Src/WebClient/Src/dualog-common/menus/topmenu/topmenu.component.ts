@@ -9,25 +9,13 @@ import { MainMenuItem, MainMenuService } from '../../services/mainmenu.service';
 })
 export class TopMenuComponent implements OnInit {
 
-  topItems: MainMenuItem[];
+  items: MainMenuItem[];
 
   constructor(public menuService: MainMenuService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
 
-    const subitems: MainMenuItem[] = [];
-    for (const item of this.menuService.items) {
-      const topitem: MainMenuItem = Object.assign({}, item);
-      topitem.submenu = null;
-      subitems.push(topitem);
-    }
-
-    this.topItems = [
-        {
-          text: null,
-          route: '/',
-          submenu:  subitems
-        }
-    ];
+    this.items = this.menuService.items;
   }
+
 }

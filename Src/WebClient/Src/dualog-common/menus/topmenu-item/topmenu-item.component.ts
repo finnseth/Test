@@ -12,8 +12,10 @@ import {
   transition,
   trigger
 } from '@angular/core';
-import { MainMenuItem, MainMenuService } from '../../services/mainmenu.service';
+import { MainMenuItem, MainMenuService } from './../../services/mainmenu.service';
 import { NavigationEnd, Router } from '@angular/router';
+
+import { SelectItem } from 'primeng/primeng';
 
 @Component({
   selector: 'dua-topmenu-item',
@@ -34,16 +36,13 @@ import { NavigationEnd, Router } from '@angular/router';
 export class TopMenuItemComponent implements OnInit {
   @Input() item = <MainMenuItem>null;  // see angular-cli issue #2034
   @HostBinding('class.parent-is-popup')
-  @Input() parentIsPopup = true;
   @Input() menuPosition = 'left';
-  @Input() isTopNode = false;
   isActiveRoute = false;
 
   mouseInItem = false;
   mouseInPopup = false;
   popupTop = 0;
   popupLeft = 0;
-  title: string;
 
   constructor(private router: Router,
     private menuService: MainMenuService,
@@ -52,39 +51,46 @@ export class TopMenuItemComponent implements OnInit {
   }
 
   checkActiveRoute(route: string) {
-    if (this.isTopNode) {
-      this.updateMenu(this.item.submenu, route);
-    }
+    this.updateMenu(route);
   }
 
   ngOnInit(): void {
-    console.log('init: ' + this.router.url);
     this.checkActiveRoute(this.router.url);
 
     this.router.events
       .subscribe((event) => {
         if (event instanceof NavigationEnd) {
+          console.log('router events: ' + this.router.url);
           this.checkActiveRoute(event.url);
         }
       });
   }
 
-  private updateMenu(items: MainMenuItem[], route: string): void {
-    let categoryFound = false;
-    for (const item of items) {
-      if ( route.search(item.text.toLowerCase()) > -1) {
-        this.title = item.text;
-        this.item.route = item.route;
-        this.menuService.SetSelectedItem(this.title);
-        categoryFound = true;
+  private updateMenu(route: string): void {
+    const item = this.findItemByRoute(this.item, route);
+    console.log(item);
+    if (item !== null) {
+      this.isActiveRoute = true;
+      this.menuService.SetSelectedItem(this.item);
+    } else {
+      this.isActiveRoute = false;
+    }
+  }
+
+  private findItemByRoute(item: MainMenuItem, url: string): MainMenuItem {
+    if (item.route === url) {
+      return item;
+    } else {
+      if (item.submenu !== null) {
+        for (const sub of item.submenu) {
+          const output = this.findItemByRoute(sub, url);
+          if (output !== null) {
+            return output;
+          }
+        }
       }
     }
-    // Fallback
-    if (!categoryFound) {
-      this.title = 'Home';
-      this.item.route = '/';
-      this.menuService.SetSelectedItem(this.title);
-    }
+    return null;
   }
 
   @HostListener('click', ['$event'])
@@ -123,10 +129,6 @@ export class TopMenuItemComponent implements OnInit {
 
     if (this.item.submenu) {
       this.mouseInItem = true;
-      if (this.parentIsPopup) {
-        this.popupLeft = 160;
-        this.popupTop = 0;
-      }
     }
   }
 }

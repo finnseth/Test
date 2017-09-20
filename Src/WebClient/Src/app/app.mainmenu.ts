@@ -3,7 +3,7 @@ import { MainMenuItem } from '../dualog-common/services/mainmenu.service';
 export let mainMenu: Array<MainMenuItem> = [
     {
         text: 'Information',
-        icon: '',
+        icon: 'fa-area-chart',
         route: '/information',
         submenu: [
             {
@@ -47,7 +47,7 @@ export let mainMenu: Array<MainMenuItem> = [
     },
     {
         text: 'Configuration',
-        icon: '',
+        icon: 'fa-cogs',
         route: '/configuration',
         submenu: [
             {
@@ -108,7 +108,7 @@ export let mainMenu: Array<MainMenuItem> = [
                                 icon: '',
                                 route: null,
                                 submenu: null
-                            }                            
+                            }
                         ]
                     },
                     {
@@ -271,7 +271,7 @@ export let mainMenu: Array<MainMenuItem> = [
                                 icon: '',
                                 route: null,
                                 submenu: null
-                            },  
+                            },
                             {
                                 text: 'Proxy',
                                 icon: '',
@@ -321,14 +321,14 @@ export let mainMenu: Array<MainMenuItem> = [
                         icon: '',
                         route: null,
                         submenu: null
-                    }                                                                              
+                    }
                 ]
             }
         ],
     },
     {
         text: 'Task',
-        icon: '',
+        icon: 'fa-tasks',
         route: null,
         submenu: [
             {
