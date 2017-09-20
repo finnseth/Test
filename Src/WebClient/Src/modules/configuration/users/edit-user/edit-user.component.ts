@@ -1,12 +1,12 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, Input } from '@angular/core';
-import { JsonSchema, SchemaFormBuilder } from 'dualog-common';
-import { User, UserGroup, UserApiService } from '../user-api.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormGroup } from '@angular/forms';
+import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
+import { User, UserApiService, UserGroup } from '../user-api.service';
 
-import { FormGroup, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
+import { PatchGraphDocument } from 'infrastructure/services/patchGraphDocument';
 import { SelectItem } from 'primeng/primeng';
-import { PatchGraphDocument } from 'dualog-common/services/patchGraphDocument';
 
 @Component({
     selector: 'edit-user',

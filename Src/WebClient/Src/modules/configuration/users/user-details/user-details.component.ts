@@ -1,10 +1,11 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs/Rx';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
 import { User, UserApiService } from '../user-api.service';
-import { SchemaFormBuilder, JsonSchema } from 'dualog-common';
-import { PatchGraphDocument } from 'dualog-common/services/patchGraphDocument';
+
+import { FormGroup } from '@angular/forms';
 import { Message } from 'primeng/primeng';
+import { Observable } from 'rxjs/Rx';
+import { PatchGraphDocument } from 'infrastructure/services/patchGraphDocument';
 import { UserService } from 'modules/configuration/users/user.service';
 
 @Component({

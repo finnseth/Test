@@ -1,18 +1,18 @@
 import * as assert from 'assert';
 
-import { CacheType, CardType, FormType, DualogController } from '../dualog.controller';
+import { CacheType, CardType, DualogController, FormType } from '../dualog.controller';
 import { Component, OnInit } from '@angular/core';
-import { JsonSchema, SchemaFormBuilder } from '../../../dualog-common';
+import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
 import { QuarantineCompanyConfig, QuarantineService, QuarantineVesselConfig } from './quarantine.service';
 
-import { CurrentShipService } from '../../../connection-suite-shore/services/currentship.service';
+import { CurrentShipService } from 'shore/services/currentship.service';
 import { FormGroup } from '@angular/forms';
-import { ICopyField } from './../../../connection-suite-shore/components/copy/copy.component';
+import { ICopyField } from 'common/ui/copy/copy.component';
 import { NumberFormatStyle } from '@angular/common/src/pipes/intl';
 import { Observable } from 'rxjs/Rx';
-import { PatchGraphDocument } from '../../../dualog-common/services/patchGraphDocument';
+import { PatchGraphDocument } from 'infrastructure/services/patchGraphDocument';
 import { SelectItem } from 'primeng/primeng';
-import { Ship } from 'dualog-common/components/ship/interfaces'; // todo
+import { Ship } from 'common/domain/ship/interfaces'; // todo
 import { number } from 'ng2-validation/dist/number';
 
 @Component({

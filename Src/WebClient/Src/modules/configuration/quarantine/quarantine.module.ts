@@ -4,22 +4,22 @@ import {
     PanelModule
 } from 'primeng/primeng';
 
-import { ApplyRowModule } from 'dualog-common/components/applyRow/applyRow.module';
-import { AquaCardModule } from 'dualog-common/components/aquaCard/aquaCard.module';
-import { BlueCardModule } from 'dualog-common/components/blueCard/blueCard.module';
+import { ApplyRowModule } from 'infrastructure/ui/applyRow/applyRow.module';
+import { AquaCardModule } from 'infrastructure/ui/aquaCard/aquaCard.module';
+import { BlueCardModule } from 'infrastructure/ui/blueCard/blueCard.module';
 import { CommonModule } from '@angular/common';
-import { CopyModule } from '../../../connection-suite-shore/components/copy/copy.module';
-import { CurrentShipService } from '../../../connection-suite-shore/services/currentship.service';
-import { DuaCheckboxModule } from 'dualog-common/components/dua-checkbox/dua-checkbox.module';
-import { DuaCompareDirective } from 'dualog-common/directives/compare.directive';
-import { DuaInputEmailModule } from 'dualog-common/components/dua-input-email/dua-input-email.module';
-import { DuaSpinnerModule } from 'dualog-common/components/dua-spinner/dua-spinner.module';
-import { FleetCardHeaderModule } from 'connection-suite-shore/components/fleetCardHeader/fleetCardHeader.module';
+import { CopyModule } from 'common/ui/copy/copy.module';
+import { CurrentShipService } from 'shore/services/currentship.service';
+import { DuaCheckboxModule } from 'infrastructure/ui/dua-checkbox/dua-checkbox.module';
+import { DuaCompareDirective } from 'infrastructure/directives/compare.directive';
+import { DuaInputEmailModule } from 'infrastructure/ui/dua-input-email/dua-input-email.module';
+import { DuaSpinnerModule } from 'infrastructure/ui/dua-spinner/dua-spinner.module';
+import { FleetCardHeaderModule } from 'common/ui/fleetCardHeader/fleetCardHeader.module';
 import { NgModule } from '@angular/core';
-import { PendingChangesGuard } from '../../../connection-suite-shore/services/pending_changes.service';
+import { PendingChangesGuard } from 'shore/services/pending_changes.service';
 import { QuarantineComponent } from './quarantine.component';
 import { QuarantineService } from './quarantine.service';
-import { ShipCardHeaderModule } from 'connection-suite-shore/components/shipCardHeader/shipCardHeader.module';
+import { ShipCardHeaderModule } from 'common/ui/shipCardHeader/shipCardHeader.module';
 
 @NgModule({
     imports: [

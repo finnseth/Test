@@ -1,7 +1,8 @@
-import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
-import { User, UserListDetails, UserApiService } from '../user-api.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { User, UserApiService, UserListDetails } from '../user-api.service';
+
 import { Observable } from 'rxjs/Rx';
-import { PaginationInfo } from 'dualog-common';
+import { PaginationInfo } from 'shore/services/api-base.service';
 import { UserService } from '../user.service';
 
 @Component({

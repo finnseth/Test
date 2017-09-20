@@ -1,7 +1,7 @@
 import { DataTableModule, DropdownModule, SharedModule } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ApplyRowModule } from 'dualog-common/components/applyRow/applyRow.module';
+import { ApplyRowModule } from 'infrastructure/ui/applyRow/applyRow.module';
 import { CommonModule } from '@angular/common';
 import { ComputerRuleComponent } from './computerrule.component';
 import { NetworkControlService } from '../networkcontrol.service';

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { JsonSchema, SchemaFormBuilder } from 'dualog-common';
+import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
 
 import { FormGroup } from '@angular/forms';
 import { NetworkControlService } from './networkcontrol.service';
 import { Observable } from 'rxjs/Rx';
-import { Ship } from 'dualog-common/components/ship/interfaces';
+import { Ship } from 'common/domain/ship/interfaces';
 
 @Component({
   selector: 'dua-networkcontrol',

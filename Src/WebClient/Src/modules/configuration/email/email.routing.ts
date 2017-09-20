@@ -1,12 +1,11 @@
-import { AccessRights, PermissionMap } from 'connection-suite-shore/services/permission.service';
+import { AccessRights, PermissionMap } from 'shore/services/permission.service';
 import { CanDeactivate, RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from 'connection-suite-shore/services/auth-guard.service';
-import { PendingChangesGuard } from 'connection-suite-shore/services/pending_changes.service';
+import { AuthGuard } from 'shore/services/auth-guard.service';
 import { EmailComponent } from './email.component';
 import { ModuleWithProviders } from '@angular/core';
+import { PendingChangesGuard } from 'shore/services/pending_changes.service';
 import { QuarantineComponent } from './../quarantine/quarantine.component';
-
 
 export const emailRoutes: Routes = [
     {

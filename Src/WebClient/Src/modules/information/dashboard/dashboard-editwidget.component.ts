@@ -6,8 +6,8 @@ import { Message, SelectItem } from 'primeng/primeng';
 
 import { Dashboard } from './dashboard';
 import { Observable } from 'rxjs/Rx';
-import { SchemaFormBuilder } from 'dualog-common';
-import { PatchGraphDocument } from "dualog-common/services/patchGraphDocument";
+import { PatchGraphDocument } from "infrastructure/services/patchGraphDocument";
+import { SchemaFormBuilder } from 'infrastructure/services/schema';
 
 @Component({
     // moduleId: module.id,

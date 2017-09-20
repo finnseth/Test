@@ -1,11 +1,13 @@
-import { ApiService, ConfigurationReader, JsonSchema, PaginationInfo } from 'dualog-common';
-
-import { AuthenticationService } from 'connection-suite-shore/services/authentication.service';
+import { ApiService, PaginationInfo } from 'shore/services/api-base.service';
 import { Http, URLSearchParams } from '@angular/http';
+
+import { AuthenticationService } from 'shore/services/authentication.service';
+import { ConfigurationReader } from 'infrastructure/services/configuration-reader.service';
 import { Injectable } from '@angular/core';
+import { JsonSchema } from 'infrastructure/services/schema/';
 import { Observable } from 'rxjs/Rx';
-import { Permission } from 'connection-suite-shore/services/permission.service';
-import { SessionService } from 'connection-suite-shore/services/session.service';
+import { Permission } from 'shore/services/permission.service';
+import { SessionService } from 'shore/services/session.service';
 
 @Injectable()
 export class UserApiService extends ApiService {

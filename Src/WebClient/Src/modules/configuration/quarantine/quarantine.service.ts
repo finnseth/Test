@@ -1,13 +1,15 @@
-import { AccessRights, Availability } from 'connection-suite-shore/services/permission.service';
-import { ApiService, ConfigurationReader, JsonSchema } from 'dualog-common';
+import { AccessRights, Availability } from 'shore/services/permission.service';
 
-import { AuthenticationService } from 'connection-suite-shore/services/authentication.service';
+import { ApiService } from 'shore/services/api-base.service';
+import { AuthenticationService } from 'shore/services/authentication.service';
+import { ConfigurationReader } from 'infrastructure/services/configuration-reader.service';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { MenuService } from 'connection-suite-shore/services/menu.service';
+import { JsonSchema } from 'infrastructure/services/schema';
+import { MenuService } from 'shore/services/menu.service';
 import { Observable } from 'rxjs/Rx';
-import { SessionService } from 'connection-suite-shore/services/session.service';
-import { Ship } from 'dualog-common/components/ship/interfaces';
+import { SessionService } from 'shore/services/session.service';
+import { Ship } from 'common/domain/ship/interfaces';
 
 @Injectable()
 export class QuarantineService extends ApiService {

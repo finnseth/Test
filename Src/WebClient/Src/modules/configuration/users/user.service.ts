@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { UserApiService, User, UserDetail } from './user-api.service';
+import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
 import { Observable, Subject } from 'rxjs/Rx';
-import { FormGroup } from '@angular/forms';
-import { SchemaFormBuilder, JsonSchema } from 'dualog-common';
-import { PatchGraphDocument } from 'dualog-common/services/patchGraphDocument';
+import { User, UserApiService, UserDetail } from './user-api.service';
 
+import { FormGroup } from '@angular/forms';
+import { Injectable } from '@angular/core';
+import { PatchGraphDocument } from 'infrastructure/services/patchGraphDocument';
 
 @Injectable()
 export class UserService {

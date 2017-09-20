@@ -1,10 +1,10 @@
-import { AccessRights, PermissionMap } from 'connection-suite-shore/services/permission.service';
+import { AccessRights, PermissionMap } from 'shore/services/permission.service';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from 'connection-suite-shore/services/auth-guard.service';
+import { AuthGuard } from 'shore/services/auth-guard.service';
 import { EditUserComponent } from './edit-user/edit-user.component';
-import { UsersComponent } from './users.component';
 import { ModuleWithProviders } from '@angular/core';
+import { UsersComponent } from './users.component';
 
 export const userRoutes: Routes = [
     {

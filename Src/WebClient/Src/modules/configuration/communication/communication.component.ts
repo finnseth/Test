@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JsonSchema, SchemaFormBuilder } from 'dualog-common';
+import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
 
 import { CommunicationService } from './communication.service';
 import { FormGroup } from '@angular/forms';

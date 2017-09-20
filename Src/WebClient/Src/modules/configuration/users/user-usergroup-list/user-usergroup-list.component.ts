@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
-import { Header, Footer } from 'primeng/primeng';
-import { UserGroupService } from 'connection-suite-shore/services/userGroup.service';
-import { JsonSchema, SchemaFormBuilder } from 'dualog-common';
+import { Footer, Header } from 'primeng/primeng';
+import { FormArray, FormGroup } from '@angular/forms';
+import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
+
 import { Observable } from 'rxjs/Rx';
-import { SchemaFormArray } from 'dualog-common/schema/schema-form-array';
+import { SchemaFormArray } from 'infrastructure/services/schema/schema-form-array';
+import { UserGroupService } from 'shore/services/userGroup.service';
 
 @Component({
     selector: 'dualog-user-usergroup-list',

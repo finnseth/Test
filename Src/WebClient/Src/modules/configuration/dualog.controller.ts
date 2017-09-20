@@ -1,14 +1,13 @@
-import { any } from 'codelyzer/util/function';
 import { Component, HostListener, OnInit } from '@angular/core';
+import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
 
-import { ComponentCanDeactivate } from '../../connection-suite-shore/services/pending_changes.service';
-import { CurrentShipService } from '../../connection-suite-shore/services/currentship.service';
+import { ComponentCanDeactivate } from 'shore/services/pending_changes.service';
+import { CurrentShipService } from 'shore/services/currentship.service';
 import { FormGroup } from '@angular/forms';
-import { JsonSchema } from '../../dualog-common';
 import { Observable } from 'rxjs/Rx';
-import { PatchGraphDocument } from '../../dualog-common/services/patchGraphDocument';
-import { SchemaFormBuilder } from '../../dualog-common';
-import { Ship } from 'dualog-common/components/ship/interfaces';
+import { PatchGraphDocument } from 'infrastructure/services/patchGraphDocument';
+import { Ship } from 'common/domain/ship/interfaces';
+import { any } from 'codelyzer/util/function';
 import { observable } from 'rxjs/symbol/observable';
 import { strictEqual } from 'assert';
 

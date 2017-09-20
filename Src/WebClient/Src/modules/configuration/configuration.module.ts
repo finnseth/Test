@@ -16,7 +16,7 @@ import { CoreModule } from './core/core.module';
 import { EmailModule } from './email/email.module';
 import { InternetModule } from './internet/internet.module';
 import { NgModule } from '@angular/core';
-import { SwitchCompanyModule } from 'connection-suite-shore/components/company/switchcompany.module';
+import { SwitchCompanyModule } from 'common/ui/company/switchcompany.module';
 import { configurationRouting } from './configuration.routing';
 
 @NgModule({

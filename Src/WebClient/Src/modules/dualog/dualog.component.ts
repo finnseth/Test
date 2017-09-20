@@ -2,7 +2,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/primeng';
-import { MenuService } from 'connection-suite-shore/services/menu.service';
+import { MenuService } from 'shore/services/menu.service';
 import { Subscription } from 'rxjs/Rx';
 
 @Component({

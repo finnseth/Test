@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
-import { Permission, PermissionService } from 'connection-suite-shore/services/permission.service';
-import { SchemaFormBuilder, JsonSchema } from 'dualog-common';
+import { FormArray, FormGroup } from '@angular/forms';
+import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
+import { MenuItem, SelectItem } from 'primeng/primeng';
+import { Permission, PermissionService } from 'shore/services/permission.service';
+import { SchemaFormArray, SchemaFormGroup } from 'infrastructure/services/schema';
+
 import { Observable } from 'rxjs/Observable';
-import { SelectItem, MenuItem } from 'primeng/primeng';
-import { SchemaFormGroup, SchemaFormArray } from 'dualog-common/schema';
 import { UserService } from '../user.service';
 
 @Component({
