@@ -1,8 +1,6 @@
 <nav>
-  <ul>
-      <li *ngFor="let item of topItems">
-        <dua-topmenu-item [item]="item" [parentIsPopup]="false" [isTopNode]="true">
-        </dua-topmenu-item>
-      </li>
-  </ul>
+  <span *ngFor="let item of items">
+     <dua-topmenu-item [item]="item">
+     </dua-topmenu-item>
+  </span>
 </nav>  

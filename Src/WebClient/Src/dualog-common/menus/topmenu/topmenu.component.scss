@@ -1,11 +1,8 @@
 @import '~styles.scss';
 
 :host {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-grow: 1;
-    padding-left: 10px;
+    position: absolute;
+    display: inline-block;
 }
 
 ul {
