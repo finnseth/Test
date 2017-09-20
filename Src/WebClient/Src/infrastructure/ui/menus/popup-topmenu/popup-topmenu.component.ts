@@ -1,18 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MainMenuItem, MainMenuService } from 'infrastructure/services/mainmenu.service';
+import {
+    MainMenuItem,
+    MainMenuService
+} from 'infrastructure/services/mainmenu.service';
 
 @Component({
-  selector: 'dua-popup-topmenu',
-  templateUrl: './popup-topmenu.component.html',
-  styleUrls: ['./popup-topmenu.component.scss']
+    selector: 'dua-popup-topmenu',
+    templateUrl: './popup-topmenu.component.html',
+    styleUrls: ['./popup-topmenu.component.scss']
 })
 export class PopupTopMenuComponent implements OnInit {
+    @Input() menu: Array<MainMenuItem>;
 
-  @Input() menu: Array<MainMenuItem>;
+    constructor(private menuService: MainMenuService) {}
 
-  constructor(private menuService: MainMenuService) { }
-
-  ngOnInit() {
-  }
-
+    ngOnInit() {}
 }

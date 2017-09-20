@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 
 import { ConfigurationReader } from './services/configuration-reader.service';
 import { DuaCheckboxModule } from './ui/dua-checkbox/dua-checkbox.module';
-import { ScreenBelowLarge } from './directives/screen-below-large.directive';
-import { ScreenLarge } from './directives/screen-large.directive';
+import { ScreenBelowLargeDirective } from './directives/screen-below-large.directive';
+import { ScreenLargeDirective } from './directives/screen-large.directive';
 import { TopMenuComponent } from './ui/menus/topmenu/topmenu.component';
 import { TopMenuItemComponent } from './ui/menus/topmenu-item/topmenu-item.component';
 import { MenuComponent } from './ui/menus/menu/menu.component';
@@ -17,38 +17,38 @@ import { ScreenService } from './services/screen.service';
 import { SchemaFormBuilder } from './services/schema';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    DuaCheckboxModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        DuaCheckboxModule
+    ],
 
-  providers: [
-    ConfigurationReader,
-    MainMenuService,
-    ScreenService,
-    SchemaFormBuilder
-  ],
+    providers: [
+        ConfigurationReader,
+        MainMenuService,
+        ScreenService,
+        SchemaFormBuilder
+    ],
 
-  declarations: [
-    ScreenBelowLarge,
-    ScreenLarge,
-    TopMenuComponent,
-    TopMenuItemComponent,
-    MenuComponent,
-    PopupMenuComponent,
-    MenuItemComponent
-  ],
+    declarations: [
+        ScreenBelowLargeDirective,
+        ScreenLargeDirective,
+        TopMenuComponent,
+        TopMenuItemComponent,
+        MenuComponent,
+        PopupMenuComponent,
+        MenuItemComponent
+    ],
 
-  exports: [
-    ScreenBelowLarge,
-    ScreenLarge,
-    TopMenuComponent,
-    TopMenuItemComponent,
-    MenuComponent,
-    MenuItemComponent
-  ]
+    exports: [
+        ScreenBelowLargeDirective,
+        ScreenLargeDirective,
+        TopMenuComponent,
+        TopMenuItemComponent,
+        MenuComponent,
+        MenuItemComponent
+    ]
 })
-export class InfrastructureModule { }
+export class InfrastructureModule {}

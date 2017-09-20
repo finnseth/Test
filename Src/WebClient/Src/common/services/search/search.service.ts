@@ -7,7 +7,6 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/concat';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/forkJoin';
 
@@ -25,7 +24,7 @@ export class SearchService {
     constructor(private jsonp: Jsonp, private injector: Injector) {
         this.searchProviders.push(new WikipediaSearchProvider(jsonp));
         this.searchProviders.push(new CdnjsSearchProvider(jsonp));
-        // this.searchProviders.push(injector.get(ShipSearchProvider));
+        this.searchProviders.push(injector.get(ShipSearchProvider));
     }
 
 
@@ -36,7 +35,7 @@ export class SearchService {
         });
 
         return searchStream.switchMap(queryString => queryString.length > 2 ?
-                    Observable.merge(...this.searchProviders.map(provider => provider.search(queryString))) : 
+                    Observable.merge(...this.searchProviders.map(provider => provider.search(queryString))) :
                     Observable.of(new SearchResult()));
     }
 
