@@ -9,15 +9,15 @@ This project has the following high-level source code structure:
   - **`services`** [contains generic interfaces, classes and angular services]
   - **`directives`** [contains angular directives]
 
-  Each folder may contain further subfolders for different concepts.
+  Each folder may contain further subfolders for different concepts and features.
 
 * **`common`** [contains Dualog common code]
   - **`domain`** [contains models and service classes]
   - **`services`** [contains common interfaces, classes and angular services]
   - **`ui`** [contains common user interface components]
 
-  Each folder may contain further subfolder for different concepts.
-  May only have dependencies to **`infrastructure_.
+  Each folder may contain further subfolders for different concepts and features.
+  May only have dependencies to **`infrastructure`**.
 
 * **`shore`** [contains Dualog Connection Suite shore applicaion]
   - **`app`** [contains angular application classes]
@@ -25,5 +25,5 @@ This project has the following high-level source code structure:
   - **`ui`** [contains shore specific user interface components]
   - **`services`** [contains shore specific interfaces, classes and angular services]
 
-  Each folder may contain further subfolder for different concepts.
+  Each folder may contain further subfolders for different concepts and features.
   May only have dependencies to **`infrastructure`** and **`common`**.
