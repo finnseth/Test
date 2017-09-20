@@ -48,7 +48,7 @@ namespace Dualog.PortalService.Controllers.Vessels
         protected async override void OnDispose()
         {
             var vRepo = new VesselRepository(DataContextFactory);
-            foreach (var v in await vRepo.GetVessels(2597))
+            foreach (var v in await vRepo.GetVessels(2597, null))
             {
                 await vRepo.DeleteVesselAsync(v.Id);
             }

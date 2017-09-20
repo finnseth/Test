@@ -34,7 +34,7 @@ namespace Dualog.PortalService.Controllers.Vessels
         [HttpGet, Route( "vessels/{id}" )]
         public async Task<IActionResult> Single( long id )
         {            
-            var qry = from v in await _vesselRepository.GetVessels( CompanyId )
+            var qry = from v in await _vesselRepository.GetVessels( CompanyId, null )
                       where v.Id == id
                       select v;
 
@@ -51,7 +51,7 @@ namespace Dualog.PortalService.Controllers.Vessels
         //[SwaggerResponse( HttpStatusCode.OK, Type = typeof( Vessel ) )]
         public async Task<IActionResult> All()
         {
-            return  Ok(await _vesselRepository.GetVessels( CompanyId ) );
+            return  Ok(await _vesselRepository.GetVessels( CompanyId, HttpContext.Search()) );
         }
 
 

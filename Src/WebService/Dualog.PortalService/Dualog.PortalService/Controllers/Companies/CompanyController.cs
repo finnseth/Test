@@ -15,8 +15,8 @@ using Dualog.Data.Entity;
 namespace Dualog.PortalService.Controllers.Companies
 {
     [Authorize]
-    [IsInDualog]
-    [Route( "api/v1" )]
+    //[IsInDualog]
+    [Route("api/v1")]
     public class CompanyController : DualogController
     {
         CompanyRepository _companyRepository;
@@ -24,8 +24,8 @@ namespace Dualog.PortalService.Controllers.Companies
         /// <summary>
         /// Initializes a new instance of the <see cref="CompanyController"/> class.
         /// </summary>
-        public CompanyController( IDataContextFactory dcFactory )
-            : base( dcFactory )
+        public CompanyController(IDataContextFactory dcFactory)
+            : base(dcFactory)
         {
             _companyRepository = new CompanyRepository(DataContextFactory);
         }
@@ -34,11 +34,10 @@ namespace Dualog.PortalService.Controllers.Companies
         /// Returns all the companies for the Dualog users.
         /// </summary>
         /// <response code="200">Ok</response>
-        [HttpGet, Route( "companies" )]
+        [HttpGet, Route("companies")]
         //[SwaggerResponse( HttpStatusCode.OK, Type = typeof( Company ) )]
-        public async Task<IActionResult> All()
-        {
-            return  Ok(await _companyRepository.GetCompanies( ) );
-        }
+        public Task<IActionResult> All() => 
+            this.HandleGetAction(() => 
+                _companyRepository.GetCompanies(HttpContext.Search()));
     }
 }

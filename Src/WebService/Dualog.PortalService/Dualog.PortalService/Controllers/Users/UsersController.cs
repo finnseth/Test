@@ -40,7 +40,7 @@ namespace Dualog.PortalService.Controllers.Users
         [SwaggerResponse( (int) HttpStatusCode.OK, typeof( UserSummaryModel ), "The operation was successful." )]
         public Task<IActionResult> AllAsync( 
             [FromQuery] bool includeTotalCount = false ) 
-                => this.HandleGetAction( () => _userRepository.GetUsersAsync( CompanyId, HttpContext.Pagination(), includeTotalCount ) );
+                => this.HandleGetAction( () => _userRepository.GetUsersAsync( CompanyId, HttpContext.Pagination(), HttpContext.Search(), includeTotalCount ) );
 
 
         /// <summary>

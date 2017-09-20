@@ -99,7 +99,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineCont
         protected override async void OnDispose()
         {
             var vesselRepo = new VesselRepository(DataContextFactory);
-            foreach( var v in await vesselRepo.GetVessels( 2597 ) )
+            foreach( var v in await vesselRepo.GetVessels( 2597, null ) )
             {
                 await vesselRepo.DeleteVesselAsync(v.Id);
             }
