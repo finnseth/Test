@@ -116,7 +116,6 @@ export class TopMenuItemComponent implements OnInit {
 
   @HostListener('mouseenter')
   onMouseEnter(): void {
-    console.log(this.menuPosition);
     this.popupTop = this.el.nativeElement.offsetHeight;
     if (this.menuPosition === 'right') {
       this.popupLeft = -162 + this.el.nativeElement.offsetWidth;

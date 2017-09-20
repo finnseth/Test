@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Cake: Debug Script",
             "type": "coreclr",
@@ -14,6 +15,14 @@
             "cwd": "${workspaceRoot}",
             "stopAtEntry": true,
             "externalConsole": false
+        },
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Attach to Chrome",
+            "url": "http://192.168.1.139:4200/*",
+            "port": 9222,
+            "webRoot": "${workspaceRoot}"
         }
     ]
 }

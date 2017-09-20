@@ -1,0 +1,16 @@
+<dua-searchbox #searchbox (keyup)="query.next($event.target.value)"></dua-searchbox>
+
+<div *ngIf="results.length > 0">
+  <div class="searchresult" [style.top.px]="popupTop" [style.left.px]="20">
+    <ul>
+      <li *ngFor="let result of results">
+        <div class="searchcategory">{{ result.category }}</div>
+        <ul>
+          <li class="searchelement" *ngFor="let element of result.elements">
+            {{ element.name }}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

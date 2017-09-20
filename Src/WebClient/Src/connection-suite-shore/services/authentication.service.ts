@@ -3,7 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Log, User, UserManager } from 'oidc-client';
 
-import { ConfigurationReader } from 'dualog-common';
+import { ConfigurationReader } from '../../dualog-common/services/configuration-reader.service';;
 import { SessionService } from './session.service';
 
 @Injectable()

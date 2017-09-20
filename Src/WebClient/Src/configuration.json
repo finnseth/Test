@@ -1,11 +1,11 @@
 {
     "authentication": {
         "server": "http://devtask.dualog.net:85",
-        "clientId": "DualogNet.TMH",
-        "secret": "Secret"
+        "clientId": "DualogNet.YHN",
+        "secret": "Hæmmelig"
     },
 
     "dualogApi": {
-        "server": "http://192.168.1.145:84"
+        "server": "http://192.168.1.139:84"
     }
 }

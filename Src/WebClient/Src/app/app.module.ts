@@ -13,7 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { ConnectionSuiteShoreModule } from 'connection-suite-shore/connection-suite-shore.module';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { LogoutModule } from 'dualog-common/components/logout/logout.module';
@@ -30,7 +30,7 @@ export function loadConfig(config: ConfigurationReader) {
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpModule, JsonpModule,
     routing,
     DualogCommonModule,
     LogoutModule,

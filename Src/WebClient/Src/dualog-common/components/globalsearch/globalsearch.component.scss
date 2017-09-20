@@ -1,0 +1,45 @@
+@import '~styles.scss';
+
+:host {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.searchresult {
+  position: absolute;
+  overflow: auto;
+  padding: 5px;
+
+  display: inline-block;
+  width: 162px;
+  background-color: white;
+  box-shadow: 1px 1px 5px #aaa;
+}
+
+.searchcategory {
+  font-weight: bold;
+  padding: 3px;
+  padding-left: 10px;
+  border-radius: 5px;
+  background-color: $dualog-blue;
+  color: $dualog-aqua40;
+}
+
+.searchelement {
+  font-weight: normal;
+  border-radius: 0;
+  background-color: white;
+  color: $dualog-blue;
+  padding-left: 15px;
+}
+
+.searchelement:hover {
+  background-color: $dualog-aqua40;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
