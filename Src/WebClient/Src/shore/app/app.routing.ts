@@ -29,7 +29,7 @@ export const routes: Routes = [
     },
     {
         path: 'information',
-        loadChildren: '../../modules/information/information.module#InformationModule',
+        loadChildren: './../ui/information/information.module#InformationModule',
         data: {
             permissions: PermissionMap.Information,
             label: 'Information',
@@ -39,7 +39,7 @@ export const routes: Routes = [
     },
     {
         path: 'configuration',
-        loadChildren: '../../modules/configuration/configuration.module#ConfigurationModule',
+        loadChildren: './../ui/configuration/configuration.module#ConfigurationModule',
         data: {
             permissions: PermissionMap.Config,
             label: 'Configuration',
@@ -59,7 +59,7 @@ export const routes: Routes = [
     },*/
     {
         path: 'Dualog',
-        loadChildren: '../../modules/dualog/dualog.module#DualogModule',
+        loadChildren: './../ui/dualog/dualog.module#DualogModule',
         data: {
             permissions: PermissionMap.Dualog.Overview,
             label: 'Dualog',

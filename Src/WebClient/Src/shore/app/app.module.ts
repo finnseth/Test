@@ -1,9 +1,11 @@
+
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, JsonpModule } from '@angular/http';
+
 import {
   AutoCompleteModule,
   ButtonModule,
@@ -12,14 +14,17 @@ import {
   PanelMenuModule
 } from 'primeng/primeng';
 
-import { AppComponent } from './app.component';
-import { CommonsModule } from '../../common/common.module';
 import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
 import { InfrastructureModule } from '../../infrastructure/infrastructure.module';
+
+import { CommonsModule } from '../../common/common.module';
+import { LogoutModule } from '../../common/ui/logout/logout.module';
+
+import { ShoreModule } from '../../shore/shore.module';
+
+import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
-import { LogoutModule } from '../../common/ui/logout/logout.module';
-import { ShoreModule } from '../../shore/shore.module';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { routing } from './app.routing';
 

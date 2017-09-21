@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { FormGroup } from '@angular/forms';
-import { ICompareField } from '../../../modules/configuration/dualog.controller';
+import { ICompareField } from '../../../shore/ui/configuration/dualog.controller';
 
 @Component({
   selector: 'dua-copy',

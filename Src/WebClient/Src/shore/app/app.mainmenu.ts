@@ -58,7 +58,7 @@ export let mainMenu: Array<MainMenuItem> = [
                     {
                         text: 'Company',
                         icon: '',
-                        route: null,
+                        route: '/configuration/core/company',
                         submenu: null
                     },
                     {

@@ -1,0 +1,78 @@
+<h3 class="company-header">Company</h3>
+<div class="ui-g ">        
+    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
+
+        <dua-bluecard>
+            <form *ngIf="getFormGroup('companyform')" [formGroup]="getFormGroup('companyform')">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                                        
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label for="name">Name</label>
+                            <dua-input
+                                [parentFormGroup]="getFormGroup('companyform')"
+                                formControlName="name">
+                            </dua-input>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-12">
+                            <label for="name">Address (textarea?)</label>
+                            <dua-input
+                                [parentFormGroup]="getFormGroup('companyform')"
+                                formControlName="address">
+                            </dua-input>
+                        </div>
+                    </div>
+
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <label for="name">Phone</label>
+                            <dua-input
+                                [parentFormGroup]="getFormGroup('companyform')"
+                                formControlName="phone">
+                            </dua-input>
+                        </div>
+                    </div>
+
+                    
+                    <div class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <label for="name">Email</label>
+                            <dua-input
+                                [parentFormGroup]="getFormGroup('companyform')"
+                                formControlName="email">
+                            </dua-input>
+                        </div>
+                    </div>
+
+                        
+                    <div class="ui-grid-row">                                       
+                            <div class="ui-grid-col-12">
+                                <label for="name">Manager</label>
+                                <dua-input
+                                    [parentFormGroup]="getFormGroup('companyform')"
+                                    formControlName="phone">
+                                </dua-input>
+                            </div>
+                        </div>
+
+                        
+                    <div class="ui-grid-row">                                       
+                            <div class="ui-grid-col-12">
+                                <label for="name">Customer no.</label>
+                                <dua-input
+                                    [parentFormGroup]="getFormGroup('companyform')"
+                                    formControlName="customernumber">
+                                </dua-input>
+                            </div>
+                        </div>
+                    
+                    <dua-applyrow [shipStyle]="false" (onCancel)="onCancelFleetCard()"  (onApply)="onApplyFleetCard(getFormGroup('companyform'))"
+                                    [disableapply]="getFormGroup('companyform').pristine || !getFormGroup('companyform').valid">
+                    </dua-applyrow>  
+                </div>
+            </form>
+        </dua-bluecard>
+    </div>
+</div>

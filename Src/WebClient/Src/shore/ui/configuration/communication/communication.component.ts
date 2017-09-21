@@ -1,0 +1,22 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs/Rx';
+
+import { JsonSchema, SchemaFormBuilder } from './../../../../infrastructure/services/schema';
+
+import { CommunicationService } from './communication.service';
+
+@Component({
+  selector: 'dua-communication',
+  templateUrl: './communication.component.html',
+  styleUrls: ['./communication.component.css']
+})
+
+export class CommunicationComponent implements OnInit {
+
+    constructor( private communicationService: CommunicationService, private fb: SchemaFormBuilder ) {
+    }
+
+    ngOnInit() {
+    }
+}

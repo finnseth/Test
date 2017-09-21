@@ -75,6 +75,11 @@ export const PermissionMap  = {
     Config: {
         Wizard: {},
         Core: {
+            Company: {
+                name: 'EmailRestriction',   // @todo: wrong permissions
+                allowType: AccessRights.Read,
+                availability: Availability.All
+            },
             User: {
                 name: 'EmailRestriction',   // @todo: wrong permissions
                 allowType: AccessRights.Read,

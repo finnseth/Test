@@ -22,7 +22,7 @@ import { CommonsModule } from '../common/common.module';
         RouterModule,
         HttpModule,
         InfrastructureModule,
-        CommonsModule
+        CommonsModule,
     ],
 
     declarations: [
