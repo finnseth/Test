@@ -2,4 +2,11 @@
     <img class="statusImage" src="../assets/icons/dualog-g.png" alt="Dualog" height="20px" border ="0">
 </a>
 <dua-vertical-bar [style.height.px]="20"></dua-vertical-bar>
-<span class="statusText">Dualog Connection Suite Shore - version: {{ productVersion }} </span>
+<span class="statusText">Dualog Connection Suite {{productLocation}} - version: {{productVersion}} </span>
+<dua-vertical-bar [style.height.px]="20"></dua-vertical-bar>
+<span *ngIf="isProduction" class="statusText">PRODUCTION BUILD</span>
+<span *ngIf="!isProduction" class="statusText ui-messages-warn">DEVELOPMENT BUILD</span>
+<dua-vertical-bar [style.height.px]="20"></dua-vertical-bar>
+<span class="statusText">Angular: {{angularVersion}}</span>
+
+
