@@ -15,9 +15,9 @@
 // Load additional cake addins
 ///////////////////////////////////////////////////////////////////////////
 
-#addin Cake.Json
-#addin Cake.Endpoint
-#addin Cake.Npm
+#addin Newtonsoft.Json
+#addin "nuget:?package=Cake.Endpoint&version=1.1.0"
+#addin "nuget:?package=Cake.Npm&version=0.10.0"
 #addin Cake.DoInDirectory
 
 
@@ -25,7 +25,7 @@
 // Load additional tools
 ///////////////////////////////////////////////////////////////////////////
 
-#tool "nuget:?package=Cake.CoreCLR"
+//#tool "nuget:?package=Cake.CoreCLR"
 #tool "nuget:?package=GitVersion.CommandLine&version=4.0.0-beta0012"
 #tool "nuget:?package=OctopusTools"
 
@@ -53,9 +53,10 @@ DirectoryPath webClientProject = "./Src/WebClient/";
 var author = "Dualog AS";
 var copyright = $"{author} Ⓒ {DateTime.Now.ToString("yyyy")}";
 var dualogOctopusDeployServer = "http://192.168.1.150:88";
-var dualogCakeOctopusDeploymentApiKey = "API-E8JX7N6QMUIYB2KOYHNVPYH1FM"; 
+var dualogCakeOctopusDeploymentApiKey = "API-E8JX7N6QMUIYB2KOYHNVPYH1FM";
 DirectoryPath artifacts = "./artifacts";
-var endpoints = DeserializeJsonFromFile<IEnumerable<Endpoint>>( "./endpoints.json" );
+FilePath endpointsFile = "./endpoints.json";
+var endpoints = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Endpoint>>(System.IO.File.ReadAllText(endpointsFile.MakeAbsolute(Context.Environment).FullPath));
 
 // Get the product version using GitVersion
 GitVersion gitVersion = GitVersion();
@@ -100,18 +101,18 @@ Task("Restore")
     {
         if (noRestore != null) return; // -no-restore flag specified?
 
-        if (clientOnly == null) 
+        if (clientOnly == null)
         {
 	        DotNetCoreRestore(serviceProject.FullPath);
         }
 
         if (serverOnly == null)
-            DoInDirectory(webClientProject, () => 
-            { 
+            DoInDirectory(webClientProject, () =>
+            {
                 NpmInstall(new NpmInstallSettings
                 {
                     LogLevel = NpmLogLevel.Info
-                }); 
+                });
             });
     });
 
@@ -122,7 +123,7 @@ Task("Build")
 	{
         Information($"Building {service} version {version} on {buildServer}");
 
-        if (clientOnly == null) 
+        if (clientOnly == null)
         {
             DotNetCorePublish(serviceProject.FullPath, new DotNetCorePublishSettings
             {
@@ -154,7 +155,7 @@ Task("Build")
 Task("Test")
     .IsDependentOn("Build")
     .Does(() => {
-        if (clientOnly == null) 
+        if (clientOnly == null)
         {
             DoInDirectory($"./Test/WebService/{service}.UnitTests", () => {
                 DotNetCoreRestore();
@@ -199,19 +200,19 @@ Task("Publish")
 
             // Upload package to Octopus server
             var octopusNuGetPath = artifacts.Combine("nuget/" + packageId + "." + version + ".nupkg");
-            OctoPush(dualogOctopusDeployServer, dualogCakeOctopusDeploymentApiKey, octopusNuGetPath.FullPath, new OctopusPushSettings 
+            OctoPush(dualogOctopusDeployServer, dualogCakeOctopusDeploymentApiKey, octopusNuGetPath.FullPath, new OctopusPushSettings
             {
                 ReplaceExisting = true
-            });   
+            });
 
             // Create Octopus release from this package
-            OctoCreateRelease(endpoint.Id, new CreateReleaseSettings 
+            OctoCreateRelease(endpoint.Id, new CreateReleaseSettings
             {
                 Server = dualogOctopusDeployServer,
                 ApiKey = dualogCakeOctopusDeploymentApiKey,
                 ReleaseNumber = version,
                 IgnoreExisting = true
-            });  
+            });
         }
     });
 
@@ -225,7 +226,7 @@ Task("Deploy")
         else {
             if (!gitVersion.BranchName.Equals("master", StringComparison.InvariantCultureIgnoreCase)) {
                 Warning("Will only perform DEPLOY from master branch");
-                return;          
+                return;
             }
         }
 
@@ -249,7 +250,7 @@ Task("Deploy")
 
             // Make Octopus perform the actual deployment for this project
             OctoDeployRelease(dualogOctopusDeployServer, dualogCakeOctopusDeploymentApiKey, endpoint.Id, "Development",
-                version, new OctopusDeployReleaseDeploymentSettings 
+                version, new OctopusDeployReleaseDeploymentSettings
             {
                 ShowProgress = true,
                 WaitForDeployment = true,

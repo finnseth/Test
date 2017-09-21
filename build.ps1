@@ -196,5 +196,5 @@ if (!(Test-Path $CAKE_EXE)) {
 Write-Verbose -Message "Running build script..."
 Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun -experimental $ScriptArgs"
 if ($LASTEXITCODE -ne 0) {
-    Throw "An error occured while running build script"    
+    Throw "An error occured while running build script"
 }
