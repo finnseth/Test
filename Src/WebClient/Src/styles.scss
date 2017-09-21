@@ -31,7 +31,7 @@ $dualog-orange: #faa010;
 $dualog-white: #ffffff;
 $dualog-yellow: #fabf0f;
 
-$fontFamily: 'Poppins', Arial, sans-serif, -apple-system, BlinkMacSystemFont;
+$fontFamily: $dualog-font, Arial, sans-serif, -apple-system, BlinkMacSystemFont;
 $fontSizeNormal: 0.8rem;
 $fontSizeSmall: 0.7rem;
 $fontSizeBig: 0.9rem;
@@ -82,7 +82,7 @@ html, body {
 }
 
 body {
-    font-family: $dualog-font, Verdana;
+    font-family: $fontFamily;
     background-color: $dualog-white;
 }
 
@@ -134,6 +134,7 @@ p-dialog .ui-dialog {
 
 label {
     color: $dualog-blue;
+    font-size: $fontSizeNormal;
 }
 
 /*

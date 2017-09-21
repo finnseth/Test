@@ -39,49 +39,46 @@ import { SelectItem } from 'primeng/primeng';
     ]
 })
 export class TopMenuItemComponent implements OnInit {
-    @Input() item = <MainMenuItem>null; // see angular-cli issue #2034
-    @HostBinding('class.parent-is-popup')
-    @Input()
-    menuPosition = 'left';
-    isActiveRoute = false;
+  @Input() item = <MainMenuItem>null;  // see angular-cli issue #2034
+  @HostBinding('class.parent-is-popup')
+  @Input() menuPosition = 'left';
+  isActiveRoute = false;
 
-    mouseInItem = false;
-    mouseInPopup = false;
-    popupTop = 0;
-    popupLeft = 0;
+  mouseInItem = false;
+  mouseInPopup = false;
+  popupTop = 0;
+  popupLeft = 0;
 
-    constructor(
-        private router: Router,
-        private menuService: MainMenuService,
-        private el: ElementRef,
-        private renderer: Renderer
-    ) {}
+  constructor(private router: Router,
+    private menuService: MainMenuService,
+    private el: ElementRef,
+    private renderer: Renderer) {
+  }
 
-    checkActiveRoute(route: string) {
-        this.updateMenu(route);
-    }
+  checkActiveRoute(route: string) {
+    this.updateMenu(route);
+  }
 
-    ngOnInit(): void {
-        this.checkActiveRoute(this.router.url);
+  ngOnInit(): void {
+    this.checkActiveRoute(this.router.url);
 
-        this.router.events.subscribe(event => {
-            if (event instanceof NavigationEnd) {
-                console.log('router events: ' + this.router.url);
-                this.checkActiveRoute(event.url);
-            }
-        });
-    }
-
-    private updateMenu(route: string): void {
-        const item = this.findItemByRoute(this.item, route);
-        console.log(item);
-        if (item !== null) {
-            this.isActiveRoute = true;
-            this.menuService.SetSelectedItem(this.item);
-        } else {
-            this.isActiveRoute = false;
+    this.router.events
+      .subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          this.checkActiveRoute(this.router.url);
         }
+      });
+  }
+
+  private updateMenu(route: string): void {
+    const item = this.findItemByRoute(this.item, route);
+    if (item !== null) {
+      this.isActiveRoute = true;
+      this.menuService.SetSelectedItem(this.item);
+    } else {
+      this.isActiveRoute = false;
     }
+  }
 
     private findItemByRoute(item: MainMenuItem, url: string): MainMenuItem {
         if (item.route === url) {
