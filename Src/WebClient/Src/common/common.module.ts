@@ -14,8 +14,9 @@ import { SearchService } from './services/search/search.service';
 import { ShipSearchProvider } from './services/search/shipsearchprovider';
 import { SearchboxComponent } from './ui/searchbox/searchbox.component';
 import { UserboxComponent } from './ui/userbox/userbox.component';
-import { VerticalBarComponent } from './ui/vertical-bar/vertical-bar.component';
 import { InfrastructureModule } from '../infrastructure/infrastructure.module';
+import { DuaStatusBarModule } from '../infrastructure/ui/dua-status-bar/dua-status-bar.module';
+import { DuaVerticalBarModule } from '../infrastructure/ui/dua-vertical-bar/dua-vertical-bar.module';
 
 @NgModule({
     imports: [
@@ -24,7 +25,9 @@ import { InfrastructureModule } from '../infrastructure/infrastructure.module';
         ReactiveFormsModule,
         RouterModule,
         OverlayPanelModule,
-        InfrastructureModule
+        InfrastructureModule,
+        DuaStatusBarModule,
+        DuaVerticalBarModule,
     ],
 
     providers: [SearchService, ShipSearchProvider],
@@ -36,7 +39,6 @@ import { InfrastructureModule } from '../infrastructure/infrastructure.module';
         ContentComponent,
         LogoComponent,
         GlogoComponent,
-        VerticalBarComponent,
         UserboxComponent,
         SearchboxComponent
     ],

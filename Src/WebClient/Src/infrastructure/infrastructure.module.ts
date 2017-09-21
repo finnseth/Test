@@ -15,6 +15,7 @@ import { MenuItemComponent } from './ui/menus/menu-item/menu-item.component';
 import { MainMenuService } from './services/mainmenu.service';
 import { ScreenService } from './services/screen.service';
 import { SchemaFormBuilder } from './services/schema';
+import { DuaVerticalBarModule } from './ui/dua-vertical-bar/dua-vertical-bar.module';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { SchemaFormBuilder } from './services/schema';
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        DuaCheckboxModule
+        DuaCheckboxModule,
+        DuaVerticalBarModule
     ],
 
     providers: [
