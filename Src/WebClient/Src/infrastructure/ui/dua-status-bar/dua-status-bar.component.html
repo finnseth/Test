@@ -5,8 +5,6 @@
 <span class="statusText">Dualog Connection Suite {{productLocation}} - version: {{productVersion}} </span>
 <dua-vertical-bar [style.height.px]="20"></dua-vertical-bar>
 <span *ngIf="isProduction" class="statusText">PRODUCTION BUILD</span>
-<span *ngIf="!isProduction" class="statusText ui-messages-warn">DEVELOPMENT BUILD</span>
+<span *ngIf="!isProduction" class="statusText dualog-warning statusBold">DEVELOPMENT BUILD</span>
 <dua-vertical-bar [style.height.px]="20"></dua-vertical-bar>
 <span class="statusText">Angular: {{angularVersion}}</span>
-
-

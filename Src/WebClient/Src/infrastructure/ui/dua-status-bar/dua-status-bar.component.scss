@@ -8,12 +8,17 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-content: center;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 
 .statusText {
     font-size: 0.8em;
-    padding-right: 15px;
-    padding-left: 15px;
+    margin-right: 10px;
+    margin-left: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 3px;
 }
 
 .statusImage {
@@ -22,4 +27,8 @@
     display: block;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.statusBold {
+    font-weight: bold;
 }

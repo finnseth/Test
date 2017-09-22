@@ -73,6 +73,12 @@ $disabledOpacity: 0.35;
     color: $dualog-blue80;
 }
 
+.dualog-warning {
+    background-color: $dualog-orange;
+    color: $dualog-black;
+
+}
+
 html, body {
     height: 100%;
     width: 100%;
@@ -152,7 +158,7 @@ label {
 :host /deep/ .ui-accordion-header {
     background-color: $dualog-blue40;
     font-weight: bold;
-    text-decoration: none;    
+    text-decoration: none;
 }
 
 :host /deep/ .ui-datalist {
@@ -160,11 +166,11 @@ label {
 }
 
 :host /deep/ .ui-datalist-content {
-    border: none;    
+    border: none;
 }
 
 :host /deep/ .ui-datalist-header, :host /deep/.ui-datalist-footer {
-    background-color: $dualog-blue40;    
+    background-color: $dualog-blue40;
 }
 */
 .menuright {
