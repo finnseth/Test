@@ -4,7 +4,7 @@
   },
 
   "authentication": {
-    "autority": "http://192.168.1.189:85"
+    "autority": "http://devtask.dualog.net:85"
   }
 
 }
