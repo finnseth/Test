@@ -37,14 +37,22 @@ export class SearchboxComponent implements OnInit {
                         this.searchBox.nativeElement.offsetTop +
                         this.searchBox.nativeElement.offsetHeight + 1;
                 }
-                if (result && result.elements && result.elements.length > 0) {
+
+                if (result.error) {
+                    console.error('Error in search provider: ' + result.error);
+                } else if (result.elements && result.elements.length > 0) {
                     this.results.push(result);
                     this.selectDefaultCategoryAndElement();
                 }
             },
             error => {
-                console.log('Search error');
-                console.log(error);
+                console.error('Search error');
+                console.error(error);
+            },
+            () => {
+                if (this.results.length === 0) {
+                    console.warn('No matches found');
+                }
             }
         );
     }
@@ -135,16 +143,18 @@ export class SearchboxComponent implements OnInit {
     }
 
     clearSearch() {
+        this.searchBox.nativeElement.value = '';
         this.results.length = 0;
         this.searchValue = '';
     }
 
     selectItem(category: SearchResult, element: SearchResultElement) {
-        console.log(category);
-        console.log(element);
         this.clearSearch();
-        alert(element.name + ' => ' + element.route);
-        // todo: navigate to element.route
+        if (!element.route) {
+            console.warn(`Missing route for search result element "${element.name}"`);
+        } else {
+            console.log(`TODO: navigate to => "${element.route}"`);
+        }
     }
 
     getCategoryIndex(category: SearchResult): number {

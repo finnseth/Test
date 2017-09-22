@@ -40,7 +40,7 @@ export class CompanySearchProvider extends ApiService
     private responseToSearchResult(
         response: Company[]
     ): SearchResult {
-        const result = new SearchResult();
+        const result = new SearchResult({provider: 'Company'});
 
         if (response.length > 0) {
             response.forEach(company => {

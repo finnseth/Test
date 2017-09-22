@@ -4,7 +4,7 @@
 </div>
 
 <div *ngIf="results.length > 0">
-  <div class="searchresult" [style.top.px]="popupTop" [style.left.px]="20">
+  <div class="searchresult" [style.top.px]="popupTop" [style.left.px]="0">
     <ul>
       <li *ngFor="let result of results">
         <div *ngIf="result.category.length > 0" class="searchcategory">{{ result.category }}</div>

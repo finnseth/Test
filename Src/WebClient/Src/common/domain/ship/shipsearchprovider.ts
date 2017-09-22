@@ -27,7 +27,7 @@ export class ShipSearchProvider extends ApiService implements SearchProvider {
         // console.log('Ship.search [' + query + ']');
 
         return super
-            .Get<Ship[]>(`/vessels`,new SearchParameters(query).toURLSearchParams())
+            .Get<Ship[]>('/vessels', new SearchParameters(query).toURLSearchParams())
             .map(response =>
                 this.responseToSearchResult(query.toLowerCase(), response)
             );
@@ -37,7 +37,7 @@ export class ShipSearchProvider extends ApiService implements SearchProvider {
         query: string,
         response: Ship[]
     ): SearchResult {
-        const result = new SearchResult();
+        const result = new SearchResult({provider: 'Ship'});
 
         if (response.length > 0) {
             response.forEach(ship => {

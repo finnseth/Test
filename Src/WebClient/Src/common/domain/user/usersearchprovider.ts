@@ -28,7 +28,7 @@ export class UserSearchProvider extends ApiService
     }
 
     public search(query: string): Observable<SearchResult> {
-        console.log('User.search [' + query + ']');
+        // console.log('User.search [' + query + ']');
 
         return super
             .Get<any>('/users', new SearchParameters(query).toURLSearchParams())
@@ -39,7 +39,7 @@ export class UserSearchProvider extends ApiService
 
     private responseToSearchResult(response: any): SearchResult {
 
-        const result = new SearchResult();
+        const result = new SearchResult({provider: 'User'});
 
         if (response.users.length > 0) {
             response.users.forEach(user => {

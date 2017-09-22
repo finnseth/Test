@@ -55,39 +55,39 @@ $size: 16px;
 }
 
 .searchresult {
-  position: absolute;
-  overflow: auto;
-  padding: 5px;
-
-  display: inline-block;
-  width: 162px;
-  background-color: white;
-  box-shadow: 1px 1px 5px #aaa;
+    z-index: 1;
+    position: absolute;
+    overflow: auto;
+    padding: 5px;
+    display: inline-block;
+    width: 162px;
+    background-color: white;
+    box-shadow: 1px 1px 5px #aaa;
 }
 
 .searchcategory {
-  font-weight: bold;
-  padding: 3px;
-  padding-left: 10px;
-  border-radius: 5px;
-  background-color: $dualog-blue;
-  color: $dualog-aqua40;
+    font-weight: bold;
+    padding: 3px;
+    padding-left: 10px;
+    border-radius: 5px;
+    background-color: $dualog-blue;
+    color: $dualog-aqua40;
 }
 
 .searchelement {
-  font-weight: normal;
-  border-radius: 0;
-  background-color: white;
-  color: $dualog-blue;
-  padding-left: 15px;
+    font-weight: normal;
+    border-radius: 0;
+    background-color: white;
+    color: $dualog-blue;
+    padding-left: 15px;
 }
 
 .selectedElement {
-  background-color: $dualog-aqua40;
+    background-color: $dualog-aqua40;
 }
 
 ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }

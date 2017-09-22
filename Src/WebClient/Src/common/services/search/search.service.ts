@@ -7,13 +7,11 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/merge';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/forkJoin';
 
 import { SearchProvider } from './searchprovider';
 import { SearchResult } from './searchresult';
-import { CdnjsSearchProvider } from './cdnjssearchprovider';
-import { WikipediaSearchProvider } from './wikipediasearchprovider';
+// import { CdnjsSearchProvider } from './cdnjssearchprovider';
+// import { WikipediaSearchProvider } from './wikipediasearchprovider';
 import { ShipSearchProvider } from '../../domain/ship/shipsearchprovider';
 import { CompanySearchProvider } from '../../domain/company/companysearchprovider';
 import { UserSearchProvider } from '../../domain/user/usersearchprovider';
@@ -26,11 +24,10 @@ export class SearchService {
     constructor(private jsonp: Jsonp, private injector: Injector) {
         // this.searchProviders.push(new WikipediaSearchProvider(jsonp));
         // this.searchProviders.push(new CdnjsSearchProvider(jsonp));
+        this.searchProviders.push(injector.get(UserSearchProvider));
         this.searchProviders.push(injector.get(ShipSearchProvider));
         this.searchProviders.push(injector.get(CompanySearchProvider));
-        this.searchProviders.push(injector.get(UserSearchProvider));
     }
-
 
     public search(query: Observable<string>): Observable<SearchResult> {
         const searchStream = query.debounceTime(400).distinctUntilChanged().share();
@@ -39,8 +36,8 @@ export class SearchService {
         });
 
         return searchStream.switchMap(queryString => queryString.length > 2 ?
-                    Observable.merge(...this.searchProviders.map(provider => provider.search(queryString))) :
+                    Observable.merge(...this.searchProviders.map(provider =>
+                        provider.search(queryString).catch(err => Observable.of(new SearchResult({error: err.toString()}))))) :
                     Observable.of(new SearchResult()));
     }
-
 }
