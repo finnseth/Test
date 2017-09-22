@@ -9,7 +9,11 @@
       <li *ngFor="let result of results">
         <div *ngIf="result.category.length > 0" class="searchcategory">{{ result.category }}</div>
         <ul>
-          <li *ngFor="let element of result.elements" (mouseenter)="selectedElement=element;selectedCategory=result" (mouseleave)="selectedElement=null;selectedCategory=null" [ngClass]="{'searchelement':true,'selectedElement':(selectedElement==element && selectedCategory==result)}">
+          <li *ngFor="let element of result.elements"
+                        (mouseenter)="selectedElement=element;selectedCategory=result"
+                        (mouseleave)="selectedElement=null;selectedCategory=null"
+                        (click)="selectItem(result,element)"
+                        [ngClass]="{'searchelement':true,'selectedElement':(selectedElement==element && selectedCategory==result)}">
             {{ element.name }}
           </li>
         </ul>

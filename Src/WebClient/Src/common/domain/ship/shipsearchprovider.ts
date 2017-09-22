@@ -1,14 +1,16 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { Http, Jsonp, Response, URLSearchParams } from '@angular/http';
-import { SearchResult, SearchResultElement } from './searchresult';
+
+import { ConfigurationReader } from 'infrastructure/services/configuration-reader.service';
+import { SearchProvider } from '../../services/search/searchprovider';
+import { SearchResult, SearchResultElement } from '../../services/search/searchresult';
+import { SearchParameters } from '../../services/search/searchparameters';
+import { Ship } from './interfaces';
 
 import { ApiService } from 'shore/services/api-base.service';
 import { AuthenticationService } from 'shore/services/authentication.service';
-import { ConfigurationReader } from 'infrastructure/services/configuration-reader.service';
-import { SearchProvider } from './searchprovider';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { SessionService } from 'shore/services/session.service';
-import { Ship } from 'common/domain/ship/interfaces';
 
 @Injectable()
 export class ShipSearchProvider extends ApiService implements SearchProvider {
@@ -25,7 +27,7 @@ export class ShipSearchProvider extends ApiService implements SearchProvider {
         // console.log('Ship.search [' + query + ']');
 
         return super
-            .Get<Ship[]>(`/vessels`)
+            .Get<Ship[]>(`/vessels`,new SearchParameters(query).toURLSearchParams())
             .map(response =>
                 this.responseToSearchResult(query.toLowerCase(), response)
             );

@@ -14,7 +14,9 @@ import { SearchProvider } from './searchprovider';
 import { SearchResult } from './searchresult';
 import { CdnjsSearchProvider } from './cdnjssearchprovider';
 import { WikipediaSearchProvider } from './wikipediasearchprovider';
-import { ShipSearchProvider } from './shipsearchprovider';
+import { ShipSearchProvider } from '../../domain/ship/shipsearchprovider';
+import { CompanySearchProvider } from '../../domain/company/companysearchprovider';
+import { UserSearchProvider } from '../../domain/user/usersearchprovider';
 
 @Injectable()
 export class SearchService {
@@ -22,9 +24,11 @@ export class SearchService {
     public searchChanged: Observable<boolean> = new Subject<boolean>();
 
     constructor(private jsonp: Jsonp, private injector: Injector) {
-        this.searchProviders.push(new WikipediaSearchProvider(jsonp));
-        this.searchProviders.push(new CdnjsSearchProvider(jsonp));
+        // this.searchProviders.push(new WikipediaSearchProvider(jsonp));
+        // this.searchProviders.push(new CdnjsSearchProvider(jsonp));
         this.searchProviders.push(injector.get(ShipSearchProvider));
+        this.searchProviders.push(injector.get(CompanySearchProvider));
+        this.searchProviders.push(injector.get(UserSearchProvider));
     }
 
 

@@ -11,8 +11,8 @@ export class WikipediaSearchProvider implements SearchProvider {
   constructor(private jsonp: Jsonp) { }
 
   public search(query: string): Observable<SearchResult> {
-    //console.log('WikipediaSearchProvider.search [' + query + ']');
-    var search = new URLSearchParams()
+    // console.log('WikipediaSearchProvider.search [' + query + ']');
+    const search = new URLSearchParams()
     search.set('action', 'opensearch');
     search.set('search', query);
     search.set('format', 'json');
@@ -23,12 +23,12 @@ export class WikipediaSearchProvider implements SearchProvider {
   }
 
   private responseToSearchResult(response: Response) : SearchResult {
-    var result = new SearchResult();
-    result.category = "Wikipedia";
+    const result = new SearchResult();
+    result.category = 'Wikipedia';
 
-    var responseArray = response.json()[1];
+    const responseArray = response.json()[1];
     if (responseArray){
-      //console.log(responseArray);
+      // console.log(responseArray);
       responseArray.forEach(element => {
         result.elements.push(new SearchResultElement ({ name: element }));
       });

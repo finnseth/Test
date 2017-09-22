@@ -32,6 +32,11 @@ export class SearchboxComponent implements OnInit {
 
         this.searchService.search(this.query).subscribe(
             result => {
+                if (this.results.length === 0) {
+                    this.popupTop =
+                        this.searchBox.nativeElement.offsetTop +
+                        this.searchBox.nativeElement.offsetHeight + 1;
+                }
                 if (result && result.elements && result.elements.length > 0) {
                     this.results.push(result);
                     this.selectDefaultCategoryAndElement();
@@ -46,21 +51,16 @@ export class SearchboxComponent implements OnInit {
 
     ngOnInit() {}
 
-    ngAfterContentInit() {
-        // Let search result overlay popup just below search input
-        this.popupTop =
-            this.searchBox.nativeElement.offsetTop +
-            this.searchBox.nativeElement.offsetHeight +
-            4;
-    }
-
     onKeydown(event) {
         this.selectDefaultCategoryAndElement();
-        if (this.selectedCategory == null) { return; }
+        if (this.selectedCategory == null) {
+            return;
+        }
 
         switch (event.which) {
-            case 40: // Down
-                var currentElementIndex = this.getElementIndex(
+            case 40: {
+                // Down
+                const currentElementIndex = this.getElementIndex(
                     this.selectedCategory,
                     this.selectedElement
                 );
@@ -74,7 +74,7 @@ export class SearchboxComponent implements OnInit {
                     ];
                 } else {
                     // Current category exhausted, move to next category or jump to top
-                    var currentCategoryIndex = this.getCategoryIndex(
+                    const currentCategoryIndex = this.getCategoryIndex(
                         this.selectedCategory
                     );
                     if (currentCategoryIndex < this.results.length - 1) {
@@ -88,9 +88,11 @@ export class SearchboxComponent implements OnInit {
                 }
                 event.preventDefault();
                 break;
+            }
 
-            case 38: // Up
-                var currentElementIndex = this.getElementIndex(
+            case 38: {
+                // Up
+                const currentElementIndex = this.getElementIndex(
                     this.selectedCategory,
                     this.selectedElement
                 );
@@ -99,7 +101,7 @@ export class SearchboxComponent implements OnInit {
                         currentElementIndex - 1
                     ];
                 } else {
-                    var currentCategoryIndex = this.getCategoryIndex(
+                    const currentCategoryIndex = this.getCategoryIndex(
                         this.selectedCategory
                     );
                     if (currentCategoryIndex > 0) {
@@ -118,26 +120,31 @@ export class SearchboxComponent implements OnInit {
 
                 event.preventDefault();
                 break;
+            }
 
             case 13:
-                console.log(this.selectedCategory);
-                console.log(this.selectedElement);
-                this.results.length = 0;
-                this.searchValue = '';
-                alert(
-                    this.selectedElement.name +
-                        ' => ' +
-                        this.selectedElement.route
-                );
+                this.selectItem(this.selectedCategory, this.selectedElement);
                 event.preventDefault();
                 break;
 
             case 27:
-                this.results.length = 0;
-                this.searchValue = '';
+                this.clearSearch();
                 event.preventDefault();
                 break;
         }
+    }
+
+    clearSearch() {
+        this.results.length = 0;
+        this.searchValue = '';
+    }
+
+    selectItem(category: SearchResult, element: SearchResultElement) {
+        console.log(category);
+        console.log(element);
+        this.clearSearch();
+        alert(element.name + ' => ' + element.route);
+        // todo: navigate to element.route
     }
 
     getCategoryIndex(category: SearchResult): number {

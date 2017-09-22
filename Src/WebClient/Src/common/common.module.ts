@@ -11,7 +11,9 @@ import { GlogoComponent } from './ui/glogo/glogo.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { LogoComponent } from './ui/logo/logo.component';
 import { SearchService } from './services/search/search.service';
-import { ShipSearchProvider } from './services/search/shipsearchprovider';
+import { ShipSearchProvider } from './domain/ship/shipsearchprovider';
+import { CompanySearchProvider } from './domain/company/companysearchprovider';
+import { UserSearchProvider } from './domain/user/usersearchprovider';
 import { SearchboxComponent } from './ui/searchbox/searchbox.component';
 import { UserboxComponent } from './ui/userbox/userbox.component';
 import { InfrastructureModule } from '../infrastructure/infrastructure.module';
@@ -30,7 +32,7 @@ import { DuaVerticalBarModule } from '../infrastructure/ui/dua-vertical-bar/dua-
         DuaVerticalBarModule,
     ],
 
-    providers: [SearchService, ShipSearchProvider],
+    providers: [SearchService, ShipSearchProvider, CompanySearchProvider, UserSearchProvider],
 
     declarations: [
         BodyComponent,
