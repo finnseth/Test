@@ -11,8 +11,9 @@ import { DuaVerticalBarModule } from '../infrastructure/ui/dua-vertical-bar/dua-
 
 import { GlogoComponent } from './ui/glogo/glogo.component';
 import { SearchService } from './services/search/search.service';
-import { ShipSearchProvider } from './services/search/shipsearchprovider';
-
+import { ShipSearchProvider } from './domain/ship/shipsearchprovider';
+import { UserSearchProvider } from './domain/user/usersearchprovider';
+import { CompanySearchProvider } from './domain/company/companysearchprovider';
 
 @NgModule({
     imports: [
