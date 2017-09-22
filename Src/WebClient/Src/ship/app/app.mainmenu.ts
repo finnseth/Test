@@ -4,7 +4,7 @@ export let mainMenu: Array<MainMenuItem> = [
     {
         text: 'Information',
         icon: 'fa-area-chart',
-        // route: '/information',
+        route: '/information',
         submenu: [
             {
                 text: 'Dashboard',
