@@ -1,19 +1,23 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { number } from 'ng2-validation/dist/number';
+
 import * as assert from 'assert';
 
-import { CacheType, CardType, DualogController, FormType } from '../dualog.controller';
-import { Component, OnInit } from '@angular/core';
-import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
-import { QuarantineCompanyConfig, QuarantineService, QuarantineVesselConfig } from './quarantine.service';
-
-import { CurrentShipService } from 'shore/services/currentship.service';
-import { FormGroup } from '@angular/forms';
-import { ICopyField } from 'common/ui/copy/copy.component';
-import { NumberFormatStyle } from '@angular/common/src/pipes/intl';
 import { Observable } from 'rxjs/Rx';
-import { PatchGraphDocument } from 'infrastructure/services/patchGraphDocument';
+
 import { SelectItem } from 'primeng/primeng';
-import { Ship } from 'common/domain/ship/interfaces'; // todo
-import { number } from 'ng2-validation/dist/number';
+
+import { JsonSchema, SchemaFormBuilder } from './../../../../infrastructure/services/schema';
+import { PatchGraphDocument } from './../../../../infrastructure/services/patchGraphDocument';
+
+import { ICopyField } from './../../../../common/ui/copy/copy.component';
+import { Ship } from './../../../../common/domain/ship/interfaces';
+
+import { CacheType, CardType, DualogController, FormType } from '../dualog.controller';
+import { QuarantineCompanyConfig, QuarantineService, QuarantineVesselConfig } from './quarantine.service';
+import { CurrentShipService } from './../../../services/currentship.service';
 
 @Component({
     selector: 'app-quarantine',

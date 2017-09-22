@@ -83,7 +83,7 @@
                     <div class="ui-grid-row">                                       
                         <div class="ui-grid-col-12">
                             <br>
-                            <label for="name">Shore administrator(s)</label>
+                            <dua-label>Shore administrator(s)</dua-label>
                             <dua-input-email
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="notificationOnHoldAdmins">
@@ -93,7 +93,7 @@
                     
                     <div class="ui-grid-row">                                       
                         <div class="ui-grid-col-12">
-                            <label>Max body length</label>
+                            <dua-label>Max body length</dua-label>
                             <dua-spinner
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="maxBodyLength">
@@ -103,7 +103,7 @@
 
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <label for="name">Hold for duration</label>
+                            <dua-label>Hold for duration (hours)</dua-label>
                             <dua-spinner
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="onHoldDuration">
@@ -113,7 +113,7 @@
 
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <label>Custom notification sender</label>
+                            <dua-label>Custom notification sender</dua-label>
                             <dua-input-email
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="notificationSender">
@@ -207,7 +207,7 @@
                     <div class="ui-grid-row">                                       
                         <div class="ui-grid-col-12">
                             <br>
-                            <label for="name">Shore administrator(s)</label>
+                            <dua-label>Shore administrator(s)</dua-label>
                             <dua-input-email
                                 [parentFormGroup]="getFormGroup('compareform')"
                                 formControlName="notificationOnHoldAdmins">
@@ -217,7 +217,7 @@
                     
                     <div class="ui-grid-row">                                       
                         <div class="ui-grid-col-12">
-                            <label>Max body length</label>
+                            <dua-label>Max body length</dua-label>
                             <dua-spinner
                                 [parentFormGroup]="getFormGroup('compareform')"
                                 formControlName="maxBodyLength">
@@ -227,7 +227,7 @@
 
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <label for="name">Hold for duration</label>
+                            <dua-label>Hold for duration (hours)</dua-label>
                             <dua-spinner
                                 [parentFormGroup]="getFormGroup('compareform')"
                                 formControlName="onHoldDuration">
@@ -237,7 +237,7 @@
 
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <label>Custom notification sender</label>
+                            <dua-label>Custom notification sender</dua-label>
                             <dua-input-email
                                 [parentFormGroup]="getFormGroup('compareform')"
                                 formControlName="notificationSender">
@@ -352,7 +352,7 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
                                 <br>
-                                <label>Shore administrator(s)</label>
+                                <dua-label tooltip="Quarantine information will be sent">Shore administrator(s)</dua-label>
                                 <dua-input-email 
                                     [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
@@ -364,7 +364,7 @@
                         
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12"> 
-                                <label>Max body length</label>
+                                <dua-label>Max body length</dua-label>
                                 <dua-spinner 
                                     [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
@@ -376,7 +376,7 @@
 
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12"> 
-                                <label>Hold for duration</label>
+                                <dua-label>Hold for duration (hours)</dua-label>
                                 <dua-spinner 
                                     [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"
@@ -387,7 +387,7 @@
                         </div>
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12"> 
-                                <label>Custom notification sender</label>
+                                <dua-label>Custom notification sender</dua-label>
                                 <dua-input-email 
                                     [duaCompare]="getFormGroup('compareform')"
                                     [isCompareEnabled]="isCompareModeEnabled"

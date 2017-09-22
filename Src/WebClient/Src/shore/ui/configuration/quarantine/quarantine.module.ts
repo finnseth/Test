@@ -13,6 +13,7 @@ import { BlueCardModule } from './../../../../infrastructure/ui/blueCard/blueCar
 import { DuaCheckboxModule } from './../../../../infrastructure/ui/dua-checkbox/dua-checkbox.module';
 import { DuaCompareDirective } from './../../../../infrastructure/directives/compare.directive';
 import { DuaInputEmailModule } from './../../../../infrastructure/ui/dua-input-email/dua-input-email.module';
+import { DuaLabelModule } from './../../../../infrastructure/ui/dua-label/dua-label.module';
 import { DuaSpinnerModule } from './../../../../infrastructure/ui/dua-spinner/dua-spinner.module';
 
 import { CopyModule } from './../../../../common/ui/copy/copy.module';
@@ -20,7 +21,7 @@ import { FleetCardHeaderModule } from './../../../../common/ui/fleetCardHeader/f
 import { ShipCardHeaderModule } from './../../../../common/ui/shipCardHeader/shipCardHeader.module';
 
 import { CurrentShipService } from './../../../services/currentship.service';
-import { PendingChangesGuard } from './../../..//services/pending_changes.service';
+import { PendingChangesGuard } from './../../../services/pending_changes.service';
 import { QuarantineComponent } from './quarantine.component';
 import { QuarantineService } from './quarantine.service';
 
@@ -40,7 +41,8 @@ import { QuarantineService } from './quarantine.service';
         DuaCheckboxModule,
         DuaInputEmailModule,
         DuaSpinnerModule,
-        CopyModule
+        CopyModule,
+        DuaLabelModule
     ],
 
     declarations: [

@@ -11,4 +11,5 @@
         [formControlName]="formControlName"
         (onChange)="onChange">
     </p-checkbox>
+    <i *ngIf="tooltip" [title]="tooltip" class="fa fa-question-circle-o questionmark" aria-hidden="true"></i>
 </span>

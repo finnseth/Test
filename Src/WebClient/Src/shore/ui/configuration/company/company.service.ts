@@ -27,15 +27,15 @@ export class CompanyService extends ApiService {
     }
 
     public getCompanySchema(): Observable<JsonSchema> {
-        return super.GetSchema(`/email/setup/quarantine/shipquarantine/0`);
+        return super.GetSchema(`/companies/0`);
     }
 
     public getCompany(): Observable<ShoreCompany> {
-        return super.Get<ShoreCompany>( '/email/setup/quarantine/shipquarantine/');
+        return super.Get<ShoreCompany>( '/companies/');
     }
 
     public PatchCompany(id: number, payload: any ): Observable<ShoreCompany> {
-        return super.Patch<ShoreCompany[]>( `/email/setup/quarantine/companyquarantine/${id}`, payload );
+        return super.Patch<ShoreCompany[]>( `/companies/${id}`, payload );
     }
 
 }

@@ -28,6 +28,7 @@ export class DuaCheckboxComponent extends Checkbox implements ControlValueAccess
     @Input() styleClass: string;
     @Input() formControlName: string;
     @Input() parentFormGroup: string;
+    @Input() tooltip: string;
 
     @Input() compareStyle = false;
 

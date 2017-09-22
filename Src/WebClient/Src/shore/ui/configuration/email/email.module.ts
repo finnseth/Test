@@ -7,8 +7,11 @@ import {
     PanelModule
 } from 'primeng/primeng';
 
+import { MenuModule } from './../../../../infrastructure/ui/menus/menu.module';
+
 import { EmailComponent } from './email.component';
 import { QuarantineModule } from './../quarantine/quarantine.module';
+import { RestrictionComponent } from './../restriction/restriction.component';
 
 @NgModule({
     imports: [
@@ -17,10 +20,12 @@ import { QuarantineModule } from './../quarantine/quarantine.module';
         DataGridModule,
         PanelModule,
         RouterModule,
+        MenuModule
     ],
 
     declarations: [
-        EmailComponent
+        EmailComponent,
+        RestrictionComponent
     ],
 
     providers: [

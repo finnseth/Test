@@ -53,17 +53,17 @@ export let mainMenu: Array<MainMenuItem> = [
             {
                 text: 'Organization',
                 icon: '',
-                route: '/configuration/core',
+                route: '/configuration/organization',
                 submenu: [
                     {
                         text: 'Company',
-                        icon: '',
-                        route: '/configuration/core/company',
+                        gridImage: 'assets/img/fleet.png',
+                        route: '/configuration/organization/company',
                         submenu: null
                     },
                     {
                         text: 'Ship',
-                        icon: '',
+                        gridImage: 'assets/img/ship.png',
                         route: null,
                         submenu: null
                     },
@@ -76,7 +76,7 @@ export let mainMenu: Array<MainMenuItem> = [
                     {
                         text: 'User',
                         icon: '',
-                        route: '/configuration/core/users',
+                        route: '/configuration/organization/users',
                         submenu: null
                     }
                 ]
@@ -114,12 +114,12 @@ export let mainMenu: Array<MainMenuItem> = [
                     {
                         text: 'Restriction',
                         icon: '',
-                        route: null,
+                        route: '/configuration/email/restriction',
                         submenu: [
                             {
                                 text: 'Quarantine',
                                 icon: '',
-                                route: '/configuration/email/quarantine',
+                                route: '/configuration/email/restriction/quarantine',
                                 submenu: null
                             },
                             {

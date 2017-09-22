@@ -16,7 +16,7 @@ import {
 import { SwitchCompanyModule } from './../../../common/ui/company/switchcompany.module';
 
 import { ConfigurationComponent } from './configuration.component';
-import { CoreModule } from './core/core.module';
+import { OrganizationModule } from './organization/organization.module';
 import { EmailModule } from './email/email.module';
 import { InternetModule } from './internet/internet.module';
 import { configurationRouting } from './configuration.routing';
@@ -25,8 +25,7 @@ import { configurationRouting } from './configuration.routing';
     imports: [
         configurationRouting,
         CommonModule,
-        ReactiveFormsModule,
-        CoreModule,
+        OrganizationModule,
         ReactiveFormsModule,
         FormsModule,
         MenubarModule,

@@ -3,10 +3,10 @@ import { FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Rx';
 
-import { PatchGraphDocument } from 'infrastructure/services/patchGraphDocument';
-import { JsonSchema, SchemaFormBuilder } from 'infrastructure/services/schema';
+import { PatchGraphDocument } from './../../../infrastructure/services/patchGraphDocument';
+import { JsonSchema, SchemaFormBuilder } from './../../../infrastructure/services/schema';
 
-import { Ship } from 'common/domain/ship/interfaces';
+import { Ship } from './../../../common/domain/ship/interfaces';
 
 import { ComponentCanDeactivate } from './../../services/pending_changes.service';
 import { CurrentShipService } from './../../services/currentship.service';
@@ -152,15 +152,15 @@ export abstract class DualogController implements ComponentCanDeactivate {
         if (set){
             if (set.formtype === FormType.SingleRow) {
                 if (m instanceof Array ) {
-                    set.form = this.fb2.Build(set.schema, m[0]);                          
+                    set.form = this.fb2.Build(set.schema, m[0]);
                 } else {
-                    set.form = this.fb2.Build(set.schema, m);                          
+                    set.form = this.fb2.Build(set.schema, m);
                 }
             } else {
                 if (m instanceof Array ) {
-                    set.form = this.fb2.Build(set.schema, m);                          
+                    set.form = this.fb2.Build(set.schema, m);
                 } else {
-                    set.form = this.fb2.Build(set.schema, [m]);                          
+                    set.form = this.fb2.Build(set.schema, [m]);
                 }
             }
         }
@@ -234,12 +234,10 @@ export abstract class DualogController implements ComponentCanDeactivate {
                             dt.intialvalues = dt.form.value;
                             s.next(true);
                         },
-                        err =>{s.next(false)})
-                    } else {s.next(false);}
-                } else {s.next(false);}
-            } else {s.next(false);}
-
-            
+                        err => { s.next(false) } )
+                    } else { s.next(false); }
+                } else { s.next(false); }
+            } else { s.next(false); }
         })
     }
 
@@ -259,7 +257,7 @@ export abstract class DualogController implements ComponentCanDeactivate {
                 }
             }
         }
-        var localCompareMode: boolean = false;
+        let localCompareMode: boolean = false;
         if (this.isCompareModeEnabled){
             localCompareMode = this.isCompareModeEnabled;
             this.isCompareModeEnabled = false;
@@ -269,7 +267,9 @@ export abstract class DualogController implements ComponentCanDeactivate {
             for (const singleset of this.cardForm) {
                 if (singleset.card === CardType.Ship) {
                     this.createForm(singleset, ship).subscribe(res => { 
-                        if (localCompareMode) this.isCompareModeEnabled = true;
+                        if (localCompareMode) {
+                            this.isCompareModeEnabled = true;
+                        }
                     })
                 }
             }

@@ -37,12 +37,13 @@ export class CompanyComponent extends DualogController implements OnInit {
 
     ngOnInit() {
 
-        /*this.registerCardForm('companyform', FormType.SingleRow,
+      /*  this.registerCardForm('companyform', FormType.SingleRow,
             () => this.companyService.getCompanySchema(),
             () => this.companyService.getCompany(),
             CacheType.All, CardType.Company,
             (companyid: number, json: PatchGraphDocument) => this.companyService.PatchCompany(companyid, json));
 
-        this.init();*/
+        this.init();
+        */
     }
 }

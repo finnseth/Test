@@ -11,7 +11,8 @@ export class FleetCardHeaderComponent implements OnInit {
 
   @Input() searchContext: string;
   @Input() currentCompareShip: Ship;
-  
+  @Input() searchModeEnabled = true;
+
   @Output() onCompareShipChanged = new EventEmitter<Ship>();
   @Output() onFleetEnabledChanged = new EventEmitter<boolean>();
 

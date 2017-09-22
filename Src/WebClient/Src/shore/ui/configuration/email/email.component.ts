@@ -8,7 +8,7 @@ import { AuthenticationService } from './../../../services/authentication.servic
 
 @Component({
   templateUrl: './email.component.html',
-  styleUrls: ['./email.component.css']
+  styleUrls: ['./email.component.scss']
 })
 export class EmailComponent implements OnInit {
 
@@ -18,6 +18,5 @@ export class EmailComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-      // this.menuItems = this.authService.BuildMenu(this.route.parent.routeConfig.children);
     }
 }

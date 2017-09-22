@@ -7,8 +7,10 @@ import {
     PanelModule,
 } from 'primeng/primeng';
 
+import { MenuModule } from './../../../../infrastructure/ui/menus/menu.module';
+
 import { CommunicationModule } from '../communication/communication.module';
-import { CoreComponent } from './core.component';
+import { OrganizationComponent } from './organization.component';
 import { MethodModule } from '../communication/method/method.module';
 import { UsersModule } from './../users/users.module';
 import { CompanyModule } from './../company/company.module';
@@ -21,14 +23,12 @@ import { CompanyModule } from './../company/company.module';
         PanelModule,
         CommunicationModule,
         MethodModule,
-        CompanyModule
+        CompanyModule,
+        MenuModule
     ],
 
     declarations: [
-       CoreComponent
-    ],
-
-    providers: [
+        OrganizationComponent
     ]
 })
-export class CoreModule {}
+export class OrganizationModule {}

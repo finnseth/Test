@@ -1,6 +1,7 @@
 import { CanDeactivate, RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
+import { RestrictionComponent } from './../restriction/restriction.component';
 import { AccessRights, PermissionMap } from './../../../services/permission.service';
 import { AuthGuard } from './../../../services/auth-guard.service';
 import { EmailComponent } from './email.component';
@@ -25,7 +26,16 @@ export const emailRoutes: Routes = [
                 canActivate: [ AuthGuard ]
             },
             {
-                path: 'quarantine',
+                path: 'restriction',
+                component: RestrictionComponent,
+                data: {
+                    permissions: PermissionMap.Config.Email.Quarantine,
+                    label: 'Restriction'
+                },
+                canActivate: [ AuthGuard ]
+            },
+            {
+                path: 'restriction/quarantine',
                 component: QuarantineComponent,
                 data: {
                     permissions: PermissionMap.Config.Email.Quarantine,

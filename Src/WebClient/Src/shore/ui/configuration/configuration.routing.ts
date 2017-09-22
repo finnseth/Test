@@ -4,7 +4,7 @@ import { ModuleWithProviders } from '@angular/core';
 
 import { PermissionMap } from './../../services/permission.service';
 import { ConfigurationComponent } from './configuration.component';
-import { coreRoutes } from './core/core.routing';
+import { organizationRoutes } from './organization/organization.routing';
 import { emailRoutes } from './email/email.routing';
 import { internetRoutes } from './internet/internet.routing';
 
@@ -16,7 +16,7 @@ export const configurationRoutes: Routes = [
             path: 'configuration'
         },
         children: [
-            ...coreRoutes,
+            ...organizationRoutes,
             ...emailRoutes,
             ...internetRoutes
         ],

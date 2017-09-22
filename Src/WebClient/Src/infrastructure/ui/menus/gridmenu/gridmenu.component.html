@@ -1,0 +1,11 @@
+
+<div class="ui-g-nopad">
+  <div *ngFor="let item of menuItems" class="ui-g-12 ui-md-6 ui-lg-3 grid-item-wrapper">
+
+    <div class="grid-item" [class.active]="item.route !== null" [class.disabled]="item.route === null" (click)="onClick($event, item)">
+        <img *ngIf="item.gridImage" class="grid-img" [src]='item.gridImage' alt="{{ item.text }}">
+        <span class="menu-text">{{ item.text }}</span>    
+    </div>
+
+  </div>  
+</div>

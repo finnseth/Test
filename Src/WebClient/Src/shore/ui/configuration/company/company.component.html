@@ -2,13 +2,16 @@
 <div class="ui-g ">        
     <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
 
+        <dua-fleetcardheader [searchModeEnabled]="false">
+        </dua-fleetcardheader>
+
         <dua-bluecard>
             <form *ngIf="getFormGroup('companyform')" [formGroup]="getFormGroup('companyform')">
                 <div class="ui-grid ui-grid-responsive ui-fluid">
                                         
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <label for="name">Name</label>
+                            <dua-label>Name</dua-label>
                             <dua-input
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="name">
@@ -17,7 +20,7 @@
                     </div>
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <label for="name">Address (textarea?)</label>
+                            <dua-label>Address</dua-label>
                             <dua-input
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="address">
@@ -27,7 +30,7 @@
 
                     <div class="ui-grid-row">                                       
                         <div class="ui-grid-col-12">
-                            <label for="name">Phone</label>
+                            <dua-label>Phone</dua-label>
                             <dua-input
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="phone">
@@ -38,7 +41,7 @@
                     
                     <div class="ui-grid-row">                                       
                         <div class="ui-grid-col-12">
-                            <label for="name">Email</label>
+                            <dua-label>Email</dua-label>
                             <dua-input
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="email">
@@ -49,7 +52,7 @@
                         
                     <div class="ui-grid-row">                                       
                             <div class="ui-grid-col-12">
-                                <label for="name">Manager</label>
+                                <dua-label>Manager</dua-label>
                                 <dua-input
                                     [parentFormGroup]="getFormGroup('companyform')"
                                     formControlName="phone">
@@ -58,7 +61,7 @@
                         </div>
 
                         
-                    <div class="ui-grid-row">                                       
+                    <!--div class="ui-grid-row">                                       
                             <div class="ui-grid-col-12">
                                 <label for="name">Customer no.</label>
                                 <dua-input
@@ -66,7 +69,7 @@
                                     formControlName="customernumber">
                                 </dua-input>
                             </div>
-                        </div>
+                        </div-->
                     
                     <dua-applyrow [shipStyle]="false" (onCancel)="onCancelFleetCard()"  (onApply)="onApplyFleetCard(getFormGroup('companyform'))"
                                     [disableapply]="getFormGroup('companyform').pristine || !getFormGroup('companyform').valid">

@@ -11,16 +11,19 @@
             &nbsp;<br>&nbsp;
     </div>
     
-    <div class="ui-g-10 ui-md-10 ui-lg-10">
+    <div class="ui-g-10 ui-md-10 ui-lg-10" *ngIf="searchModeEnabled">
         <div>Applies to</div>
         
         <dua-fleetcardsearch
-            [searchContext]="searchContext" 
+            [searchContext]="searchModeEnabled" 
             (onCompareShipChanged)="compareShipChanged($event)"
             (onFleetEnabledChanged)="fleetStatusChanged($event)"
             [currentCompareShip]="currentCompareShip">
         </dua-fleetcardsearch>
-
     </div>
 
+    <div class="ui-g-10 ui-md-10 ui-lg-10" *ngIf="!searchModeEnabled">
+        <div>Applies to</div>
+        <span class="no-search-fleet">Fleet</span>
+    </div>
 </div>

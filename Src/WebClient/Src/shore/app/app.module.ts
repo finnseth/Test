@@ -1,4 +1,3 @@
-
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,7 +15,9 @@ import {
 
 import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
 import { InfrastructureModule } from '../../infrastructure/infrastructure.module';
+import { MainMenuService } from '../../infrastructure/services/mainmenu.service';
 
+import { BodyModule } from './../../common/ui/body/body.module';
 import { CommonsModule } from '../../common/common.module';
 import { LogoutModule } from '../../common/ui/logout/logout.module';
 
@@ -46,7 +47,8 @@ export function loadConfig(config: ConfigurationReader) {
     AutoCompleteModule,
     OverlayPanelModule,
     InfrastructureModule,
-    ShoreModule
+    ShoreModule,
+    BodyModule
   ],
 
   declarations: [
@@ -62,7 +64,9 @@ export function loadConfig(config: ConfigurationReader) {
       useFactory: loadConfig,
       deps: [ConfigurationReader],
       multi: true
-    }
+    },
+    MainMenuService,
+    ConfigurationReader
   ],
 
   bootstrap: [AppComponent]

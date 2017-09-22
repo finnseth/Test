@@ -1,0 +1,43 @@
+@import '~styles.scss';
+
+:host {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-grow: 1;
+    padding-left: 10px;        
+}
+
+.grid-item-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.grid-item {
+    display: grid;
+    border: #6d8c9b;
+    border-style: solid;
+    margin: 1rem;
+    padding: 0.5rem;
+    text-align: center;
+    width: 130px;
+    height: 130px;
+}
+
+.active {
+    cursor: pointer;
+}
+
+.disabled {
+    background-color: $dualog-blue20;
+    opacity:0.5;
+}
+
+.grid-image {
+    vertical-align: middle;
+}
+
+.menutext {
+    display: flex;
+    align-items: flex-end;
+}

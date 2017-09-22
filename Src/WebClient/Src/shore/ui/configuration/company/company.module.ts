@@ -7,6 +7,7 @@ import { ApplyRowModule } from './../../../../infrastructure/ui/applyRow/applyRo
 import { BlueCardModule } from './../../../../infrastructure/ui/blueCard/blueCard.module';
 import { DuaInputEmailModule } from './../../../../infrastructure/ui/dua-input-email/dua-input-email.module';
 import { DuaInputModule } from './../../../../infrastructure/ui/dua-input/dua-input.module';
+import { DuaLabelModule } from './../../../../infrastructure/ui/dua-label/dua-label.module';
 
 // Common
 import { FleetCardHeaderModule } from './../../../../common/ui/fleetCardHeader/fleetCardHeader.module';
@@ -30,6 +31,7 @@ import { CompanyService } from './company.service';
         BlueCardModule,
         DuaInputEmailModule,
         DuaInputModule,
+        DuaLabelModule
     ],
 
     declarations: [

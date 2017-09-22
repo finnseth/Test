@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MainMenuService } from 'infrastructure/services/mainmenu.service';
+import { MainMenuService } from './../../../services/mainmenu.service';
 
 @Component({
     selector: 'dua-menu',

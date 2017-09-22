@@ -17,7 +17,7 @@
     },
     "Dualog.PortalService": {
       "commandName": "Executable",
-      "executablePath": "C:\\WIP\\Dualog.ConnectionSuite.Portal\\Src\\WebService\\Dualog.PortalService\\Dualog.PortalService\\bin\\Debug\\net461\\Dualog.PortalService.exe"
+      "executablePath": "C:\\var\\git\\Dualog.ConnectionSuite.Portal\\Src\\WebService\\Dualog.PortalService\\Dualog.PortalService\\bin\\Debug\\net461\\Dualog.PortalService.exe"
     }
   }
 }

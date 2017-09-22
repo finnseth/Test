@@ -1,3 +1,4 @@
+import { NavigationEnd, Router } from '@angular/router';
 import {
     Component,
     ElementRef,
@@ -12,11 +13,12 @@ import {
     transition,
     trigger
 } from '@angular/core';
+
 import {
     MainMenuItem,
     MainMenuService
 } from 'infrastructure/services/mainmenu.service';
-import { NavigationEnd, Router } from '@angular/router';
+
 
 @Component({
     selector: 'dua-menu-item',
