@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -24,6 +24,7 @@ namespace Dualog.PortalService.Controllers.Permissions.PermissionControllerTests
             }
         }
 
+        [Fact]
         public async Task regular_user_permissions()
         {
             // Assign

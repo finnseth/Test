@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +14,7 @@ namespace Dualog.PortalService.Controllers.NetworkControlRules.NetworkControlRul
 
 
         //[Fact]
-        public async Task should_be_created()
+        public void should_be_created()
         {
             // Assign
             //using( var server = CreateServer() )

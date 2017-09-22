@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -128,7 +128,7 @@ namespace Dualog.PortalService.Controllers.Dashboard
                     await InternalDeleteDashboard( dc, dashboardId, userId );
                     transaction.Commit();
                 }
-                catch( Exception ex )
+                catch( Exception )
                 {
                     transaction.Rollback();
                 }

@@ -1,15 +1,14 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Dualog.Data.Entity;
 using Dualog.Data.Oracle.Shore.Model;
 using Dualog.PortalService.Controllers.Vessels.Model;
-using System.Data.Entity;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Serilog;
-using Dualog.Data.Oracle.Entity;
 using Dualog.PortalService.Core;
-using Dapper;
+using Serilog;
+using System.Linq.Expressions;
 
 namespace Dualog.PortalService.Controllers.Vessels
 {
@@ -23,12 +22,20 @@ namespace Dualog.PortalService.Controllers.Vessels
         }
 
 
-        public Task<IEnumerable<VesselDetails>> GetVessels(long companyId, Search search) =>
+        public Task<IEnumerable<VesselDetails>> GetVessels(
+                long companyId,
+                Pagination pagination = null,
+                Search search = null) =>
+
             _dcFactory.CreateContext().Use(dc =>
-                InternalGetVessels(dc, companyId, search));
+                InternalGetVessels(dc, companyId, pagination, search));
 
 
-        public static async Task<IEnumerable<VesselDetails>> InternalGetVessels(IDataContext dc, long companyId, Search search = null)
+        public static async Task<IEnumerable<VesselDetails>> InternalGetVessels(
+            IDataContext dc,
+            long companyId,
+            Pagination pagination = null,
+            Search search = null)
         {
             var q = from v in dc.GetSet<DsVessel>()
                     where v.Company.Id == companyId
@@ -41,37 +48,9 @@ namespace Dualog.PortalService.Controllers.Vessels
                         Category = v.Category
                     };
 
-            if( search != null && search != Search.Empty )
-            {
-                q = q.Where(c => c.Name.ToUpper().Contains(search.SearchString.ToUpper()));
-
-                if (search.Limit > 0)
-                    q = q.Take(search.Limit);
-
-            }
-
+            q = q.Search( search, p => p.Name ).Paginate(pagination);
             return await q.ToListAsync();
         }
-
-        public static async Task<IEnumerable<VesselDetails>> GetVesselsBySearch(IDataContext dc, long companyId, Search search)
-        {
-            var conn = (dc as IHasDataConnection).GetDataConnection();
-
-            var args = new DynamicParameters();
-            var sql = "SELECT VES_VESSELID AS Id, VES_VESSELNAME AS Name from DS_VESSEL " +
-                      "WHERE COM_COMPANYID = :cmpid AND (UPPER(VES_VESSELNAME) LIKE :search)";
-            args.Add("cmpid", companyId);
-            args.Add("search", $"%{search.SearchString.ToUpper()}%");
-
-            if (search.Limit > 0)
-            {
-                sql += $" AND ROWNUM <= :limit";
-                args.Add("limit", search.Limit);
-            }
-
-            return (await conn.QueryAsync<VesselDetails>(sql, args)).ToArray();
-        }
-
 
         public async Task AddVesselAsync(VesselDetails vessel, long companyId)
         {

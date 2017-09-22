@@ -1,16 +1,15 @@
-﻿using Dualog.Data.Entity;
-using Dualog.Data.Oracle.Entity;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using Dualog.Data.Entity;
 using Dualog.Data.Oracle.Shore.Model;
 using Dualog.PortalService.Controllers.Companies.Model;
 using Dualog.PortalService.Controllers.Email.Setup.Quarantine;
 using Dualog.PortalService.Controllers.Services;
 using Dualog.PortalService.Controllers.UserGroups;
 using Dualog.PortalService.Controllers.Vessels;
-using System;
-using System.Data.Entity;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Dualog.PortalService.Core;
 
 namespace Dualog.PortalService.Controllers.Companies
@@ -35,23 +34,10 @@ namespace Dualog.PortalService.Controllers.Companies
                              Name = c.Name
                          };
 
-                qc = AddSearch(qc, search);
+                qc = qc.Search( search, p => p.Name );
 
                 return await qc.ToListAsync();
             }
-        }
-
-        private static IQueryable<CompanyInformation> AddSearch(IQueryable<CompanyInformation> qc, Search search)
-        {
-            if (search != Search.Empty)
-            {
-                qc = qc.Where(c => c.Name.ToUpper().Contains(search.SearchString.ToUpper()));
-
-                if (search.Limit > 0)
-                    qc = qc.Take(search.Limit);
-            }
-
-            return qc;
         }
 
         public static async Task InternalAddCompany(IDataContext dc, CompanyInformation companyInformation)

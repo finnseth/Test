@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +16,7 @@ namespace Dualog.PortalService.Controllers.Vessels
 {
     [Authorize]
     [IsInCompany]
-    [Route( "api/v1" )]
+    [Route("api/v1")]
     public class VesselController : DualogController
     {
         VesselRepository _vesselRepository;
@@ -24,17 +24,17 @@ namespace Dualog.PortalService.Controllers.Vessels
         /// <summary>
         /// Initializes a new instance of the <see cref="VesselController"/> class.
         /// </summary>
-        public VesselController( IDataContextFactory dcFactory )
-            : base( dcFactory )
+        public VesselController(IDataContextFactory dcFactory)
+            : base(dcFactory)
         {
             _vesselRepository = new VesselRepository(DataContextFactory);
         }
 
 
-        [HttpGet, Route( "vessels/{id}" )]
-        public async Task<IActionResult> Single( long id )
-        {            
-            var qry = from v in await _vesselRepository.GetVessels( CompanyId, null )
+        [HttpGet, Route("vessels/{id}")]
+        public async Task<IActionResult> Single(long id)
+        {
+            var qry = from v in await _vesselRepository.GetVessels(CompanyId, null)
                       where v.Id == id
                       select v;
 
@@ -47,11 +47,11 @@ namespace Dualog.PortalService.Controllers.Vessels
         /// Returns all the vessel for the current users company.
         /// </summary>
         /// <response code="200">Ok</response>
-        [HttpGet, Route( "vessels" )]
+        [HttpGet, Route("vessels")]
         //[SwaggerResponse( HttpStatusCode.OK, Type = typeof( Vessel ) )]
         public async Task<IActionResult> All()
         {
-            return  Ok(await _vesselRepository.GetVessels( CompanyId, HttpContext.Search()) );
+            return Ok(await _vesselRepository.GetVessels(CompanyId, HttpContext.Pagination(), HttpContext.Search()));
         }
 
 
@@ -60,10 +60,10 @@ namespace Dualog.PortalService.Controllers.Vessels
         /// </summary>
         /// <param name="vessel">The vessel details.</param>
         /// <returns></returns>
-        [HttpPost( "vessels" )]
+        [HttpPost("vessels")]
         [SwaggerResponse((int)HttpStatusCode.Created, typeof(VesselDetails), "The created vessel.")]
         //[SwaggerResponse((int)HttpStatusCode.BadRequest, typeof(ErrorObject), "Something went wrong when adding the widget.")]
-        public async Task<IActionResult> AddVessel( [FromBody] VesselDetails vessel )
+        public async Task<IActionResult> AddVessel([FromBody] VesselDetails vessel)
         {
             try
             {

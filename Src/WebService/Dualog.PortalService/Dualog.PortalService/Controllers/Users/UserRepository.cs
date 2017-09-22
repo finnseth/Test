@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -33,11 +33,9 @@ namespace Dualog.PortalService.Controllers.Users
         /// <param name="includeTotalCount">if set to <c>true</c> [include total count].</param>
         /// <returns></returns>
         public Task<UserListDetails> GetUsersAsync(long companyId, Pagination pagination, Search search, bool includeTotalCount = false) =>
-            search == Search.Empty ? 
-                        GetAllUsersAsync(companyId, pagination, includeTotalCount) : 
-                        GetUsersBySearch(companyId, search, includeTotalCount);
+            GetAllUsersAsync(companyId, pagination, search, includeTotalCount);
 
-        public Task<UserListDetails> GetAllUsersAsync(long companyId, Pagination pagination, bool includeTotalCount = false) =>
+        public Task<UserListDetails> GetAllUsersAsync(long companyId, Pagination pagination, Search search, bool includeTotalCount = false) =>
             _db.CreateContext().Use(async dc =>
             {
                 var query = from u in dc.GetSet<DsUser>()
@@ -53,35 +51,8 @@ namespace Dualog.PortalService.Controllers.Users
 
                 return new UserListDetails()
                 {
-                    Users = await query.Paginate(pagination).ToListAsync(),
+                    Users = await query.Search( search, p => p.Name, p => p.Email ).Paginate(pagination).ToListAsync(),
                     TotalCount = includeTotalCount ? await query.CountAsync() : 0
-                };
-            });
-
-
-        public Task<UserListDetails> GetUsersBySearch(long companyId, Search search, bool includeTotalCount = false) =>
-            _db.CreateContext().Use(async dc =>
-            {
-                var conn = (dc as IHasDataConnection).GetDataConnection();
-
-                var args = new DynamicParameters();
-                var sql = "SELECT USR_USERID AS Id, USR_NAME AS Name, USR_EMAIL as Email from DS_USER " +
-                          "WHERE COM_COMPANYID = :cmpid AND (UPPER(USR_NAME) LIKE :search OR UPPER(USR_EMAIL) LIKE :search)";
-                args.Add("cmpid", companyId);
-                args.Add("search", $"%{search.SearchString.ToUpper()}%");
-
-                if (search.Limit > 0)
-                {
-                    sql += $" AND ROWNUM <= :limit";
-                    args.Add("limit", search.Limit);
-                }
-
-
-                var result = (await conn.QueryAsync<UserSummaryModel>(sql, args)).ToArray();
-                return new UserListDetails()
-                {
-                    Users = result,
-                    TotalCount = includeTotalCount ? result.Length : 0
                 };
             });
 
@@ -126,7 +97,6 @@ namespace Dualog.PortalService.Controllers.Users
                 user.Permissions = await qPermissions.ToListAsync();
 
                 return user;
-
             });
 
 

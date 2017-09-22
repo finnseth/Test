@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -231,7 +231,7 @@ namespace Dualog.PortalService.Controllers.Dashboard
         /// Updates the widget with the specified id.
         /// </summary>
         /// <param name="id">The id of the widget to modify.</param>
-        /// <param name="patchDocument">The patch document describing the changes.</param>
+        /// <param name="json">The patch information.</param>
         /// <returns></returns>
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(Widget), "The operation was successful.")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, typeof(ErrorObject), "Something went wrong when updating the widget.")]
@@ -269,10 +269,6 @@ namespace Dualog.PortalService.Controllers.Dashboard
         {
             try
             {
-                // Check whether the user has access to the specified data
-                if (await _dbRepository.HasWidgetAccess(UserId, id) == false)
-                    return Forbid();
-
                 var rp = new Dictionary<string, string>()
                 {
                     ["com_companyid"] = CompanyId.ToString(),
@@ -301,12 +297,7 @@ namespace Dualog.PortalService.Controllers.Dashboard
         {
             try
             {
-                // Check whether the user has access to the specified data
-                if (await _dbRepository.HasWidgetAccess(UserId, id) == false)
-                    return Forbid();
-
                 return Ok(await _dbRepository.GetWidgets(await GetLanguageManager(), id));
-
             }
             catch (Exception exception)
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -292,25 +292,6 @@ namespace Dualog.PortalService.Controllers.Dashboard
                 throw new ValidationException("Either the widget type or name does not exists, or the combination is invalid.");
 
             return gui;
-        }
-
-
-        public async Task<bool> HasWidgetAccess(long userId, long widgetId)
-        {
-            return true;
-
-            //var dashboards = await GetDashboardsForUser( userId );
-
-            //using( var dc = _dcFactory.CreateContext() )
-            //{
-            //    var tmRepository = new TargetModelRepository( dc );
-
-            //    var q = from wi in dc.GetSet<ApDashboardWidgetInstance>()
-            //            where dashboards.Contains( wi.DashboardInstance.Id )
-            //            select wi.Id;
-
-            //    return await q.AnyAsync();
-            //}
         }
 
 

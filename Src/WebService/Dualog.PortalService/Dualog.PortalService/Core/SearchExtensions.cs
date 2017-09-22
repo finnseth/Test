@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
-using LinqKit;
+using Microsoft.AspNetCore.Http;
 
 namespace Dualog.PortalService.Core
 {
@@ -11,53 +10,48 @@ namespace Dualog.PortalService.Core
         public static Search Search(this HttpContext context)
         {
             string searchString = null;
-            int searchLimit = 10;
 
             if (context.Request.Query.TryGetValue("search", out var search))
             {
                 searchString = search.FirstOrDefault();
                 if (string.IsNullOrWhiteSpace(searchString))
-                    return Core.Search.Empty;
+                    return new Core.Search(null);
             }
 
-
-            if (context.Request.Query.TryGetValue("searchLimit", out var sl))
-                if (int.TryParse(sl.FirstOrDefault(), out var v) == true)
-                    searchLimit = v;
-
-
-            return new Search(searchString, searchLimit);
+            return new Search(searchString);
         }
 
-        public static IQueryable<TSource> Search<TSource, TProperty>(this IQueryable<TSource> queryable, Search search, params Expression<Func<TSource, string>>[] props)
+        public static IQueryable<TSource> Search<TSource>(this IQueryable<TSource> queryable, Search search, params Expression<Func<TSource, string>>[] props)
         {
-            //if (search == Core.Search.Empty)
-            //    return queryable;
+            if (string.IsNullOrWhiteSpace(search?.SearchString))
+                return queryable;
 
+            Expression predicate = null;
+            var selectorParameter = Expression.Parameter(typeof(TSource), "c");
 
+            foreach (var prop in props)
+            {
+                var propName = ((MemberExpression)prop.Body).Member.Name;
 
-            //foreach (var prop in props)
-            //{
-            //    var toString = typeof(object).GetMethod("ToString");
-            //    ConstantExpression c = Expression.Constant( )
-               
-            //    prop.Expand()
+                // Create an expression that evaluates to:
+                // c => c.ToLower().Contains(searchString.ToLower())
+                var e1 = Expression.Call(
+                                Expression.Call(
+                                    Expression.PropertyOrField(selectorParameter, propName),
+                                    "ToLower", null),
+                                "Contains", null,
+                                Expression.Constant(search.SearchString.ToLower()));
 
+                // Or the expressions together if there are more than one expression
+                if (predicate == null)
+                    predicate = e1;
+                else
+                    predicate = Expression.OrElse(predicate, e1);
+            }
 
-            //    //Expression<TSource, bool> where = c => prop.ToUpper().Contains(search.SearchString.ToUpper());
-
-            //    var compiled = prop.Compile();
-            //    compiled( )
-
-            //   //((queryable = queryable.Where(c => c.Name.ToUpper().Contains(search.SearchString.ToUpper()));
-            //}
-
-
-            //if (search.Limit > 0)
-            //    queryable = queryable.Take(search.Limit);
-
-            return queryable;
-
+            // Create a lambda of the predicate and wrap it inside a where clause
+            var l = Expression.Lambda<Func<TSource, bool>>(predicate, selectorParameter);
+            return queryable.Where(l);
         }
 
     }

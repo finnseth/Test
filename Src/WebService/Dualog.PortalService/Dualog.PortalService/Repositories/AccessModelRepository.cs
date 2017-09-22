@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -40,7 +40,7 @@ namespace Dualog.PortalService.Repositories
         /// <summary>
         /// Grants access for a target.
         /// </summary>
-        /// <param name="objectRight">The <see cref="ApObjectRight"/> to grant access to. This is returned by <see cref="GetObjectRight(IDataContext, ObjectType, AccessRight)"/>.</param>
+        /// <param name="objectRight">The <see cref="ApObjectRight"/> to grant access to.</param>
         /// <param name="target">The <see cref="ApTarget"/> to grant access to.</param>
         /// <param name="typeInstanceId">The instance value to grant access to. The meaning of this is dependant on the object type.</param>
         /// <returns></returns>
