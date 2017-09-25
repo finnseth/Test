@@ -27,23 +27,29 @@ export const emailRoutes: Routes = [
             },
             {
                 path: 'restriction',
-                component: RestrictionComponent,
                 data: {
                     permissions: PermissionMap.Config.Email.Quarantine,
                     label: 'Restriction'
                 },
-                canActivate: [ AuthGuard ]
-            },
-            {
-                path: 'restriction/quarantine',
-                component: QuarantineComponent,
-                data: {
-                    permissions: PermissionMap.Config.Email.Quarantine,
-                    label: 'Quarantine',
-                    icon: 'dualog-quarantine-icon-16'
-                },
                 canActivate: [ AuthGuard ],
-                canDeactivate : [ PendingChangesGuard ]
+                children: [
+                    {
+                        path: 'quarantine',
+                        component: QuarantineComponent,
+                        data: {
+                            permissions: PermissionMap.Config.Email.Quarantine,
+                            label: 'Quarantine',
+                            icon: 'dualog-quarantine-icon-16'
+                        },
+                        canActivate: [ AuthGuard ],
+                        canDeactivate : [ PendingChangesGuard ]
+                    },
+                    {
+                        path : '',
+                        component: RestrictionComponent,
+                        pathMatch: 'full'
+                    }
+                ]
             },
             {
                 path: 'distributionlist',
