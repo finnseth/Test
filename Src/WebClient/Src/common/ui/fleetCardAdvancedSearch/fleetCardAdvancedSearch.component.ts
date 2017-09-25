@@ -84,12 +84,12 @@ export class FleetCardAdvancedSearchComponent implements OnInit {
       case 'quarantine':
         this.shipService.getQuarantineShips().subscribe( ships => {
           // this.fields.quarantineLocalChanges = true;
-          this.shipsRetrieved(ships);
+          this.shipsRetrieved(ships["value"]);
         });
       break;
       default:
         this.shipService.getShips().subscribe( ships => {
-          this.shipsRetrieved(ships);
+          this.shipsRetrieved(ships["value"]);
         });
     }
   }

@@ -151,16 +151,16 @@ export abstract class DualogController implements ComponentCanDeactivate {
         let set = this.getDataSet(setname);
         if (set){
             if (set.formtype === FormType.SingleRow) {
-                if (m instanceof Array ) {
-                    set.form = this.fb2.Build(set.schema, m[0]);
+                if (m["value"] instanceof Array ) {
+                    set.form = this.fb2.Build(set.schema, m["value"][0]);
                 } else {
-                    set.form = this.fb2.Build(set.schema, m);
+                    set.form = this.fb2.Build(set.schema, m["value"]);
                 }
             } else {
-                if (m instanceof Array ) {
-                    set.form = this.fb2.Build(set.schema, m);
+                if (m["value"] instanceof Array ) {
+                    set.form = this.fb2.Build(set.schema, m["value"]);
                 } else {
-                    set.form = this.fb2.Build(set.schema, [m]);
+                    set.form = this.fb2.Build(set.schema, [m["value"]]);
                 }
             }
         }

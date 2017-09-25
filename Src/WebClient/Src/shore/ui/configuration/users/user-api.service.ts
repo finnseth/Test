@@ -25,29 +25,29 @@ export class UserApiService extends ApiService {
 
     public GetUsers(  paginationInfo?: PaginationInfo ): Observable<UserListDetails> {
 
-        return super.Get<UserListDetails>( '/users', paginationInfo.toURLSearchParams() );
+        return super.Get<UserListDetails>( '/organization/shipping/user', paginationInfo.toURLSearchParams() );
     }
 
     public GetUser( id: number): Observable<UserDetail> {
 
-        return super.Get<UserDetail>( `/users/${id}`);
+        return super.Get<UserDetail>( `/organization/shipping/user/${id}`);
     }
 
     public GetUserSchema(): Observable<JsonSchema> {
-         return super.GetSchema(`/users/0`);
+         return super.GetSchema(`/organization/shipping/user/0`);
     }
 
     public PatchUserById(id: number, payload: any ): Observable<UserDetail> {
-        return super.Patch<UserDetail>( `/users/${id}`, payload );
+        return super.Patch<UserDetail>( `/organization/shipping/user/${id}`, payload );
     }
 
     public GetUserGroups(): Observable<UserGroup[]> {
-        return super.Get('/userGroups');
+        return super.Get('/organization/shipping/usergroup');
     }
 }
 
 export interface UserListDetails {
-    users: User[];
+    value: User[];
     totalCount: number;
 }
 

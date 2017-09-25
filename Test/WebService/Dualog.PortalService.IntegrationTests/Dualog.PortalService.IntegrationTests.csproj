@@ -36,7 +36,7 @@
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
     <PackageReference Include="FluentAssertions" Version="4.19.0" />
     <PackageReference Include="Dualog.Data.Core" Version="1.0.0.28" />
-    <PackageReference Include="Dualog.Data.Oracle" Version="2.34.2.258" />
+    <PackageReference Include="Dualog.Data.Oracle" Version="2.34.2.263" />
     <PackageReference Include="Dualog.Core" Version="1.0.0.26" />
     <PackageReference Include="Dualog.Data.Utils" Version="1.0.0.45" />
     <PackageReference Include="AutoFixture" Version="3.50.2" />

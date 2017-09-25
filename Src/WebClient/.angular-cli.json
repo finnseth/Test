@@ -67,71 +67,7 @@
         "dev": "environments/environment.dev.ts",
         "prod": "environments/environment.prod.ts"
       }
-    },
-    {
-        "name": "ship",
-        "root": "src",
-        "outDir": "dist-ship",
-        "assets": [
-          {
-            "glob": "**/*",
-            "input": "./assets/",
-            "output": "./assets/"
-          },
-          {
-            "glob": "**/*.js",
-            "input": "../node_modules/oidc-client/dist/",
-            "output": "./"
-          },
-          {
-            "glob": "**/*.js",
-            "input": "./scripts/",
-            "output": "./"
-          },
-          {
-            "glob": "silent-renew.html",
-            "input": "./",
-            "output": "./"
-          },
-          {
-            "glob": "favicon.ico",
-            "input": "./",
-            "output": "./"
-          },
-          {
-            "glob": "web.config",
-            "input": "./",
-            "output": "./"
-          },
-          {
-            "glob": "configuration.json",
-            "input": "./",
-            "output": "./"
-          }
-        ],
-        "index": "index.html",
-        "main": "ship/main.ts",
-        "polyfills": "polyfills.ts",
-        "test": "test.ts",
-        "tsconfig": "tsconfig.app.json",
-        "testTsconfig": "tsconfig.spec.json",
-        "prefix": "dua",
-        "styles": [
-          "styles.scss",
-          "assets/icons/icons.css",
-          "assets/primeng-dualog/theme.scss",
-          "../node_modules/primeng/resources/primeng.min.css",
-          "../node_modules/font-awesome/css/font-awesome.min.css"
-        ],
-        "scripts": [
-          "../node_modules/chart.js/dist/Chart.js"
-        ],
-        "environmentSource": "environments/environment.ts",
-        "environments": {
-          "dev": "environments/environment.dev.ts",
-          "prod": "environments/environment.prod.ts"
-        }
-      }
+    }
   ],
   "e2e": {
     "protractor": {

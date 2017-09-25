@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Dualog.Data.Oracle.Shore.Model;
+using Dualog.PortalService.Core.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using Dualog.PortalService.Core.Validation;
-using Dualog.Data.Oracle.Shore.Model;
 
 namespace Dualog.PortalService.Controllers.Organization.Shipping.Company.Model
 {
     public class CompanyModel : DataAnnotationsValidatable
     {
-
         public long Id { get; set; }
 
         [Required(AllowEmptyStrings = true, ErrorMessage = "Name is required.")]

@@ -9,6 +9,7 @@ using Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model;
 using Dualog.PortalService.Core.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using Dualog.PortalService.Models;
 
 namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
 {
@@ -22,7 +23,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
         }
 
 
-        public async Task<IEnumerable<QuarantineCompanyModel>> GetCompanyConfig(long companyId)
+        public async Task<GenericDataModel<IEnumerable<QuarantineCompanyModel>>> GetCompanyConfig(long companyId)
         {
             using (var dc = _dcFactory.CreateContext())
             {
@@ -42,7 +43,11 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
                              OnHoldStationaryUser = e.OnHoldStationaryUser,
                          };
 
-                return await qc.ToListAsync();
+                return new GenericDataModel<IEnumerable<QuarantineCompanyModel>>()
+                {
+                    Value = await qc.ToListAsync()
+                };
+
             }
         }
 
@@ -56,7 +61,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
             }
         }
 
-        public async Task<QuarantineVesselModel> GetVesselConfiguration(long vesselId, long companyId)
+        public async Task<GenericDataModel<QuarantineVesselModel>> GetVesselConfiguration(long vesselId, long companyId)
         {
             using (var dc = _dcFactory.CreateContext())
             {
@@ -64,7 +69,10 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
                          where e.VesselId == vesselId
                          select e;
 
-                return await qc.FirstOrDefaultAsync();
+                return new GenericDataModel<QuarantineVesselModel>()
+                {
+                    Value = await qc.FirstOrDefaultAsync()
+                };
             }
         }
 

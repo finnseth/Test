@@ -32,8 +32,8 @@
             </div>
         </p-accordionTab>
 
-        <p-accordionTab header="Groups ({{userForm.get('userGroups').controls.length}})">
-            <dualog-user-usergroup-list [userGroups]="userForm.get('userGroups')" [schema]="userService.schema"></dualog-user-usergroup-list>
+        <p-accordionTab header="Groups ({{userForm.get('usergroup').controls.length}})">
+            <dualog-user-usergroup-list [userGroups]="userForm.get('usergroup')" [schema]="userService.schema"></dualog-user-usergroup-list>
         </p-accordionTab>
         
         <p-accordionTab header="Permissions ({{userForm.get('permissions').controls.length}})">

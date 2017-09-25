@@ -87,12 +87,12 @@ export class ShipCardAdvancedSearchComponent implements OnInit {
     switch (this.searchContext) {
       case 'quarantine':
         this.shipService.getQuarantineShips().subscribe( ships => {
-          this.shipsRetrieved(ships);
+          this.shipsRetrieved(ships["value"]);
         });
       break;
       default:
         this.shipService.getShips().subscribe( ships => {
-          this.shipsRetrieved(ships);
+          this.shipsRetrieved(ships["value"]);
         });
     }        
   }

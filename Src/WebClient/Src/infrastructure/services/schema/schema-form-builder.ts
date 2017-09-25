@@ -28,7 +28,7 @@ export class SchemaFormBuilder {
             jsonSchema,
             data,
             (schema, obj) => {
-                return this.Build( schema, obj );
+                return this.Build( schema, obj["value"] );
             } );
     }
 

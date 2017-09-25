@@ -25,7 +25,6 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Dd]ist/
-**/environments/version.ts
 
 # Cake
 tools/*

@@ -31,7 +31,7 @@ export class UserSearchProvider extends ApiService
         // console.log('User.search [' + query + ']');
 
         return super
-            .Get<any>('/users', new SearchParameters(query).toURLSearchParams())
+            .Get<any>('/organization/shipping/user', new SearchParameters(query).toURLSearchParams())
             .map(response =>
                 this.responseToSearchResult(response)
             );
@@ -41,8 +41,8 @@ export class UserSearchProvider extends ApiService
 
         const result = new SearchResult({provider: 'User'});
 
-        if (response.users.length > 0) {
-            response.users.forEach(user => {
+        if (response.value.length > 0) {
+            response.value.forEach(user => {
                 result.elements.push(
                     new SearchResultElement({ name: user.name })
                 );

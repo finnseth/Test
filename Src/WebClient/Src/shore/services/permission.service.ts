@@ -30,9 +30,9 @@ export class PermissionService
         }
 
         // Load the permissions
-        return super.Get<any[]>( '/permissions').map( p => {
+        return super.Get<any[]>( '/organization/shipping/permission').map( p => {
 
-            this.permissions = p.map( permission => {
+            this.permissions = p["value"].map( permission => {
                 return {
                     name:  <string> permission['name'],
                     allowType:  <AccessRights>AccessRights[ <string> permission['allowType'] ]

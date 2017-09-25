@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Dualog.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Dualog.PortalService.Controllers.Permissions;
+using Dualog.PortalService.Controllers.Organization.Shipping.Permission;
 
 namespace Dualog.PortalService.Core
 {

@@ -23,7 +23,7 @@ export class UserGroupService extends ApiService {
 
     public getAll(): Observable<UserGroupSummary[]> {
 
-        return super.Get<UserGroupSummary[]>( '/userGroups');
+        return super.Get<UserGroupSummary[]>( '/organization/shipping/usergroup');
     }
 }
 

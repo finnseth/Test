@@ -26,7 +26,7 @@ export class UserListComponent {
 
     loadUsers(event) {
         const result = this.userApiService.GetUsers( new PaginationInfo( event.first, event.rows, true ) ).share();
-        this.users = result.map( ul => ul.users );
+        this.users = result.map( ul => ul.value );
         this.totalCount = result.map( ul => ul.totalCount );
     }
 }

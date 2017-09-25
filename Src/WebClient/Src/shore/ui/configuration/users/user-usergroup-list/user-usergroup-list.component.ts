@@ -47,15 +47,15 @@ export class UserUserGroupComponent implements OnInit {
         // Get all usergroups from the API
         const ugs = this.userGroupService.getAll().map( ug => {
             return { userGroups: ug };
+            //return ug;
         });
 
         // combine with schema to create a formgroup
          this.availableUserGroups = this.fb.ReactiveBuild( this.schema, ugs ).map( s => {
 
             // Get the user groups from the returned result
-            const ugArray = <FormArray> s.get('userGroups');
+            const ugArray = <FormArray> s.get('usergroup');
             const userGroups = <FormGroup[]> ugArray.controls
-
             // Filter out items that exists in available items
             return userGroups.filter( f =>
                         !this.userGroups.controls.some( item =>

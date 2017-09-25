@@ -15,36 +15,38 @@ using Newtonsoft.Json.Linq;
 namespace Dualog.PortalService.Controllers.Organization.Shipping.Company
 {
     [Authorize]
-    [Route("api/v1")]
+    [Route("api/v1/organization/shipping/company")]
     public class CompanyController : DualogController
     {
-        CompanyRepository _dbRepository;
+        CompanyRepository _companyRepository;
 
         public CompanyController(IDataContextFactory dcFactory) : base( dcFactory )
         {
-            _dbRepository = new CompanyRepository(dcFactory);
+            _companyRepository = new CompanyRepository(dcFactory);
         }
 
         /// <summary>
-        /// Gets specific company
+        /// Returns companies user has access to
         /// </summary>
-        [HttpGet, Route("organization/shipping/company")]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(CompanyModel), "The operation was successful.")]
-        public async Task<IActionResult> GetMyCompany()
-        {
-            return Ok(await _dbRepository.GetCompany(CompanyId));
-        }
+        /// <response code="200">Ok</response>
+        [HttpGet, Route("")]
+        //[SwaggerResponse( HttpStatusCode.OK, Type = typeof( Company ) )]
+        public Task<IActionResult> All() =>
+            this.HandleGetAction(() =>
+                _companyRepository.GetCompany(CompanyId, HttpContext.Search()));
+
+
 
         /// <summary>
         /// Get all companies
         /// </summary>
-        [IsInDualog]
-        [HttpGet, Route("organization/shipping/company/{id}")]
+        [HttpGet, Route("{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(CompanyModel), "The operation was successful.")]
-        public async Task<IActionResult> GetCompany(long id)
-        {
-            return Ok(await _dbRepository.GetCompanyDetailed(CompanyId, id));
-        }
+
+        public Task<IActionResult> GetCompany(long id) =>
+            this.HandleGetAction(() =>
+                _companyRepository.GetCompanyDetailed(CompanyId, id));
+
 
 
         /// <summary>
@@ -61,7 +63,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.Company
         {
             try
             {
-                var setting = await _dbRepository.PatchCompanyAsync(json, CompanyId);
+                var setting = await _companyRepository.PatchCompanyAsync(json, CompanyId);
                 return Ok(setting);
             }
 

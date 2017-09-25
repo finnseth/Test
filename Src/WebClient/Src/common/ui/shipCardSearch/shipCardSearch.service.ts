@@ -25,7 +25,7 @@ export class ShipCardSearchService extends ApiService {
     }
 
     public getShips(): Observable<Ship[]> {
-        return super.Get<any[]>( `/vessels`); // /${vesselname}
+        return super.Get<any[]>( `/organization/shipping/ship`); // /${vesselname}
     }
 
     public getSelectedShip(): Ship {
