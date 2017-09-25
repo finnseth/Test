@@ -5,9 +5,9 @@ import { Observable } from 'rxjs/Rx';
 import { JsonSchema } from './../../../../infrastructure/services/schema';
 import { ConfigurationReader } from './../../../../infrastructure/services/configuration-reader.service';
 
-import { ApiService } from './../../../services/api-base.service';
-import { AuthenticationService } from './../../../services/authentication.service';
-import { SessionService } from './../../../services/session.service';
+import { AuthenticationService } from './../../../../common/services/authentication.service';
+import { SessionService } from './../../../../common/services/session.service';
+import { ApiService } from './../../../../common/services/api-base.service';
 
 @Injectable()
 export class CommunicationService extends ApiService {

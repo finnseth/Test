@@ -1,11 +1,14 @@
-import { ApiService, PaginationInfo } from 'shore/services/api-base.service';
-
-import { AuthenticationService } from 'shore/services/authentication.service';
-import { ConfigurationReader } from 'infrastructure/services/configuration-reader.service';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { SessionService } from 'shore/services/session.service';
+
+import { ConfigurationReader } from 'infrastructure/services/configuration-reader.service';
+
+import { SessionService } from './../../services/session.service';
+import { AuthenticationService } from './../../services/authentication.service';
+
+import { ApiService, PaginationInfo } from './../../services/api-base.service';
+
 
 @Injectable()
 export class CompanyService extends ApiService {

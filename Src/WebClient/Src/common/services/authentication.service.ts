@@ -1,13 +1,12 @@
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
+
 import { Log, User, UserManager } from 'oidc-client';
 
-import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
+import { ConfigurationReader } from './../../infrastructure/services/configuration-reader.service';
+
 import { SessionService } from './session.service';
-
-
-
 
 @Injectable()
 export class AuthenticationService {
@@ -50,6 +49,7 @@ export class AuthenticationService {
             });
 
             this.mgr.getUser().then((user) => {
+                    console.log(user);
                     if (user) {
                         this.addUserInformation(user);
                         this.userLoadededEvent.emit(user);

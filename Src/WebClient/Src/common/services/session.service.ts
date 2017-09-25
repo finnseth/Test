@@ -3,8 +3,8 @@ import { MenuItem } from 'primeng/primeng';
 import { Observable } from 'rxjs/Rx';
 import { Routes } from '@angular/router';
 
-import { Company } from '../../common/ui/company/company.service';
-import { Ship } from '../../common/domain/ship/interfaces';
+import { Company } from './../ui/company/company.service';
+import { Ship } from './../domain/ship/interfaces';
 
 @Injectable()
 export class SessionService {

@@ -1,10 +1,13 @@
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Company, CompanyService } from './company.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { MenuItem } from 'primeng/primeng';
-import { SessionService } from 'shore/services/session.service';
 import { Subscription } from 'rxjs/Rx';
+
+import { MenuItem } from 'primeng/primeng';
+
+import { SessionService } from './../../services/session.service';
+
+import { Company, CompanyService } from './company.service';
 
 @Component({
     selector: 'dua-switchcompany',

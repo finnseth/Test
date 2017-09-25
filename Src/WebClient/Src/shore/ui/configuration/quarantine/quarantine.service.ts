@@ -7,12 +7,12 @@ import { ConfigurationReader } from './../../../../infrastructure/services/confi
 import { JsonSchema } from './../../../../infrastructure/services/schema';
 
 import { Ship } from './../../../../common/domain/ship/interfaces';
+import { SessionService } from './../../../../common/services/session.service';
+import { AuthenticationService } from './../../../../common/services/authentication.service';
+import { ApiService } from './../../../../common/services/api-base.service';
 
 import { AccessRights, Availability } from './../../../services/permission.service';
-import { ApiService } from './../../../services/api-base.service';
-import { AuthenticationService } from './../../../services/authentication.service';
 import { MenuService } from './../../../services/menu.service';
-import { SessionService } from './../../../services/session.service';
 
 
 @Injectable()

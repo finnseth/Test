@@ -1,12 +1,15 @@
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs/Rx';
 
-import { Permission } from './permission.service';
-import { SessionService } from '../../shore/services/session.service';
-import { ApiService } from '../../shore/services/api-base.service';
-import { AuthenticationService } from '../../shore/services/authentication.service';
 import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
+
+import { SessionService } from '../../common/services/session.service';
+import { AuthenticationService } from '../../common/services/authentication.service';
+import { ApiService } from '../../common/services/api-base.service';
+
+import { Permission } from './permission.service';
 
 @Injectable()
 export class UserGroupService extends ApiService {

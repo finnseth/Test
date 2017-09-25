@@ -8,9 +8,9 @@ import { SearchResult, SearchResultElement } from '../../services/search/searchr
 import { SearchParameters } from '../../services/search/searchparameters';
 import { Ship } from './interfaces';
 
-import { ApiService } from 'shore/services/api-base.service';
-import { AuthenticationService } from 'shore/services/authentication.service';
-import { SessionService } from 'shore/services/session.service';
+import { ApiService } from './../../services/api-base.service';
+import { AuthenticationService } from './../../services/authentication.service';
+import { SessionService } from './../../services/session.service';
 
 @Injectable()
 export class ShipSearchProvider extends ApiService implements SearchProvider {

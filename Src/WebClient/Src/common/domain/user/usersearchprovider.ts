@@ -11,9 +11,9 @@ import {
 } from '../../services/search/searchresult';
 import { User } from './user';
 
-import { ApiService } from 'shore/services/api-base.service';
-import { AuthenticationService } from 'shore/services/authentication.service';
-import { SessionService } from 'shore/services/session.service';
+import { ApiService } from './../../services/api-base.service';
+import { AuthenticationService } from './../../services/authentication.service';
+import { SessionService } from './../../services/session.service';
 
 @Injectable()
 export class UserSearchProvider extends ApiService

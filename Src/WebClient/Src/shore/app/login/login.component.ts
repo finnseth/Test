@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthenticationService } from '../../../shore/services/authentication.service';
-import { SessionService } from '../../../shore/services/session.service';
+import { AuthenticationService } from '../../../common/services/authentication.service';
+import { SessionService } from '../../../common/services/session.service';
 
 @Component({
   templateUrl: './login.component.html',

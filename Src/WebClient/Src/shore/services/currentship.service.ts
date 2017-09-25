@@ -1,12 +1,13 @@
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 
-import { ApiService } from '../../shore/services/api-base.service';
-import { AuthenticationService } from '../../shore/services/authentication.service';
 import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
 import { JsonSchema } from '../../infrastructure/services/schema';
-import { SessionService } from '../../shore/services/session.service';
+import { SessionService } from '../../common/services/session.service';
 import { Ship } from '../../common/domain/ship/interfaces';
+import { AuthenticationService } from '../../common/services/authentication.service';
+
+import { ApiService } from '../../common/services/api-base.service';
 
 @Injectable()
 export class CurrentShipService extends ApiService {

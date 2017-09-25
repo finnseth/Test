@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Rx';
 import { MenuItem } from 'primeng/primeng';
 
 import { MenuService } from './../../services/menu.service';
-import { SessionService } from './../../services/session.service';
+import { SessionService } from './../../../common/services/session.service';
 
 
 @Component({

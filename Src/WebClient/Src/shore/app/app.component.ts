@@ -5,11 +5,13 @@ import { OnDestroy } from '@angular/core/core';
 import { RouterLink } from '@angular/router/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { AccessRights, PermissionService } from '../services/permission.service';
-import { AuthenticationService } from '../services/authentication.service';
 import { MainMenuService } from '../../infrastructure/services/mainmenu.service';
+
+import { AuthenticationService } from './../../common/services/authentication.service';
+import { SessionService } from './../../common/services/session.service';
+
 import { MenuService } from '../services/menu.service';
-import { SessionService } from '../services/session.service';
+import { AccessRights, PermissionService } from '../services/permission.service';
 import { mainMenu } from './app.mainmenu';
 import { userMenu } from './app.usermenu';
 

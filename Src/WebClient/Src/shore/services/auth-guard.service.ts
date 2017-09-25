@@ -3,7 +3,8 @@ import { CanActivateChild } from '@angular/router/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from './../../common/services/authentication.service';
+
 import { MenuService } from './menu.service';
 import { PermissionService } from './permission.service';
 

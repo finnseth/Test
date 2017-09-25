@@ -6,10 +6,12 @@ import { Observable } from 'rxjs/Rx';
 import { ConfigurationReader } from './../../../../infrastructure/services/configuration-reader.service';
 import { JsonSchema } from './../../../../infrastructure/services/schema/';
 
-import { ApiService, PaginationInfo } from './../../../services/api-base.service';
-import { AuthenticationService } from './../../../services/authentication.service';
+import { SessionService } from './../../../../common/services/session.service';
+import { AuthenticationService } from './../../../../common/services/authentication.service';
+import { ApiService, PaginationInfo } from './../../../../common/services/api-base.service';
+
 import { Permission } from './../../../services/permission.service';
-import { SessionService } from './../../../services/session.service';
+
 
 @Injectable()
 export class UserApiService extends ApiService {

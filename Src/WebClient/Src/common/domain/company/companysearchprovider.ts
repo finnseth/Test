@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Http, Jsonp, Response, URLSearchParams } from '@angular/http';
 
+import { Observable } from 'rxjs/Observable';
+
 import { ConfigurationReader } from 'infrastructure/services/configuration-reader.service';
+
 import { SearchProvider } from '../../services/search/searchprovider';
 import { SearchParameters } from '../../services/search/searchparameters';
 import {
@@ -11,9 +13,9 @@ import {
 } from '../../services/search/searchresult';
 import { Company } from './company';
 
-import { ApiService } from 'shore/services/api-base.service';
-import { AuthenticationService } from 'shore/services/authentication.service';
-import { SessionService } from 'shore/services/session.service';
+import { ApiService } from './../../services/api-base.service';
+import { AuthenticationService } from './../../services/authentication.service';
+import { SessionService } from './../../services/session.service';
 
 @Injectable()
 export class CompanySearchProvider extends ApiService

@@ -1,9 +1,10 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 import { AutoCompleteModule } from 'primeng/primeng';
-import { CommonModule } from '@angular/common';
+
 import { CompanyService } from './company.service';
-import { NgModule } from '@angular/core';
 import { SwitchCompanyComponent } from './switchcompany.component';
 
 @NgModule({

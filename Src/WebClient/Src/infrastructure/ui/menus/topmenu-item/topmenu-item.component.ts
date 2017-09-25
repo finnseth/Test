@@ -84,11 +84,13 @@ export class TopMenuItemComponent implements OnInit {
         if (item.route === url) {
             return item;
         } else {
-            if (item.submenu !== null) {
-                for (const sub of item.submenu) {
-                    const output = this.findItemByRoute(sub, url);
-                    if (output !== null) {
-                        return output;
+            if (item.submenu !== undefined) {
+                if (item.submenu !== null) {
+                    for (const sub of item.submenu) {
+                        const output = this.findItemByRoute(sub, url);
+                        if (output !== null) {
+                            return output;
+                        }
                     }
                 }
             }

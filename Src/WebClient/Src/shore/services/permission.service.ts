@@ -1,11 +1,14 @@
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs/Rx';
 
-import { ApiService, PaginationInfo } from '../../shore/services/api-base.service';
-import { AuthenticationService } from '../../shore/services/authentication.service';
 import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
-import { SessionService } from '../../shore/services/session.service';
+
+import { SessionService } from '../../common/services/session.service';
+import { AuthenticationService } from '../../common/services/authentication.service';
+import { ApiService, PaginationInfo } from '../../common/services/api-base.service';
+
 
 @Injectable()
 export class PermissionService

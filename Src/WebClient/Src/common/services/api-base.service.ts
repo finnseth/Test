@@ -2,9 +2,10 @@ import { Headers, Http, RequestOptions, Response, URLSearchParams } from '@angul
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { AuthenticationService } from '../../shore/services/authentication.service';
 import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
-import { SessionService } from '../../shore/services/session.service';
+
+import { AuthenticationService } from '../../common/services/authentication.service';
+import { SessionService } from '../../common/services/session.service';
 
 export class PaginationInfo {
     offset?: number;

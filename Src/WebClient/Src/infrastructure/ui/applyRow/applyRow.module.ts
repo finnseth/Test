@@ -1,8 +1,10 @@
-import { ApplyRowComponent } from './applyRow.component';
-import { ButtonModule } from 'primeng/primeng';
 import { CommonModule } from '@angular/common';
-import { DuaButtonModule } from '../dua-button/dua-button.module';
 import { NgModule } from '@angular/core';
+
+import { ButtonModule } from 'primeng/primeng';
+
+import { ApplyRowComponent } from './applyRow.component';
+import { DuaButtonModule } from '../dua-button/dua-button.module';
 
 @NgModule({
     imports: [

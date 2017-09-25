@@ -1,11 +1,16 @@
 import { Route, Routes } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { MenuItem } from 'primeng/primeng';
+
 import { Observable } from 'rxjs/Rx';
 
-import { AccessRights, Availability, Permission, PermissionService } from './permission.service';
+import { MenuItem } from 'primeng/primeng';
+
 import { ArrayHelpers } from '../../infrastructure/array';
-import { SessionService } from './session.service';
+
+import { SessionService } from './../../common/services/session.service';
+
+import { AccessRights, Availability, Permission, PermissionService } from './permission.service';
+
 
 @Injectable()
 export class MenuService {

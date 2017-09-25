@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
-import { PaginationInfo } from './../../../../services/api-base.service';
+import { PaginationInfo } from './../../../../../common/services/api-base.service';
+
 import { User, UserApiService, UserListDetails } from '../user-api.service';
 import { UserService } from '../user.service';
 
