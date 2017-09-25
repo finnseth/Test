@@ -257,7 +257,7 @@ export abstract class DualogController implements ComponentCanDeactivate {
                 }
             }
         }
-        let localCompareMode: boolean = false;
+        let localCompareMode = false;
         if (this.isCompareModeEnabled){
             localCompareMode = this.isCompareModeEnabled;
             this.isCompareModeEnabled = false;
@@ -425,6 +425,7 @@ export abstract class DualogController implements ComponentCanDeactivate {
 
     public onCopy(fields: any[], formToUpdate: FormGroup) {
         for (const field of fields) {
+            debugger;
             if (field.value !== formToUpdate.value[field.key]) {
                 var obj = {};
                 obj[field.key] = field.value;

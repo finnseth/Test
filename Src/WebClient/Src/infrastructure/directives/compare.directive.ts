@@ -20,15 +20,17 @@ export class DuaCompareDirective implements OnInit {
   set isCompareEnabled(isEnabled: boolean) {
     this._isEnabled = isEnabled;
     if ( this._isEnabled ) {
-      this._obs = this.parentFormGroup.controls[this.formControlName].valueChanges.subscribe( changes => {
+      this._obs = this._compareForm.controls[this.formControlName].valueChanges.subscribe( changes => {
         if (this._isEnabled) {
           this.checkChanges(changes);
         }
       });
-      this.checkChanges(this.parentFormGroup.value[this.formControlName]);
+      this.checkChanges(this._compareForm.value[this.formControlName]);
     } else {
       this.el.nativeElement.classList.remove('input-compare');
-      if (this._obs) this._obs.unsubscribe();
+      if (this._obs) {
+        this._obs.unsubscribe();
+      }
     }
   };
 
@@ -42,11 +44,11 @@ export class DuaCompareDirective implements OnInit {
   }
 
   private checkChanges(changes): void {
-    
+
     let compareValue = undefined;
-    if (this._compareForm !== undefined) {
-      if (this._compareForm.value.hasOwnProperty(this.formControlName)) {
-        compareValue = this._compareForm.value[this.formControlName];
+    if (this.parentFormGroup !== undefined) {
+      if (this.parentFormGroup.value.hasOwnProperty(this.formControlName)) {
+        compareValue = this.parentFormGroup.value[this.formControlName];
       }
     }
 
