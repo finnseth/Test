@@ -12,7 +12,7 @@ import { SelectItem } from 'primeng/primeng';
 import { JsonSchema, SchemaFormBuilder } from './../../../../infrastructure/services/schema';
 import { PatchGraphDocument } from './../../../../infrastructure/services/patchGraphDocument';
 
-import { ICopyField } from './../../../../common/ui/copy/copy.component';
+import { CopyField } from './../../../../common/ui/copy/copy.component';
 import { Ship } from './../../../../common/domain/ship/interfaces';
 
 import { CacheType, CardType, DualogController, FormType } from '../dualog.controller';

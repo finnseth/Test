@@ -7,6 +7,7 @@ import { PatchGraphDocument } from './../../../infrastructure/services/patchGrap
 import { JsonSchema, SchemaFormBuilder } from './../../../infrastructure/services/schema';
 
 import { Ship } from './../../../common/domain/ship/interfaces';
+import { CompareField } from './../../../common/ui/copy/copy.component';
 
 import { ComponentCanDeactivate } from './../../services/pending_changes.service';
 import { CurrentShipService } from './../../services/currentship.service';
@@ -28,11 +29,6 @@ export enum FormType {
     MultipleRow = 2
 }
 
-export interface ICompareField {
-    key: string,
-    prettyname: string
-}
-
 export interface IDataSet {
     name: string,
     form: FormGroup,
@@ -45,7 +41,7 @@ export interface IDataSet {
     schema?: JsonSchema,
     patchfunc?: any,
     compareform?: string,
-    copyfield?: ICompareField[]
+    copyfield?: CompareField[]
 }
 
 
@@ -105,10 +101,10 @@ export abstract class DualogController implements ComponentCanDeactivate {
      *
      * @param {string} name
      * @param {string} compareformname
-     * @param {ICompareField[]} copyfield
+     * @param {CompareField[]} copyfield
      * @memberof DualogController
      */
-    public registerCopy(name: string, compareformname: string, copyfield: ICompareField[]) {
+    public registerCopy(name: string, compareformname: string, copyfield: CompareField[]) {
         const currentdataset = this.getDataSet(name);
         if (currentdataset) {
             currentdataset.compareform = compareformname;
@@ -214,10 +210,10 @@ export abstract class DualogController implements ComponentCanDeactivate {
      * Get the fields to copy for a given form
      *
      * @param {string} name
-     * @returns {ICompareField[]}
+     * @returns {CompareField[]}
      * @memberof DualogController
      */
-    public getFieldToCopy(name: string): ICompareField[] {
+    public getFieldToCopy(name: string): CompareField[] {
         const currentds = this.getDataSet(name);
         if (currentds) { return currentds.copyfield; }
         return null;
@@ -423,14 +419,14 @@ export abstract class DualogController implements ComponentCanDeactivate {
         this.applyCard(CardType.Ship);
     }
 
-    public onCopy(fields: any[], formToUpdate: FormGroup) {
+    public onCopy(fields: any[], formname: string) {
+        const ds = this.getDataSet(formname);
         for (const field of fields) {
-            debugger;
-            if (field.value !== formToUpdate.value[field.key]) {
-                var obj = {};
+            if (field.value !== ds.form.value[field.key]) {
+                const obj = {};
                 obj[field.key] = field.value;
-                formToUpdate.controls[field.key].setValue(obj);
-                formToUpdate.controls[field.key].markAsDirty();
+                ds.form.controls[field.key].setValue(obj);
+                ds.form.controls[field.key].markAsDirty();
             }
         }
     }

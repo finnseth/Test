@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
 import { FormGroup } from '@angular/forms';
-import { ICompareField } from '../../../shore/ui/configuration/dualog.controller';
 
 @Component({
   selector: 'dua-copy',
@@ -11,16 +9,16 @@ import { ICompareField } from '../../../shore/ui/configuration/dualog.controller
 export class CopyComponent implements OnInit {
 
   display = false;
-  selectedFields: ICopyField[];
-  copyField: ICopyField[] = [];
+  selectedFields: CopyField[];
+  copyField: CopyField[] = [];
 
-  @Input() fieldsToCopy: ICompareField[];
+  @Input() fieldsToCopy: CompareField[];
   @Input() copyfromform: FormGroup;
   @Input() copytoform: FormGroup;
   @Input() layout = 'button';
 
 
-  @Output() onCopySetting = new EventEmitter<ICopyField[]>();
+  @Output() onCopySetting = new EventEmitter<CopyField[]>();
 
   constructor() { }
 
@@ -30,7 +28,7 @@ export class CopyComponent implements OnInit {
       if (this.copyfromform.value.hasOwnProperty(field.key)) {
         value = this.copyfromform.value[field.key];
       }
-      this.copyField.push({name: field.prettyname, value: value})
+      this.copyField.push({ name: field.prettyname, value: value, key: field.key })
     }
   }
 
@@ -44,7 +42,7 @@ export class CopyComponent implements OnInit {
         const valueto = (this.copytoform.value.hasOwnProperty(field.key)) ? this.copytoform.value[field.key] : '';
 
         if (valuefrom !== valueto) {
-          this.selectedFields.push({name: field.prettyname, value: valuefrom});
+          this.selectedFields.push({name: field.prettyname, value: valuefrom, key: field.key});
         }
       }
     }
@@ -60,7 +58,13 @@ export class CopyComponent implements OnInit {
   }
 }
 
-export interface ICopyField {
+export interface CopyField {
+  key: string;
   name: string;
   value: any;
+}
+
+export interface CompareField {
+  key: string,
+  prettyname: string
 }
