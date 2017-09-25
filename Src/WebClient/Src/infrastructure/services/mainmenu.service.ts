@@ -18,8 +18,7 @@ export class MainMenuService {
     userMenu: Array<MainMenuItem>;
     selectedItem: MainMenuItem;
 
-    constructor(){
-        console.log('MainMenuService created');
+    constructor() {
     }
 
     public SetSelectedItem(item: MainMenuItem): void {
@@ -28,8 +27,6 @@ export class MainMenuService {
     }
 
     public GetMenuItemsByRoute(route: string): MainMenuItem[] {
-        console.log('GetMenuItemsByRoute - selectedItem: ');
-        console.log(this.selectedItem);
         if (this.selectedItem !== undefined) {
          const item = this.findItemByRoute(this.selectedItem, route);
          if (item.submenu) {

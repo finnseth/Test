@@ -22,7 +22,6 @@ export class GridMenuComponent implements OnInit {
 
     ngOnInit() {
         this.menuItems = this.menuService.GetMenuItemsByRoute(this.router.url);
-        console.log(this.menuItems);
     }
 
     onClick($event, item: MainMenuItem) {

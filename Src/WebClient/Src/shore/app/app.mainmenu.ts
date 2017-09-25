@@ -69,13 +69,13 @@ export let mainMenu: Array<MainMenuItem> = [
                     },
                     {
                         text: 'User group',
-                        icon: '',
+                        gridImage: 'assets/img/usergroup.png',
                         route: null,
                         submenu: null
                     },
                     {
                         text: 'User',
-                        icon: '',
+                        gridImage: 'assets/img/user.png',
                         route: '/configuration/organization/users',
                         submenu: null
                     }
@@ -83,7 +83,7 @@ export let mainMenu: Array<MainMenuItem> = [
             },
             {
                 text: 'Email',
-                icon: '',
+                gridImage: 'assets/img/email.png',
                 route: '/configuration/email',
                 submenu: [
                     {
@@ -177,7 +177,7 @@ export let mainMenu: Array<MainMenuItem> = [
             },
             {
                 text: 'File transfer',
-                icon: '',
+                gridImage: 'assets/img/filetransfer.png',
                 route: null,
                 submenu: [
                     {
@@ -202,7 +202,7 @@ export let mainMenu: Array<MainMenuItem> = [
             },
             {
                 text: 'Antivirus',
-                icon: '',
+                gridImage: 'assets/img/antivirus.png',
                 route: null,
                 submenu: [
                     {
@@ -221,7 +221,7 @@ export let mainMenu: Array<MainMenuItem> = [
             },
             {
                 text: 'Network',
-                icon: '',
+                gridImage: 'assets/img/networkcontrol.png',
                 route: null,
                 submenu: [
                     {

@@ -13,6 +13,8 @@ import {
     SelectButtonModule,
 } from 'primeng/primeng';
 
+import { MenuModule } from './../../../infrastructure/ui/menus/menu.module';
+
 import { SwitchCompanyModule } from './../../../common/ui/company/switchcompany.module';
 
 import { ConfigurationComponent } from './configuration.component';
@@ -38,7 +40,8 @@ import { configurationRouting } from './configuration.routing';
         EmailModule,
         OverlayPanelModule,
         SelectButtonModule,
-        SwitchCompanyModule
+        SwitchCompanyModule,
+        MenuModule
     ],
 
     declarations: [
