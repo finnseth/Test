@@ -21,6 +21,8 @@ export class DuaSpinnerComponent extends Spinner implements ControlValueAccessor
 
     @Output() onBlur: EventEmitter<any> = new EventEmitter();
 
+    @Output() onFocus: EventEmitter<any> = new EventEmitter();
+
     @Input() step = 1;
 
     @Input() min: number;
@@ -66,5 +68,9 @@ export class DuaSpinnerComponent extends Spinner implements ControlValueAccessor
 
     onChanged(event) {
       this.onChange.emit(event);
+    }
+
+    onFocused(event) {
+      this.onFocus.emit(event);
     }
 }
