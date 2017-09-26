@@ -1,5 +1,5 @@
 <div class="search-bar">
-  <input id="searchBox" type="text" placeholder="search" required #searchbox (keyup)="query.next($event.target.value)" (keydown)="onKeydown($event)" [(ngModel)]="searchValue"/>
+  <input id="searchBox" type="text" [placeholder]="placeholder" required #searchbox (keyup)="query.next($event.target.value)" (keydown)="onKeydown($event)" [(ngModel)]="searchValue"/>
   <label for="searchBox" class="fa fa-search inlineicon"></label>
 </div>
 

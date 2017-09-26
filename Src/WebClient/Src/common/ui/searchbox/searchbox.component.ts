@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Input, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import {
     SearchResult,
@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { SearchService } from 'common/services/search/search.service';
 import { Subject } from 'rxjs/Subject';
+import { Key } from 'ts-keycode-enum';
 
 @Component({
     selector: 'dua-searchbox',
@@ -23,9 +24,11 @@ export class SearchboxComponent implements OnInit {
     selectedCategory: SearchResult;
     @ViewChild('searchbox', { read: ElementRef })
     searchBox: ElementRef;
+    @Input() placeholder = 'search';
+    @Input() keyCombination: string;
 
     constructor(private searchService: SearchService,
-                private router: Router) {
+        private router: Router) {
         this.searchService.searchChanged.subscribe(change => {
             this.results.length = 0; // New search initiated
             this.selectedCategory = null;
@@ -59,7 +62,7 @@ export class SearchboxComponent implements OnInit {
         );
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     onKeydown(event) {
         this.selectDefaultCategoryAndElement();
@@ -155,7 +158,7 @@ export class SearchboxComponent implements OnInit {
         if (!element.route) {
             console.warn(`Missing route for search result element "${element.name}"`);
         } else {
-            this.router.navigateByUrl( element.route );
+            this.router.navigateByUrl(element.route);
         }
     }
 
@@ -203,4 +206,21 @@ export class SearchboxComponent implements OnInit {
             }
         }
     }
-}
+
+    @HostListener('window:keyup', ['$event'])
+    private catchKeys($event) {
+
+        if (!this.keyCombination) {
+            return;
+        }
+
+        const combos: Key[] = this.keyCombination.split('+').map(k => Key[k.trim()]);
+        const hasCtrl = combos.some(k => k === Key.Ctrl) && $event.ctrlKey;
+        const hasShift = combos.some(k => k === Key.Shift) && $event.shiftKey;
+        const hasAlt = combos.some(k => k === Key.Alt) && $event.altKey;
+
+        if ((hasCtrl || hasAlt || hasShift) && combos.some(k => k === $event.which)) {
+                this.searchBox.nativeElement.focus();
+            }
+        }
+    }

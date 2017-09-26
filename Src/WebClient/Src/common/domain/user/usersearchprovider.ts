@@ -42,7 +42,7 @@ export class UserSearchProvider extends ApiService
         const result = new SearchResult({ provider: 'User' });
         result.category = result.elements.length !== 1 ? 'Users' : 'User';
         result.elements = response.value.map(user =>
-            new SearchResultElement({ name: user.name, route: `configuration/organization/users/${user.id}` }));
+            new SearchResultElement({ name: user.name, route: `/configuration/organization/users/${user.id}` }));
 
         return result;
     }
