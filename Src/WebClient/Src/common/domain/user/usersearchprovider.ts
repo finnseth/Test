@@ -39,17 +39,11 @@ export class UserSearchProvider extends ApiService
 
     private responseToSearchResult(response: any): SearchResult {
 
-        const result = new SearchResult({provider: 'User'});
+        const result = new SearchResult({ provider: 'User' });
+        result.category = result.elements.length !== 1 ? 'Users' : 'User';
+        result.elements = response.value.map(user =>
+            new SearchResultElement({ name: user.name, route: `configuration/organization/users/${user.id}` }));
 
-        if (response.value.length > 0) {
-            response.value.forEach(user => {
-                result.elements.push(
-                    new SearchResultElement({ name: user.name })
-                );
-            });
-            result.category =
-                result.elements.length > 1 ? 'Users' : 'User';
-        }
         return result;
     }
 }

@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 
@@ -18,11 +19,11 @@ export class UserListComponent {
     users: Observable<User[]>;
     totalCount: Observable<number>;
 
-    constructor( private userApiService: UserApiService, private userService: UserService ) {
+    constructor( private userApiService: UserApiService, private userService: UserService, private router: Router ) {
     }
 
     public selectUser(user: User): void {
-        this.userService.currentUser = user;
+        this.router.navigateByUrl(`configuration/organization/users/${user.id}`)
     }
 
     loadUsers(event) {

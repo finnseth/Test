@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { Message, TreeNode, SelectItem } from 'primeng/primeng';
@@ -12,6 +12,17 @@ import { UserService } from './user.service';
 })
 export class UsersComponent {
 
-    constructor( public userService: UserService ) {
+    constructor(public userService: UserService,
+                private activatedRoute: ActivatedRoute) {
+
+        this.activatedRoute.params
+        .subscribe( p => {
+            const userId = p['id'];
+            if (userId) {
+                this.userService.currentUser = userId ? <User> {id: userId} : null;
+            }
+        });
     }
+
+
 }

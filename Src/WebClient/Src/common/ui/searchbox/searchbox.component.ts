@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import {
     SearchResult,
     SearchResultElement
@@ -23,7 +24,8 @@ export class SearchboxComponent implements OnInit {
     @ViewChild('searchbox', { read: ElementRef })
     searchBox: ElementRef;
 
-    constructor(private searchService: SearchService) {
+    constructor(private searchService: SearchService,
+                private router: Router) {
         this.searchService.searchChanged.subscribe(change => {
             this.results.length = 0; // New search initiated
             this.selectedCategory = null;
@@ -153,7 +155,7 @@ export class SearchboxComponent implements OnInit {
         if (!element.route) {
             console.warn(`Missing route for search result element "${element.name}"`);
         } else {
-            console.log(`TODO: navigate to => "${element.route}"`);
+            this.router.navigateByUrl( element.route );
         }
     }
 

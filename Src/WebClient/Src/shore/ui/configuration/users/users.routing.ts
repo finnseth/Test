@@ -19,7 +19,7 @@ export const userRoutes: Routes = [
     },
     {
         path: 'users/:id',
-        component: EditUserComponent,
+        component: UsersComponent,
         data: {
             permissions: PermissionMap.Config.Email.Quarantine, // @todo wrong permission
         },
