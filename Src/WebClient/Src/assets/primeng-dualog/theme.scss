@@ -2283,3 +2283,7 @@ p-selectbutton.ng-dirty.ng-invalid .ui-button,
 p-togglebutton.ng-dirty.ng-invalid .ui-button {
     border-bottom-color: $dualog-red;
 }
+
+.ng-invalid:not(form) {
+    border-bottom-color: $dualog-red;
+}

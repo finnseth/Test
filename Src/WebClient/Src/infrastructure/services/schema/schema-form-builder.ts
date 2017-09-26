@@ -61,6 +61,14 @@ export class SchemaFormBuilder {
                 fg.keyProperty = property;
             }
 
+            if (schema.required !== undefined) {
+                for (const requiredField of schema.required) {
+                    if (requiredField === property) {
+                        schemaProperty['isRequired'] = true;
+                    }
+                }
+            }
+
             // Check if this is an array
             if ( type && type.includes( 'array')) {
 
@@ -78,8 +86,7 @@ export class SchemaFormBuilder {
                 fg.addControl( property, fga);
 
             } else {
-
-                const fc = SchemaFormControl.createFormControl( schemaProperty );
+                const fc = SchemaFormControl.createFormControl( schemaProperty);
                 fg.addControl( property, fc );
             }
         }

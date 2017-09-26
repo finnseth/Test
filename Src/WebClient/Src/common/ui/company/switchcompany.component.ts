@@ -37,7 +37,7 @@ export class SwitchCompanyComponent implements OnInit, OnDestroy {
         this.isDualogAdmin = this.sessionService.IsDualogAdmin;
         if (this.isDualogAdmin) {
             this.companyService.getCompanies().subscribe( companies => {
-                this.companies = companies.sort( (c, r) =>  c.name.localeCompare(r.name) );
+                this.companies = companies['value'].sort( (c, r) =>  c.name.localeCompare(r.name) );
             });
 
             if (this.sessionService.GetSelectedCompany() !== undefined) {

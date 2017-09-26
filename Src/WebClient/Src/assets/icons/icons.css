@@ -25,11 +25,11 @@
     background-position: center;
 }
 
-.dualog-g-icon-50 {
+.dualog-g-icon-16 {
     background: url('dualog-g.png');
     background-repeat: no-repeat;
-    height: 50px;
-    width: 50px;
+    height: 16px;
+    width: 16px;
     background-size: contain;
     background-position: center;
  }

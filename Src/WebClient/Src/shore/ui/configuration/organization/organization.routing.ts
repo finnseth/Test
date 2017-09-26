@@ -2,6 +2,7 @@ import { AccessRights, PermissionMap } from 'shore/services/permission.service';
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
+import { PendingChangesGuard } from './../../../services/pending_changes.service';
 import { AuthGuard } from './../../../services/auth-guard.service';
 import { OrganizationComponent } from './organization.component';
 import { communicationRoutes } from '../communication/communication.routing';
@@ -30,7 +31,8 @@ export const organizationRoutes: Routes = [
                         permissions: PermissionMap.Config.Core.Company,
                         label: 'Company'
                     },
-                    canActivate: [ AuthGuard ]
+                    canActivate: [ AuthGuard ],
+                    canDeactivate : [ PendingChangesGuard ]
                 },
                 ...userRoutes,
                 ...communicationRoutes,

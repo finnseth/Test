@@ -31,7 +31,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
                          where (e.Company.Id == companyId || companyId == 0) && e.Vessel == null
                          select new QuarantineCompanyModel
                          {
-                             QuarantineId = e.Id,
+                             Id = e.Id,
                              MaxBodyLength = e.MaxBodyLength,
                              NotificationOnHoldAdmins = e.NotificationOnHoldAdmins,
                              NotificationOnHoldOriginal = e.NotificationOnHoldOriginal,
@@ -82,7 +82,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine
                    where (e.Company.Id == companyId || companyId == 0)  && e.Vessel != null
                    select new QuarantineVesselModel
                    {
-                       QuarantineId = e.Id,
+                       Id = e.Id,
                        VesselId = e.Vessel.Id,
                        VesselName = e.Vessel.VesselName,
                        MaxBodyLength = e.MaxBodyLength,

@@ -1,9 +1,11 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { CommonModule } from '@angular/common';
-import { DuaInputComponent } from './dua-input.component';
-import { InputTextModule } from 'primeng/primeng';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { InputTextModule } from 'primeng/primeng';
+
+import { DuaInputComponent } from './dua-input.component';
+import { DuaRequiredDirective } from './../../directives/required.directive';
 
 @NgModule({
     imports: [
@@ -14,7 +16,8 @@ import { NgModule } from '@angular/core';
     ],
 
     declarations: [
-        DuaInputComponent
+        DuaInputComponent,
+        DuaRequiredDirective
     ],
 
     exports: [

@@ -121,8 +121,11 @@
                         </div>
                     </div>
 
-                    <dua-applyrow [shipStyle]="false" (onCancel)="onCancelFleetCard()"  (onApply)="onApplyFleetCard(getFormGroup('companyform'))"
-                                    [disableapply]="getFormGroup('companyform').pristine || !getFormGroup('companyform').valid">
+                    <dua-applyrow [shipStyle]="false" 
+                                  (onCancel)="onCancelFleetCard()"
+                                  (onApply)="onApplyFleetCard(getFormGroup('companyform'))"
+                                  [disableapply]="getFormGroup('companyform').pristine || !getFormGroup('companyform').valid"
+                                  [disablereset]="getFormGroup('companyform').pristine">
                     </dua-applyrow>  
                 </div>
             </form>
@@ -362,7 +365,7 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
                                 <br>
-                                <dua-label tooltip="Quarantine information will be sent">Shore administrator(s)</dua-label>
+                                <dua-label questiontooltip="Quarantine information will be sent">Shore administrator(s)</dua-label>
                                 <dua-input-email 
                                     [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="notificationOnHoldAdmins">

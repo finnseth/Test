@@ -16,9 +16,11 @@ import { FleetCardHeaderModule } from './../../../../common/ui/fleetCardHeader/f
 import { CurrentShipService } from './../../../services/currentship.service';
 import { PendingChangesGuard } from './../../../services/pending_changes.service';
 
+import { ShoreModule } from './../../../shore.module';
+
 // Company
 import { CompanyComponent } from './company.component';
-import { CompanyService } from './company.service';
+import { CompanyService } from './../../../services/company.service';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { CompanyService } from './company.service';
         BlueCardModule,
         DuaInputEmailModule,
         DuaInputModule,
-        DuaLabelModule
+        DuaLabelModule,
+        ShoreModule
     ],
 
     declarations: [

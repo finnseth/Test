@@ -25,6 +25,7 @@ export class SchemaFormControl extends FormControl {
         fc['__validatorInfo'] = validatorInfo;
         fc['__title'] = schema.title || '';
         fc['__description'] = schema.description || '';
+        fc['__required'] = schema['isRequired'];
 
         return fc;
     }

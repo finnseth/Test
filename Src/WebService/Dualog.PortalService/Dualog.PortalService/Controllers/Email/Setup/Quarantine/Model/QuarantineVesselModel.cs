@@ -23,7 +23,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model
 
             return new QuarantineVesselModel
             {
-                QuarantineId = quarantine.Id,
+                Id = quarantine.Id,
                 MaxBodyLength = quarantine.MaxBodyLength,
                 NotificationOnHoldAdmins = quarantine.NotificationOnHoldAdmins,
                 NotificationOnHoldOriginal = quarantine.NotificationOnHoldOriginal,

@@ -13,11 +13,12 @@ import { JsonSchema, SchemaFormBuilder } from './../../../../infrastructure/serv
 
 // Common
 import { Ship } from './../../../../common/domain/ship/interfaces';
+import { SessionService } from './../../../../common/services/session.service';
 
 // Shore
 import { CacheType, CardType, DualogController, FormType } from './../dualog.controller';
 import { CurrentShipService } from './../../../services/currentship.service';
-import { CompanyService } from './company.service';
+import { CompanyService } from './../../../services/company.service';
 
 
 @Component({
@@ -27,23 +28,27 @@ import { CompanyService } from './company.service';
 })
 export class CompanyComponent extends DualogController implements OnInit {
 
+    isDualogAdmin = false;
+
     constructor(
         private companyService: CompanyService,
         private fb: SchemaFormBuilder,
-        private current: CurrentShipService) {
+        private current: CurrentShipService,
+        private sessionService: SessionService
+    ) {
 
         super(fb, current);
+        this.isDualogAdmin = this.sessionService.IsDualogAdmin;
     }
 
     ngOnInit() {
 
-      /*  this.registerCardForm('companyform', FormType.SingleRow,
+        this.registerCardForm('companyform', FormType.SingleRow,
             () => this.companyService.getCompanySchema(),
             () => this.companyService.getCompany(),
             CacheType.All, CardType.Company,
             (companyid: number, json: PatchGraphDocument) => this.companyService.PatchCompany(companyid, json));
 
         this.init();
-        */
     }
 }

@@ -2,8 +2,7 @@
 <div class="ui-g ">        
     <div class="ui-g-12 ui-md-12 ui-lg-12 ui-sm-12">
 
-        <dua-fleetcardheader [searchModeEnabled]="false">
-        </dua-fleetcardheader>
+        <dua-fleetcardheader [searchModeEnabled]="false"></dua-fleetcardheader>
 
         <dua-bluecard>
             <form *ngIf="getFormGroup('companyform')" [formGroup]="getFormGroup('companyform')">
@@ -42,10 +41,10 @@
                     <div class="ui-grid-row">                                       
                         <div class="ui-grid-col-12">
                             <dua-label>Email</dua-label>
-                            <dua-input
+                            <dua-input-email
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="email">
-                            </dua-input>
+                            </dua-input-email>
                         </div>
                     </div>
 
@@ -55,24 +54,25 @@
                                 <dua-label>Manager</dua-label>
                                 <dua-input
                                     [parentFormGroup]="getFormGroup('companyform')"
-                                    formControlName="phone">
+                                    formControlName="manager">
                                 </dua-input>
                             </div>
                         </div>
 
                         
-                    <!--div class="ui-grid-row">                                       
-                            <div class="ui-grid-col-12">
-                                <label for="name">Customer no.</label>
-                                <dua-input
-                                    [parentFormGroup]="getFormGroup('companyform')"
-                                    formControlName="customernumber">
-                                </dua-input>
-                            </div>
-                        </div-->
+                    <div *ngIf="isDualogAdmin" class="ui-grid-row">                                       
+                        <div class="ui-grid-col-12">
+                            <dua-label dualogadmintooltip="Only available for Dualog Administrator">Customer no.</dua-label>
+                            <dua-input
+                                [parentFormGroup]="getFormGroup('companyform')"
+                                formControlName="customerNumber">
+                            </dua-input>
+                        </div>
+                    </div>
                     
                     <dua-applyrow [shipStyle]="false" (onCancel)="onCancelFleetCard()"  (onApply)="onApplyFleetCard(getFormGroup('companyform'))"
-                                    [disableapply]="getFormGroup('companyform').pristine || !getFormGroup('companyform').valid">
+                                    [disableapply]="getFormGroup('companyform').pristine || !getFormGroup('companyform').valid"
+                                    [disablereset]="getFormGroup('companyform').pristine">
                     </dua-applyrow>  
                 </div>
             </form>

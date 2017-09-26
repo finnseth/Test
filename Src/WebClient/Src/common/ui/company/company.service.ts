@@ -23,7 +23,7 @@ export class CompanyService extends ApiService {
     }
 
     public getCompanies(): Observable<Company[]> {
-        return super.Get<Company[]>( '/companies');
+        return super.Get<Company[]>( '/organization/shipping/company');
     }
 }
 

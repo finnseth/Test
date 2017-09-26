@@ -15,7 +15,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model
     [KnownType(typeof(QuarantineVesselModel))]
     public class QuarantineCompanyModel : DataAnnotationsValidatable
     {
-        public long QuarantineId { get; set; }
+        public long Id { get; set; }
         public bool OnHoldStationaryUser { get; set; }
         public bool OnHoldCrew { get; set; }
         public bool NotificationOnHoldOriginal { get; set; }
@@ -44,7 +44,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model
 
             return new QuarantineCompanyModel
             {
-                QuarantineId = quarantine.Id,
+                Id = quarantine.Id,
                 MaxBodyLength = quarantine.MaxBodyLength,
                 NotificationOnHoldAdmins = quarantine.NotificationOnHoldAdmins,
                 NotificationOnHoldOriginal = quarantine.NotificationOnHoldOriginal,

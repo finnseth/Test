@@ -4,7 +4,7 @@ import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
 import { FormGroup } from '@angular/forms';
 
-@Directive({ 
+@Directive({
   selector: '[duaCompare]'
 })
 export class DuaCompareDirective implements OnInit {

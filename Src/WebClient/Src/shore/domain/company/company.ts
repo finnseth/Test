@@ -6,5 +6,5 @@ export interface ShoreCompany extends Company {
     phone: string;
     email: string;
     manager: string;
-    customernumber: string;
+    customerNumber: number;
 }

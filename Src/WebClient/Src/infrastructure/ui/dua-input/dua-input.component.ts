@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, Input, ViewChild, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectorRef, Component, Input, ViewChild, forwardRef, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup } from '@angular/forms';
 
 export const INPUT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -14,14 +14,21 @@ export const INPUT_VALUE_ACCESSOR: any = {
   providers: [INPUT_VALUE_ACCESSOR]
 })
 
-export class DuaInputComponent implements ControlValueAccessor {
+export class DuaInputComponent implements ControlValueAccessor, OnInit {
 
     @Input() formControlName: string;
-    @Input() parentFormGroup: string;
+    @Input() parentFormGroup: FormGroup;
 
     innerValue = '';
+    isRequired = false;
 
     constructor() {}
+
+    ngOnInit() {
+        if (this.parentFormGroup.controls[this.formControlName]['__required'] !== undefined) {
+            this.isRequired = this.parentFormGroup.controls[this.formControlName]['__required'];
+        }
+    }
 
     // Placeholders for the callbacks which are later providesd by the Control Value Accessor
     onTouchedCallback(): void { }

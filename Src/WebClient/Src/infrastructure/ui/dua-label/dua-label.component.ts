@@ -7,7 +7,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class DuaLabelComponent implements OnInit {
 
-  @Input() tooltip: string;
+  @Input() questiontooltip: string;
+  @Input() dualogadmintooltip: string;
 
   constructor() { }
 

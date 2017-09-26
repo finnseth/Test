@@ -12,7 +12,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.Company.Model
     {
         public long Id { get; set; }
 
-        [Required(AllowEmptyStrings = true, ErrorMessage = "Name is required.")]
+        [Required(ErrorMessage = "Name is required.")]
         [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
         public string Name { get; set; }
 
@@ -22,13 +22,11 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.Company.Model
         [StringLength(20, ErrorMessage = "PhoneNumber cannot be longer than 20 characters.")]
         public string Phone { get; set; }
 
-        [Required(AllowEmptyStrings = true, ErrorMessage = "Email is required.")]
         [NoWhitespace]
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         [StringLength(200, ErrorMessage = "Email cannot be longer than 200 characters.")]
         public string Email { get; set; }
 
-        [Required(AllowEmptyStrings = true, ErrorMessage = "Manager is required.")]
         [StringLength(100, ErrorMessage = "Manager cannot be longer than 100 characters.")]
         public string Manager { get; set; }
 

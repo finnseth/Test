@@ -147,16 +147,16 @@ export abstract class DualogController implements ComponentCanDeactivate {
         let set = this.getDataSet(setname);
         if (set){
             if (set.formtype === FormType.SingleRow) {
-                if (m["value"] instanceof Array ) {
-                    set.form = this.fb2.Build(set.schema, m["value"][0]);
+                if (m['value'] instanceof Array ) {
+                    set.form = this.fb2.Build(set.schema, m['value'][0]);
                 } else {
-                    set.form = this.fb2.Build(set.schema, m["value"]);
+                    set.form = this.fb2.Build(set.schema, m['value']);
                 }
             } else {
-                if (m["value"] instanceof Array ) {
-                    set.form = this.fb2.Build(set.schema, m["value"]);
+                if (m['value'] instanceof Array ) {
+                    set.form = this.fb2.Build(set.schema, m['value']);
                 } else {
-                    set.form = this.fb2.Build(set.schema, [m["value"]]);
+                    set.form = this.fb2.Build(set.schema, [m['value']]);
                 }
             }
         }
@@ -342,6 +342,8 @@ export abstract class DualogController implements ComponentCanDeactivate {
         for (const singleset of this.cardForm) {
             if (singleset.card === card) {
                 if (singleset.form && singleset.intialvalues) {
+                    console.log(singleset.form.value);
+                    console.log(singleset.intialvalues);
                     if (JSON.stringify(singleset.form.value) !== JSON.stringify(singleset.intialvalues)) {
                         return true;
                     };
@@ -398,7 +400,7 @@ export abstract class DualogController implements ComponentCanDeactivate {
                     const pgd = new PatchGraphDocument();
                     const jsonPatch = pgd.CreatePatchDocument(singleset.form);
                     if (jsonPatch) {
-                        singleset.patchfunc(singleset.form.value.quarantineId, jsonPatch).subscribe(result => {
+                        singleset.patchfunc(singleset.form.value.id, jsonPatch).subscribe(result => {
                             singleset.form.markAsPristine();
                         }, error => {
                             const obj = JSON.parse(error._body);

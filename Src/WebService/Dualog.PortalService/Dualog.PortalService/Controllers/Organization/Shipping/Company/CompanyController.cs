@@ -54,7 +54,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.Company
         /// </summary>
         /// <param name="json">The patch document.</param>
         /// <returns></returns>
-        [HttpPatch, Route("organization/shipping/company")]
+        [HttpPatch, Route("")]
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(CompanyModel), "The operation was successful.")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
