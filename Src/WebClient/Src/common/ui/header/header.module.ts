@@ -10,6 +10,7 @@ import { LogoModule } from './../logo/logo.module';
 import { SearchboxModule } from './../searchbox/searchbox.module';
 import { HeaderComponent } from './header.component';
 import { UserboxModule } from './../userbox/userbox.module';
+import { SearchModule } from '../../../common/services/search/search.module';
 
 @NgModule({
     imports: [
@@ -21,7 +22,11 @@ import { UserboxModule } from './../userbox/userbox.module';
         SearchboxModule,
         UserboxModule,
         LogoModule,
-        InfrastructureModule
+        InfrastructureModule,
+        SearchModule
+    ],
+
+    providers: [
     ],
 
     declarations: [

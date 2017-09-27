@@ -20,6 +20,9 @@ import { SessionService } from './../../services/session.service';
 @Injectable()
 export class CompanySearchProvider extends ApiService
     implements SearchProvider {
+
+    public name = 'Company';
+
     constructor(
         http: Http,
         authenticationService: AuthenticationService,
@@ -42,7 +45,7 @@ export class CompanySearchProvider extends ApiService
     private responseToSearchResult(
         response: Company[]
     ): SearchResult {
-        const result = new SearchResult({provider: 'Company'});
+        const result = new SearchResult({provider: this.name});
 
         if (response.length > 0) {
             response.forEach(company => {

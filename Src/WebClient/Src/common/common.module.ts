@@ -10,10 +10,6 @@ import { DuaStatusBarModule } from '../infrastructure/ui/dua-status-bar/dua-stat
 import { DuaVerticalBarModule } from '../infrastructure/ui/dua-vertical-bar/dua-vertical-bar.module';
 
 import { GlogoComponent } from './ui/glogo/glogo.component';
-import { SearchService } from './services/search/search.service';
-import { ShipSearchProvider } from './domain/ship/shipsearchprovider';
-import { UserSearchProvider } from './domain/user/usersearchprovider';
-import { CompanySearchProvider } from './domain/company/companysearchprovider';
 
 @NgModule({
     imports: [
@@ -26,8 +22,6 @@ import { CompanySearchProvider } from './domain/company/companysearchprovider';
         DuaStatusBarModule,
         DuaVerticalBarModule,
     ],
-
-    providers: [SearchService, ShipSearchProvider, CompanySearchProvider, UserSearchProvider],
 
     declarations: [
         GlogoComponent

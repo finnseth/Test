@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Jsonp, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -10,23 +10,21 @@ import 'rxjs/add/operator/merge';
 
 import { SearchProvider } from './searchprovider';
 import { SearchResult } from './searchresult';
-// import { CdnjsSearchProvider } from './cdnjssearchprovider';
-// import { WikipediaSearchProvider } from './wikipediasearchprovider';
-import { ShipSearchProvider } from '../../domain/ship/shipsearchprovider';
-import { CompanySearchProvider } from '../../domain/company/companysearchprovider';
-import { UserSearchProvider } from '../../domain/user/usersearchprovider';
 
 @Injectable()
 export class SearchService {
-    private searchProviders: Array<SearchProvider> = [];
+    private searchProviders: SearchProvider[] = [];
     public searchChanged: Observable<boolean> = new Subject<boolean>();
 
-    constructor(private jsonp: Jsonp, private injector: Injector) {
-        // this.searchProviders.push(new WikipediaSearchProvider(jsonp));
-        // this.searchProviders.push(new CdnjsSearchProvider(jsonp));
-        this.searchProviders.push(injector.get(UserSearchProvider));
-        this.searchProviders.push(injector.get(ShipSearchProvider));
-        this.searchProviders.push(injector.get(CompanySearchProvider));
+    constructor(private jsonp: Jsonp ) {
+    }
+
+    public addProviders( providers: SearchProvider[] ): void {
+        const filtered = providers.filter( p =>
+            !this.searchProviders.some( sp => sp.name === p.name )
+         );
+
+         this.searchProviders.push( ...filtered );
     }
 
     public search(query: Observable<string>): Observable<SearchResult> {

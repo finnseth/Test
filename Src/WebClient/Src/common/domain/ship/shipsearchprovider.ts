@@ -14,6 +14,9 @@ import { SessionService } from './../../services/session.service';
 
 @Injectable()
 export class ShipSearchProvider extends ApiService implements SearchProvider {
+
+    public name = 'Ship';
+
     constructor(
         http: Http,
         authenticationService: AuthenticationService,
@@ -37,7 +40,7 @@ export class ShipSearchProvider extends ApiService implements SearchProvider {
         query: string,
         response: Ship[]
     ): SearchResult {
-        const result = new SearchResult({provider: 'Ship'});
+        const result = new SearchResult({provider: this.name});
 
         if (response.length > 0) {
             response.forEach(ship => {

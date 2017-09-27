@@ -18,6 +18,9 @@ import { SessionService } from './../../services/session.service';
 @Injectable()
 export class UserSearchProvider extends ApiService
     implements SearchProvider {
+
+    public name = 'User';
+
     constructor(
         http: Http,
         authenticationService: AuthenticationService,
@@ -26,6 +29,7 @@ export class UserSearchProvider extends ApiService
     ) {
         super(http, authenticationService, sessionService, configurationReader);
     }
+
 
     public search(query: string): Observable<SearchResult> {
         // console.log('User.search [' + query + ']');
@@ -39,7 +43,7 @@ export class UserSearchProvider extends ApiService
 
     private responseToSearchResult(response: any): SearchResult {
 
-        const result = new SearchResult({ provider: 'User' });
+        const result = new SearchResult({ provider: this.name });
         result.category = result.elements.length !== 1 ? 'Users' : 'User';
         result.elements = response.value.map(user =>
             new SearchResultElement({ name: user.name, route: `/configuration/organization/users/${user.id}` }));
