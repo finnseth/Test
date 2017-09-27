@@ -178,11 +178,9 @@ label {
     left: auto;
 }
 
-.input-required {
-    border-left-color: $dualog-red !important;
-    border-left-style: solid;
-    border-left-width: medium;
-    display: block;
+.input-required::before {
+    content: "*";
+    color: $dualog-red;
     padding-left: 0.25rem;
 }
 
