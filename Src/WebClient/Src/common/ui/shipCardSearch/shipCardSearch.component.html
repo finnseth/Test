@@ -1,9 +1,18 @@
 
-<div class="search-bar">
-    <input type="search" #search id="search" placeholder="{{currentShip?.name}}" autofocus (blur)="disableSearch($event)"/>
-    <dua-shipcardadvancedsearch [searchContext]="searchContext" 
-                                [currentShip]="currentShip"
-                                (onShipSelected)="selectingShip($event)"
-                                ></dua-shipcardadvancedsearch>
-</div>
+<p-autoComplete #search *ngIf="ships" class="search-field"
+    [(ngModel)]="selectedShip" 
+    [minLength]="3" 
+    placeholder="{{currentShip?.name}}" 
+    (onSelect)="selectingShip($event)" 
+    [suggestions]="resultShips" 
+    field="name" 
+    (completeMethod)="onSearch($event)"
+    (onBlur)="disableSearch($event)"
+    autoHighlight="true">
+</p-autoComplete>
+<label class="fa fa-search inlineicon"></label>
 
+<dua-shipcardadvancedsearch [searchContext]="searchContext" 
+                            [currentShip]="currentShip"
+                            (onShipSelected)="selectingShip($event)"
+                            ></dua-shipcardadvancedsearch>

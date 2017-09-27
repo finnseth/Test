@@ -1,73 +1,59 @@
 
 @import '~styles.scss';
 
-.search-bar {
-    vertical-align: middle;
-    white-space: nowrap;
-    display: flex;
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-  .search-bar input#search{
-    font-family: $dualog-font;
-    height: 25px;
-    background: $dualog-white;
-    border: solid $dualog-blue20;
-    font-size: 14px;
-    float: left;
-    width: 100%;
-    color: $dualog-blue;
-    padding-left: 15px;
-    -webkit-border-radius: 44px;
-    -moz-border-radius: 44px;
-    border-radius: 44px;
-  }
+:host ::ng-deep p-autocomplete {
+  width: 100%;
+  margin-right: 0.5rem;
+}
 
-  .search-bar input#search::-webkit-input-placeholder {
-    color: $dualog-blue40;
- }
-  
- .search-bar input#search:-moz-placeholder { /* Firefox 18- */
-    color: $dualog-blue40;;  
- }
-  
- .search-bar input#search::-moz-placeholder {  /* Firefox 19+ */
-    color: $dualog-blue40;;  
- }
-  
- .search-bar input#search:-ms-input-placeholder {  
-    color: $dualog-blue40;;  
- }
+:host ::ng-deep p-autocomplete .ui-widget {
+  width: 100%;
+}
 
- .search-bar button.icon{
-    -webkit-border-top-right-radius: 44px;
-    -webkit-border-bottom-right-radius: 44px;
-    -moz-border-radius-topright: 44px;
-    -moz-border-radius-bottomright: 44px;
-    border-top-right-radius: 44px;
-    border-bottom-right-radius: 44px;
-   
-    border: none;
-    background: $dualog-blue20;
-    height: 25px;
-    width: 25px;
-    color: $dualog-blue;
-    font-size: 14pt;
-    margin-left: -25px;
-  }
+:host ::ng-deep p-autocomplete .ui-widget input {
+  width: 100%;
+  background-color: $dualog-blue40;
+  color: $dualog-blue;
+  border-color: $dualog-blue60;
+  font-weight: bolder;
+  font-size: $fontSizeBig;
+}
 
-  .cross {
-    border: none;
-    background: transparent;
-    height: 25px;
-    width: 25px;
-    color: $dualog-blue;
-    font-size: 14pt;
-  }
 
-  .search-bar:hover button.icon, .search-bar:active button.icon, .search-bar:focus button.icon{
-    outline: none;
-  }
- 
-  .search-bar:hover button.icon:hover{
-    background: $dualog-white;
-  }
+:host ::ng-deep p-autocomplete .ui-widget input::-webkit-input-placeholder {
+  color: $dualog-blue;
+}
+
+:host ::ng-deep p-autocomplete .ui-widget input::-ms-input-placeholder {
+  color: $dualog-blue;
+}
+
+
+.inlineicon {
+  position: relative;
+  right: 2.5em;
+  color: $dualog-blue80;
+}
+
+.cross {
+  border: none;
+  background: transparent;
+  height: 25px;
+  width: 25px;
+  color: $dualog-blue;
+  font-size: 14pt;
+}
+
+.search-bar:hover button.icon, .search-bar:active button.icon, .search-bar:focus button.icon{
+  outline: none;
+}
+
+.search-bar:hover button.icon:hover{
+  background: $dualog-white;
+}

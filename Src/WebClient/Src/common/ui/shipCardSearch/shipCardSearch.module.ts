@@ -1,8 +1,9 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { ButtonModule } from 'primeng/primeng';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
+import { AutoCompleteModule } from 'primeng/primeng';
+
 import { ShipCardAdvancedSearchModule } from '../shipCardAdvancedSearch/shipCardAdvancedSearch.module';
 import { ShipCardSearchComponent } from './shipCardSearch.component';
 import { ShipCardSearchService } from './shipCardSearch.service';
@@ -12,7 +13,8 @@ import { ShipCardSearchService } from './shipCardSearch.service';
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        ShipCardAdvancedSearchModule
+        ShipCardAdvancedSearchModule,
+        AutoCompleteModule
     ],
 
     exports: [

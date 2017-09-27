@@ -1,10 +1,11 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { ButtonModule } from 'primeng/primeng';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { ButtonModule, AutoCompleteModule } from 'primeng/primeng';
+
 import { FleetCardAdvancedSearchModule } from '../fleetCardAdvancedSearch/fleetCardAdvancedSearch.module';
 import { FleetCardSearchComponent } from './fleetCardSearch.component';
-import { NgModule } from '@angular/core';
 import { ShipCardSearchService } from '../shipCardSearch/shipCardSearch.service';
 
 @NgModule({
@@ -12,7 +13,8 @@ import { ShipCardSearchService } from '../shipCardSearch/shipCardSearch.service'
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        FleetCardAdvancedSearchModule
+        FleetCardAdvancedSearchModule,
+        AutoCompleteModule
     ],
 
     exports: [

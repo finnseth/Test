@@ -1,29 +1,25 @@
 
-<!--div class="item" [class.isInvisible]="isSearching" [class.isVisible]="!isSearching">
+<p-autoComplete #search *ngIf="ships" class="search-field"
+    [(ngModel)]="compareShip" 
+    [minLength]="3" 
+    placeholder="{{title}}" 
+    (onSelect)="selectingCompareShip($event)" 
+    [suggestions]="resultShips" 
+    field="name" 
+    (completeMethod)="onSearch($event)"
+    (onBlur)="disableSearch($event)"
+    autoHighlight="true">
+</p-autoComplete>
+<label class="fa fa-search inlineicon"></label>
+
+<dua-fleetcardadvancedsearch
+    [searchContext]="searchContext"
+    (onShipSelected)="selectingCompareShip($event)">
+</dua-fleetcardadvancedsearch>
+
+<button *ngIf="compareShip !== undefined"
+    class="cross"
+    (click)="showFleet($event)">
     
-    <label *ngIf="currentCompareShip == undefined">{{title}}</label>    
-    <label *ngIf="currentCompareShip !== undefined">{{currentCompareShip?.name}}</label>    
-    
-    <button *ngIf="currentCompareShip !== undefined" class="icon" (click)="showFleet($event)"><i class="fa fa-times"></i></button>
-    <button class="icon" (click)="enableSearch($event)"><i class="fa fa-pencil"></i></button>
-    
-</div-->
-<div class="search-bar" [class.isInvisible]="!isSearching" [class.isVisible]="isSearching">
-    <input 
-        type="search"
-        #search
-        id="search"
-        placeholder="{{title}}"
-        autofocus
-        (blur)="disableSearch($event)"/>
-    <dua-fleetcardadvancedsearch
-        [searchContext]="searchContext"
-        (onShipSelected)="selectingCompareShip($event)">
-    </dua-fleetcardadvancedsearch>
-    <button
-        *ngIf="currentCompareShip !== undefined"
-        class="cross"
-        (click)="showFleet($event)">
-            <i class="fa fa-times" title="Show fleet"></i>
-    </button>
-</div>
+    <i class="fa fa-times" title="Show fleet"></i>
+</button>
