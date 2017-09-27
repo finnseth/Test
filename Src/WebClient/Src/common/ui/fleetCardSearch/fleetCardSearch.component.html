@@ -2,7 +2,7 @@
 <p-autoComplete #search *ngIf="ships" class="search-field"
     [(ngModel)]="compareShip" 
     [minLength]="3" 
-    placeholder="{{title}}" 
+    placeholder="{{placeholder}}" 
     (onSelect)="selectingCompareShip($event)" 
     [suggestions]="resultShips" 
     field="name" 
@@ -14,10 +14,11 @@
 
 <dua-fleetcardadvancedsearch
     [searchContext]="searchContext"
+    [currentCompareShip]="currentCompareShip"
     (onShipSelected)="selectingCompareShip($event)">
 </dua-fleetcardadvancedsearch>
 
-<button *ngIf="compareShip !== undefined"
+<button *ngIf="currentCompareShip !== undefined"
     class="cross"
     (click)="showFleet($event)">
     

@@ -19,7 +19,7 @@ export class ShipCardSearchComponent implements OnInit {
   ships: Ship[];
   resultShips: Ship[];
   isSearching = false;
-  title = 'Search for a ship to modify';
+  placeholder = 'Search for a ship to modify';
 
   constructor(private shipService: ShipCardSearchService) {
   }
@@ -51,6 +51,9 @@ export class ShipCardSearchComponent implements OnInit {
   disableSearch(event: MouseEvent): void {
     const isAdvancedClicked = (event.relatedTarget !== null);
     if (this.currentShip !== undefined && !isAdvancedClicked) {
+      if (this.currentShip !== undefined) {
+        this.selectedShip = this.currentShip;
+      }
       this.isSearching = false;
     }
   }

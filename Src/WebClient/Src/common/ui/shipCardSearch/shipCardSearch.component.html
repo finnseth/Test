@@ -2,7 +2,7 @@
 <p-autoComplete #search *ngIf="ships" class="search-field"
     [(ngModel)]="selectedShip" 
     [minLength]="3" 
-    placeholder="{{currentShip?.name}}" 
+    placeholder="{{placeholder}}" 
     (onSelect)="selectingShip($event)" 
     [suggestions]="resultShips" 
     field="name" 

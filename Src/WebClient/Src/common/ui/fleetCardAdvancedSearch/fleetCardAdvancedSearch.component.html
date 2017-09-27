@@ -18,6 +18,9 @@
     (onHide)="closeDialog($event)"
     [(visible)]="enableAdvancedSearch">
 
+    <h3 *ngIf="currentCompareShip">Current selected ship: {{currentCompareShip.name}}</h3>
+    <h3 *ngIf="!currentCompareShip">Current selected: Fleet</h3>
+
     <div class="filter">
             <div class="filter-header">
                 <img src="/assets/img/ship.png">
@@ -58,7 +61,7 @@
         [rows]="20" 
         virtualScroll="virtualScroll"
         selectionMode="single" 
-        [(selection)]="_selectedShip"
+        [(selection)]="_currentShip"
         (onRowSelect)="selectingShip($event.data);"
         exportFilename="ships"
         [responsive]="true"

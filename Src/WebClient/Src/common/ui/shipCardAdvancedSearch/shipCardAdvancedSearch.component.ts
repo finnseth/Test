@@ -10,18 +10,22 @@ import { ShipCardSearchService } from '../shipCardSearch/shipCardSearch.service'
   styleUrls: ['./shipCardAdvancedSearch.component.scss']
 })
 export class ShipCardAdvancedSearchComponent implements OnInit {
-  
+
   @ViewChild('advancedsearchtable') shipTable: DataTable;
 
   @Input() searchContext: string;
-  @Input() currentShip: Ship;
-  
-  @Output() onShipSelected = new EventEmitter<Ship>();
-  
+  @Input('currentShip')
+  set currentShip(ship: Ship) {
+    this._currentShip = ship;
+    if (ship !== undefined) {
+      this.onShipSelected.emit(this._currentShip);
+    }
+  };
 
-  _selectedShip: Ship;
+  @Output() onShipSelected = new EventEmitter<Ship>();
+
+  _currentShip: Ship;
   private enableAdvancedSearch = false;
-  currentWorkingShip: Ship;
   ships: Ship[];
   filterShips: Ship[];
   customSetups: SelectItem[];
@@ -42,12 +46,6 @@ export class ShipCardAdvancedSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentWorkingShip = this.currentShip;
-    if (this.currentWorkingShip !== undefined) {
-      this.onShipSelected.emit(this.currentWorkingShip);
-      this._selectedShip = this.currentWorkingShip;
-    }
-
     this.exportItems = [
             {label: 'CSV (,)', icon: 'fa-download', command: () => {
                 this.csvSeparator = ',';
@@ -72,7 +70,7 @@ export class ShipCardAdvancedSearchComponent implements OnInit {
 
   selectingShip(ship: Ship) {
     this.onShipSelected.emit(ship);
-    this.currentWorkingShip = this.currentShip;
+    this._currentShip = ship;
     this.enableAdvancedSearch = false;
   }
 
@@ -80,21 +78,20 @@ export class ShipCardAdvancedSearchComponent implements OnInit {
   }
 
   advancedSearch(event: Event) {
-    this._selectedShip = this.currentShip;
     this.enableAdvancedSearch = true;
     this.isSearching = true;
 
     switch (this.searchContext) {
       case 'quarantine':
         this.shipService.getQuarantineShips().subscribe( ships => {
-          this.shipsRetrieved(ships["value"]);
+          this.shipsRetrieved(ships['value']);
         });
       break;
       default:
         this.shipService.getShips().subscribe( ships => {
-          this.shipsRetrieved(ships["value"]);
+          this.shipsRetrieved(ships['value']);
         });
-    }        
+    }
   }
 
   shipsRetrieved (ships: Ship[]) {
@@ -159,7 +156,7 @@ export class ShipCardAdvancedSearchComponent implements OnInit {
   }
 
   getContextField (): string {
-    switch(this.searchContext) {
+    switch (this.searchContext) {
       case 'quarantine':
         return 'quarantineLocalChanges';
     }

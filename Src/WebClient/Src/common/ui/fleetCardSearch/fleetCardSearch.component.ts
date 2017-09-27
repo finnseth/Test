@@ -20,7 +20,8 @@ export class FleetCardSearchComponent implements OnInit {
   ships: Ship[];
   resultShips: Ship[];
   isSearching = false;
-  title = 'Fleet';
+  fleet = 'Fleet';
+  placeholder = this.fleet;
 
   constructor(private shipService: ShipCardSearchService) {
   }
@@ -36,6 +37,13 @@ export class FleetCardSearchComponent implements OnInit {
   }
 
   disableSearch(event: Event): void {
+    if (this.currentCompareShip !== undefined) {
+      this.placeholder = this.currentCompareShip.name;
+      this.compareShip = this.currentCompareShip;
+    } else {
+      this.placeholder = this.fleet;
+      this.compareShip = undefined;
+    }
     this.isSearching = false;
   }
 
@@ -51,7 +59,7 @@ export class FleetCardSearchComponent implements OnInit {
 
   showFleet(event: boolean) {
     this.compareShip = undefined;
-    this.title = 'Fleet';
+    this.placeholder = this.fleet;
     this.isSearching = false;
     this.onFleetEnabledChanged.emit(true);
   }
@@ -61,7 +69,7 @@ export class FleetCardSearchComponent implements OnInit {
       this.showFleet(true);
     } else {
       this.compareShip = ship;
-      this.title = ship.name;
+      this.placeholder = ship.name;
       this.onCompareShipChanged.emit(this.compareShip);
       this.onFleetEnabledChanged.emit(false);
       this.isSearching = false;

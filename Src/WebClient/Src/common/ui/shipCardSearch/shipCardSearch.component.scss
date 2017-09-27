@@ -18,7 +18,7 @@
 
 :host ::ng-deep p-autocomplete .ui-widget input {
     width: 100%;
-    background-color: $dualog-aqua60;
+    background-color: $dualog-aqua20;
     color: $dualog-blue;
     border-color: $dualog-aqua;
     font-weight: bolder;
@@ -32,6 +32,10 @@
 
 :host ::ng-deep p-autocomplete .ui-widget input::-ms-input-placeholder {
     color: $dualog-blue;
+}
+
+:host ::ng-deep p-autocomplete li.ui-autocomplete-list-item.ui-corner-all.ui-state-highlight{
+    background-color: $dualog-aqua80;
 }
 
 .inlineicon {

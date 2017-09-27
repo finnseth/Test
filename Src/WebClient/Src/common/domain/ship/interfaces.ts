@@ -1,7 +1,6 @@
 
 export interface Ship {
-    ShipModel: string;
-    quarantineLocalChanges: boolean;
+    ShipModel?: string;
     id: number;
     name: string;
     company: string;

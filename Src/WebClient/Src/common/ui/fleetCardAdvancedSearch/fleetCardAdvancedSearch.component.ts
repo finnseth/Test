@@ -12,15 +12,15 @@ import { ShipCardSearchService } from '../shipCardSearch/shipCardSearch.service'
 export class FleetCardAdvancedSearchComponent implements OnInit {
 
   @ViewChild('advancedsearchtable') shipTable: DataTable;
-  
+
   @Input() searchContext: string;
+  @Input() currentCompareShip: Ship;
 
   @Output() onShipSelected = new EventEmitter<Ship>();
 
   _selectedShip: Ship;
   private enableAdvancedSearch = false;
   currentWorkingShip: Ship;
-  currentCompareShip: Ship;
   ships: Ship[];
   filterShips: Ship[];
   customSetups: SelectItem[];
@@ -79,17 +79,16 @@ export class FleetCardAdvancedSearchComponent implements OnInit {
   advancedSearch(event: Event) {
     this.enableAdvancedSearch = true;
     this.isSearching = true;
-
     switch (this.searchContext) {
       case 'quarantine':
         this.shipService.getQuarantineShips().subscribe( ships => {
           // this.fields.quarantineLocalChanges = true;
-          this.shipsRetrieved(ships["value"]);
+          this.shipsRetrieved(ships['value']);
         });
       break;
       default:
         this.shipService.getShips().subscribe( ships => {
-          this.shipsRetrieved(ships["value"]);
+          this.shipsRetrieved(ships['value']);
         });
     }
   }

@@ -18,6 +18,7 @@
     (onHide)="closeDialog($event)"
     [(visible)]="enableAdvancedSearch">
 
+    <h3 *ngIf="_currentShip !== undefined">Current selected ship: {{_currentShip.name}}</h3>
 
     <div class="filter">
         <div class="filter-header">
@@ -59,7 +60,7 @@
         [rows]="20" 
         virtualScroll="virtualScroll"
         selectionMode="single" 
-        [(selection)]="_selectedShip"
+        [(selection)]="_currentShip"
         (onRowSelect)="selectingShip($event.data);"
         exportFilename="ships"
         [responsive]="true"
