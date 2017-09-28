@@ -83,7 +83,7 @@
                     <div class="ui-grid-row">                                       
                         <div class="ui-grid-col-12">
                             <br>
-                            <dua-label>Shore administrator(s)</dua-label>
+                            <dua-label questiontooltip="Receiver of quarantine information">Shore administrator(s)</dua-label>
                             <dua-input-email
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="notificationOnHoldAdmins">
@@ -93,7 +93,7 @@
                     
                     <div class="ui-grid-row">                                       
                         <div class="ui-grid-col-12">
-                            <dua-label>Max body length</dua-label>
+                            <dua-label questiontooltip="Max characters from original message sent to quarantine message receipient">Max body length</dua-label>
                             <dua-spinner
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="maxBodyLength">
@@ -103,7 +103,7 @@
 
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <dua-label>Hold for duration (hours)</dua-label>
+                            <dua-label questiontooltip="Time before message is downgraded">Hold for duration (hours)</dua-label>
                             <dua-spinner
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="onHoldDuration">
@@ -113,7 +113,7 @@
 
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-12">
-                            <dua-label>Custom notification sender</dua-label>
+                            <dua-label questiontooltip="Sender of the quarantine message">Custom notification sender</dua-label>
                             <dua-input-email
                                 [parentFormGroup]="getFormGroup('companyform')"
                                 formControlName="notificationSender">
@@ -365,7 +365,7 @@
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12">
                                 <br>
-                                <dua-label questiontooltip="Quarantine information will be sent">Shore administrator(s)</dua-label>
+                                <dua-label questiontooltip="Receiver of quarantine information">Shore administrator(s)</dua-label>
                                 <dua-input-email 
                                     [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="notificationOnHoldAdmins">
@@ -375,7 +375,7 @@
                         
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12"> 
-                                <dua-label>Max body length</dua-label>
+                                <dua-label questiontooltip="Max characters from original message sent to quarantine message receipient">Max body length</dua-label>
                                 <dua-spinner 
                                     [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="maxBodyLength">
@@ -385,7 +385,7 @@
 
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12"> 
-                                <dua-label>Hold for duration (hours)</dua-label>
+                                <dua-label questiontooltip="Time before message is downgraded">Hold for duration (hours)</dua-label>
                                 <dua-spinner 
                                     [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="onHoldDuration">
@@ -394,7 +394,7 @@
                         </div>
                         <div class="ui-grid-row">
                             <div class="ui-grid-col-12"> 
-                                <dua-label>Custom notification sender</dua-label>
+                                <dua-label questiontooltip="Sender of the quarantine message">Custom notification sender</dua-label>
                                 <dua-input-email 
                                     [parentFormGroup]="getFormGroup('shipform')"
                                     formControlName="notificationSender">

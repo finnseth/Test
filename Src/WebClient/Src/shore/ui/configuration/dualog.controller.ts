@@ -285,8 +285,11 @@ export abstract class DualogController implements ComponentCanDeactivate {
     onCompare(ship: Ship): void {
         if (ship !== undefined && !this.isCompareModeEnabled) {
             if (this.pendingCardChanges(CardType.Company)) {
-                if (!confirm('WARNING: You have unsaved changes. ' +
-                    'Press Cancel to go back and save these changes, or OK to lose these changes.')) {
+                const gotChanged: boolean = confirm('WARNING: You have unsaved changes. ' +
+                                                    'Press Cancel to go back and save these changes, or OK to lose these changes.');
+                if (gotChanged) {
+                    this.onCancelFleetCard();
+                } else {
                     return;
                 }
             }
@@ -342,8 +345,6 @@ export abstract class DualogController implements ComponentCanDeactivate {
         for (const singleset of this.cardForm) {
             if (singleset.card === card) {
                 if (singleset.form && singleset.intialvalues) {
-                    console.log(singleset.form.value);
-                    console.log(singleset.intialvalues);
                     if (JSON.stringify(singleset.form.value) !== JSON.stringify(singleset.intialvalues)) {
                         return true;
                     };
@@ -425,9 +426,13 @@ export abstract class DualogController implements ComponentCanDeactivate {
         const ds = this.getDataSet(formname);
         for (const field of fields) {
             if (field.value !== ds.form.value[field.key]) {
-                const obj = {};
-                obj[field.key] = field.value;
-                ds.form.controls[field.key].setValue(obj);
+                if (ds.form.controls[field.key] === undefined) {
+                    const obj = {};
+                    obj[field.key] = field.value;
+                    ds.form.controls[field.key].setValue(obj);
+                } else {
+                    ds.form.controls[field.key].setValue(field.value);
+                }
                 ds.form.controls[field.key].markAsDirty();
             }
         }

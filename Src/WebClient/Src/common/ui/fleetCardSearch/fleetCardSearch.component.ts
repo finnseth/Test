@@ -37,12 +37,12 @@ export class FleetCardSearchComponent implements OnInit {
   }
 
   disableSearch(event: Event): void {
-    if (this.currentCompareShip !== undefined) {
-      this.placeholder = this.currentCompareShip.name;
-      this.compareShip = this.currentCompareShip;
-    } else {
+    if (this.currentCompareShip === undefined || this.currentCompareShip === null) {
       this.placeholder = this.fleet;
       this.compareShip = undefined;
+    } else {
+      this.placeholder = this.currentCompareShip.name;
+      this.compareShip = this.currentCompareShip;
     }
     this.isSearching = false;
   }
@@ -68,6 +68,7 @@ export class FleetCardSearchComponent implements OnInit {
     if (ship === undefined) {
       this.showFleet(true);
     } else {
+      this.currentCompareShip = ship;
       this.compareShip = ship;
       this.placeholder = ship.name;
       this.onCompareShipChanged.emit(this.compareShip);
