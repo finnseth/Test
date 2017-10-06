@@ -1,6 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { BlueCardComponent } from './bluecard.component';
+import { BlueCardComponent } from './blueCard.component';
 import { CommonModule } from '@angular/common';
 import { CopyModule } from 'common/ui/copy/copy.module';
 import { NgModule } from '@angular/core';

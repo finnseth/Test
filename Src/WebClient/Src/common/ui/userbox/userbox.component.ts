@@ -8,7 +8,7 @@ import { MainMenuService } from 'infrastructure/services/mainmenu.service';
     styleUrls: ['./userbox.component.scss']
 })
 export class UserboxComponent implements OnInit {
-    constructor(private menuService: MainMenuService) {}
+    constructor(public menuService: MainMenuService) {}
 
     ngOnInit() {}
 }

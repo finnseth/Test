@@ -61,7 +61,7 @@
         [rows]="20" 
         virtualScroll="virtualScroll"
         selectionMode="single" 
-        [(selection)]="_currentShip"
+        [(selection)]="_selectedShip"
         (onRowSelect)="selectingShip($event.data);"
         exportFilename="ships"
         [responsive]="true"

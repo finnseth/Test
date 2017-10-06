@@ -1,6 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AquaCardComponent } from './aquacard.component';
+import { AquaCardComponent } from './aquaCard.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 

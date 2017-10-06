@@ -19,7 +19,7 @@ export class FleetCardAdvancedSearchComponent implements OnInit {
   @Output() onShipSelected = new EventEmitter<Ship>();
 
   _selectedShip: Ship;
-  private enableAdvancedSearch = false;
+  enableAdvancedSearch = false;
   currentWorkingShip: Ship;
   ships: Ship[];
   filterShips: Ship[];

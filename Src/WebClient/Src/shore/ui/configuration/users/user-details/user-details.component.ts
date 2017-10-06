@@ -22,7 +22,7 @@ export class UserDetailsComponent {
     msgs: Message[] = [];
     // _user: User;
 
-    constructor( protected userService: UserService ) {
+    constructor( public userService: UserService ) {
     }
 
 

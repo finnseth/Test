@@ -10,6 +10,7 @@ import { SchemaFormArray, SchemaFormGroup } from './../../../../../infrastructur
 
 import { Permission, PermissionService } from './../../../../services/permission.service';
 import { UserService } from '../user.service';
+import { UserPermission } from '../../users/user-api.service';
 
 @Component({
     selector: 'dualog-user-permission-list',
@@ -26,7 +27,7 @@ export class UserPermissionListComponent
     isInNewMode = false;
 
     displayDialog = false;
-    permission = {};
+    permission: UserPermission;
 
     @Input() schema: Observable<JsonSchema>;
 

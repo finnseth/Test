@@ -15,10 +15,10 @@ import { SessionService } from './../../../common/services/session.service';
 })
 export class ConfigurationComponent implements OnInit, OnDestroy {
 
-    private isDualogAdmin = false;
-    private isReady = false;
-    private module: string;
-    private isMenuEnabled = false;
+    isDualogAdmin = false;
+    isReady = false;
+    module: string;
+    isMenuEnabled = false;
 
     constructor(
         private menuService: MenuService,

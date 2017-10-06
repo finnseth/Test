@@ -25,7 +25,7 @@ export class ShipCardAdvancedSearchComponent implements OnInit {
   @Output() onShipSelected = new EventEmitter<Ship>();
 
   _currentShip: Ship;
-  private enableAdvancedSearch = false;
+  enableAdvancedSearch = false;
   ships: Ship[];
   filterShips: Ship[];
   customSetups: SelectItem[];
