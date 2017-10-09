@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,8 +35,9 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
         [ResourcePermission("OrganizationUser", AccessRights.Read)]
         [HttpGet, Route("user")]
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(UserModel), "The operation was successful.")]
-        public Task<IActionResult> AllAsync([FromQuery] bool includeTotalCount = false)
-                => this.HandleGetAction(() => _dbRepository.GetUserAsync(CompanyId, HttpContext.Pagination(), HttpContext.Search(), includeTotalCount));
+        public Task<IActionResult> AllAsync([FromQuery] bool includeTotalCount = false) =>
+            this.HandleGetAction(() =>
+                _dbRepository.GetUserAsync(CompanyId, HttpContext.Pagination(), HttpContext.Search(), includeTotalCount));
 
 
 
@@ -46,8 +47,9 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
         [ResourcePermission("OrganizationUser", AccessRights.Read)]
         [HttpGet, Route("shipuser/{shipid}")]
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(UserModel), "The operation was successful.")]
-        public Task<IActionResult> GetShipUser(long shipid)
-            => this.HandleGetAction(() => _dbRepository.GetShipUser(CompanyId, shipid));
+        public Task<IActionResult> GetShipUser(long shipid) =>
+            this.HandleGetAction(() =>
+                _dbRepository.GetShipUser(CompanyId, shipid));
 
 
         /// <summary>
@@ -56,8 +58,9 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
         [ResourcePermission("OrganizationUser", AccessRights.Read)]
         [HttpGet, Route("user/{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(UserDetailModel), "The operation was successful.")]
-        public Task<IActionResult> GetUserDetail(long id)
-            => this.HandleGetAction(() => _dbRepository.GetUserDetailsAsync(id, CompanyId));
+        public Task<IActionResult> GetUserDetail(long id) =>
+            this.HandleGetAction(()
+                => _dbRepository.GetUserDetailsAsync(id, CompanyId));
 
 
         /// <summary>
@@ -93,8 +96,8 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
         /// <returns></returns>
         [HttpDelete, Route("user/{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, Description = "The operation was successful.")]
-        public Task<IActionResult> DeleteUser(long id)
-            => this.HandleDeleteAction(() => _dbRepository.DeleteUser(id, CompanyId));
+        public Task<IActionResult> DeleteUser(long id) =>
+            this.HandleDeleteAction(() => _dbRepository.DeleteUser(id, CompanyId));
 
 
         /// <summary>
@@ -112,8 +115,9 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
         [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, typeof(ErrorObject), Description = "The operation failed because of an invalid patch document.")]
-        public Task<IActionResult> PatchUser(long id, [FromBody] JObject json)
-            => this.HandlePatchAction(() => _dbRepository.PatchUserAsync(json, id));
+        public Task<IActionResult> PatchUser(long id, [FromBody] JObject json) =>
+            this.HandlePatchAction(() =>
+                _dbRepository.PatchUserAsync(json, id));
 
 
     }

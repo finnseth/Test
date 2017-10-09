@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
 using Dualog.Data.Configuration;
@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Dualog.PortalService
 {
@@ -63,6 +64,19 @@ namespace Dualog.PortalService
             });
 
 
+            // This is the new way
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddIdentityServerAuthentication(o =>
+            {
+
+                o.Authority = Configuration.GetValue<string>("authentication:autority");
+                o.RequireHttpsMetadata = false;
+                o.AllowedScopes = new string[] { "api" };
+            });
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
@@ -106,14 +120,17 @@ namespace Dualog.PortalService
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
-            {
-                Authority = Configuration.GetValue<string>("authentication:autority"),
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                RequireHttpsMetadata = false,
-                AllowedScopes = {"api"}
-            });
+
+            //app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            //{
+            //    Authority = Configuration.GetValue<string>("authentication:autority"),
+            //    AutomaticAuthenticate = true,
+            //    AutomaticChallenge = true,
+            //    RequireHttpsMetadata = false,
+            //    AllowedScopes = {"api"}
+            //});
+
+
 
 
             app.UseSwagger();

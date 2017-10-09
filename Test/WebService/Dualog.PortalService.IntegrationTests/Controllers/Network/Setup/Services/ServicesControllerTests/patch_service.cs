@@ -1,22 +1,23 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Dualog.PortalService.Controllers.Services.Model;
 using FluentAssertions;
 using Ploeh.AutoFixture;
 using Xunit;
 using Newtonsoft.Json.Linq;
+using Dualog.PortalService.Controllers.Network.Setup.Services.Model;
+using Dualog.PortalService.Models;
 
-namespace Dualog.PortalService.Controllers.Services.ServicesControllerTests
+namespace Dualog.PortalService.Controllers.Setup.Services.ServicesControllerTests
 {
     public class patch_service : ControllerTests
     {
         [Fact]
         public async Task should_be_ok()
         {
-            var service = Fixture.Create<ServiceDetails>();
-            var patchService = Fixture.Create<ServiceDetails>();
+            var service = Fixture.Create<ServiceDetailModel>();
+            var patchService = Fixture.Create<ServiceDetailModel>();
 
             var patch = $@"{{
                               name: '{patchService.Name}',
@@ -29,22 +30,26 @@ namespace Dualog.PortalService.Controllers.Services.ServicesControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var added = await client.AddAsync( "api/v1/internet/networkcontrol/services", service, HttpStatusCode.Created );
+                var added = await client.AddAsync(ApiUrl.CompanyServiceApi, service, HttpStatusCode.Created );
                 service.Id = added.Id;
                 patchService.Id = added.Id;
 
-                var patched = await client.PatchAsync<ServiceDetails>($"api/v1/internet/networkcontrol/services/{service.Id}", JObject.Parse( patch ), HttpStatusCode.OK );
-                patched.ShouldBeEquivalentTo( patchService );
+                var patched = await client.PatchAsync<ServiceDetailModel>($"{ApiUrl.ServiceApi}/{service.Id}", JObject.Parse( patch ), HttpStatusCode.OK );
+                patched.ShouldBeEquivalentTo( patchService, o =>
+                   o.Excluding(p => p.Company).Excluding(p => p.Ship)
+                );
 
-                var stored = await client.GetAsync<ServiceDetails>($"api/v1/internet/networkcontrol/services/{service.Id}", HttpStatusCode.OK);
-                patched.ShouldBeEquivalentTo( stored );
+                var stored = await client.GetAsync<GenericDataModel<ServiceDetailModel>>($"{ApiUrl.ServiceApi}/{service.Id}", HttpStatusCode.OK);
+                patched.ShouldBeEquivalentTo( stored.Value, o =>
+                   o.Excluding(p => p.Company).Excluding(p => p.Ship)
+                );
             }
         }
 
         [Fact]
         public async Task where_service_is_nonexistent_should_be_404()
         {
-            var patchService = Fixture.Create<ServiceDetails>();
+            var patchService = Fixture.Create<ServiceDetailModel>();
 
             var patch = $@"{{
                               name: '{patchService.Name}',
@@ -57,14 +62,14 @@ namespace Dualog.PortalService.Controllers.Services.ServicesControllerTests
             using( var client = server.CreateClient() )
             {
 
-                var patched = await client.PatchAsync<ServiceDetails>($"api/v1/internet/networkcontrol/services/0", JObject.Parse( patch ), HttpStatusCode.NotFound );
+                var patched = await client.PatchAsync<ServiceDetailModel>($"{ApiUrl.ServiceApi}/0", JObject.Parse( patch ), HttpStatusCode.NotFound );
             }
         }
 
         [Fact]
         public async Task where_properties_are_invalid_should_be_bad_request()
         {
-            var service = Fixture.Create<ServiceDetails>();
+            var service = Fixture.Create<ServiceDetailModel>();
 
             var patch = $@"{{
                               protocol: 10000000,
@@ -73,9 +78,9 @@ namespace Dualog.PortalService.Controllers.Services.ServicesControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var added = await client.AddAsync( "api/v1/internet/networkcontrol/services", service, HttpStatusCode.Created );
+                var added = await client.AddAsync( ApiUrl.CompanyServiceApi, service, HttpStatusCode.Created );
 
-                var patched = await client.PatchAsync<ServiceDetails>($"api/v1/internet/networkcontrol/services/{added.Id}", JObject.Parse( patch ), HttpStatusCode.BadRequest );
+                var patched = await client.PatchAsync<ServiceDetailModel>($"{ApiUrl.ServiceApi}/{added.Id}", JObject.Parse( patch ), HttpStatusCode.BadRequest );
             }
 
         }

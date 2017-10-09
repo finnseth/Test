@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Dualog.Data.Entity;
 using Dualog.PortalService.Controllers.Network.Setup.Services.Model;
-using Dualog.PortalService.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -35,8 +34,9 @@ namespace Dualog.PortalService.Controllers.Network.Setup.Services
         [HttpGet, Route( "service/{id}" )]
         [SwaggerResponse( (int) HttpStatusCode.OK, typeof( ServiceDetailModel ), "The operation was successful." )]
         [SwaggerResponse( (int) HttpStatusCode.InternalServerError )]
-        public Task<IActionResult> GetSingleService( long id ) 
-            => this.HandleGetAction( () => _repository.GetServiceAsync( CompanyId, id ));
+        public Task<IActionResult> GetSingleService( long id ) =>
+            this.HandleGetAction( () =>
+                _repository.GetServiceAsync( CompanyId, id ));
 
 
         /// <summary>
@@ -46,8 +46,9 @@ namespace Dualog.PortalService.Controllers.Network.Setup.Services
         [HttpGet, Route( "service" )]
         [SwaggerResponse( (int) HttpStatusCode.OK, typeof( ServiceDetailModel ), "The operation was successful." )]
         [SwaggerResponse( (int) HttpStatusCode.InternalServerError )]
-        public Task<IActionResult> GetServicesForCompany()
-            => this.HandleGetAction( () => _repository.GetServicesAsync( CompanyId, null ));
+        public Task<IActionResult> GetServicesForCompany() =>
+            this.HandleGetAction( () =>
+                _repository.GetServicesAsync( CompanyId, null ));
 
 
         /// <summary>
@@ -58,8 +59,9 @@ namespace Dualog.PortalService.Controllers.Network.Setup.Services
         [HttpGet, Route( "shipservice/{shipId}" )]
         [SwaggerResponse( (int) HttpStatusCode.OK, typeof( ServiceDetailModel ), "The operation was successful." )]
         [SwaggerResponse( (int) HttpStatusCode.InternalServerError )]
-        public Task<IActionResult> GetServicesForVessel( long shipId) 
-            => this.HandleGetAction( () => _repository.GetServicesAsync( CompanyId, shipId) );
+        public Task<IActionResult> GetServicesForVessel( long shipId) =>
+            this.HandleGetAction( () =>
+                _repository.GetServicesAsync( CompanyId, shipId) );
 
         /// <summary>
         /// Adds a new service to the specified vessel.
@@ -88,7 +90,7 @@ namespace Dualog.PortalService.Controllers.Network.Setup.Services
         [HttpPost, Route( "companyservice" )]
         [SwaggerResponse( (int) HttpStatusCode.Created, typeof( ServiceDetailModel ), "The operation was successful." )]
         [SwaggerResponse( (int) HttpStatusCode.InternalServerError )]
-        public Task<IActionResult> AddServiceToCompany( long vessel, [FromBody] ServiceDetailModel serviceDetails )
+        public Task<IActionResult> AddServiceToCompany( [FromBody] ServiceDetailModel serviceDetails )
         {
             return this.HandlePostAction( () => {
                 if( serviceDetails.Validate( out var message ) == false )
@@ -103,13 +105,12 @@ namespace Dualog.PortalService.Controllers.Network.Setup.Services
         /// </summary>
         /// <param name="id">The id of the service to delete.</param>
         /// <returns></returns>
-        [HttpDelete, Route( "service/{id}" )]
-        [SwaggerResponse( (int) HttpStatusCode.OK, Description = "The operation was successful." )]
-        [SwaggerResponse( (int) HttpStatusCode.InternalServerError )]
-        public Task<IActionResult> DeleteService( long id )
-        {
-            return this.HandleDeleteAction( () => _repository.DeleteServiceAsync( CompanyId, id ) );
-        }
+        [HttpDelete, Route("service/{id}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Description = "The operation was successful.")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
+        public Task<IActionResult> DeleteService(long id) =>
+            this.HandleDeleteAction(() =>
+                _repository.DeleteServiceAsync(CompanyId, id));
 
 
         /// <summary>
@@ -118,12 +119,11 @@ namespace Dualog.PortalService.Controllers.Network.Setup.Services
         /// <param name="id">The id of the service to patch.</param>
         /// <param name="json">The json document containing the changes.</param>
         /// <returns></returns>
-        [HttpPatch, Route( "service/{id}" )]
-        [SwaggerResponse( (int) HttpStatusCode.OK, typeof( ServiceDetailModel ), "The operation was successful." )]
-        [SwaggerResponse( (int) HttpStatusCode.InternalServerError )]
-        public Task<IActionResult> PatchService( long id, [FromBody] JObject json )
-        {
-            return this.HandlePatchAction( () => _repository.PatchService( CompanyId, id, json ) );
-        }
+        [HttpPatch, Route("service/{id}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, typeof(ServiceDetailModel), "The operation was successful.")]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
+        public Task<IActionResult> PatchService(long id, [FromBody] JObject json) =>
+            this.HandlePatchAction(() =>
+                _repository.PatchService(CompanyId, id, json));
     }
 }

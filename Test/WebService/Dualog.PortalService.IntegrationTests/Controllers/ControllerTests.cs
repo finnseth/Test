@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -7,7 +7,6 @@ using Dualog.Data.Entity;
 using Dualog.Data.Oracle.Shore;
 using Dualog.PortalService.Authentication;
 using Dualog.PortalService.Controllers.Dashboard;
-using Dualog.PortalService.Controllers.Users.Model;
 using Dualog.PortalService.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,9 +14,12 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Ploeh.AutoFixture;
 using Serilog;
-using Dualog.PortalService.Controllers.Users;
-using Dualog.PortalService.Controllers.Companies.Model;
-using Dualog.PortalService.Controllers.Companies;
+using Dualog.PortalService.Controllers.Organization.Shipping.User.Model;
+using Dualog.PortalService.Controllers.Organization.Shipping.Company.Model;
+using Dualog.PortalService.Controllers.Organization.Shipping.User;
+using Dualog.PortalService.Controllers.Organization.Shipping.Company;
+using Dualog.PortalService.Core;
+using Dualog.PortalService.Controllers.Organization.Shipping.Permission;
 
 namespace Dualog.PortalService.Controllers
 {
@@ -27,7 +29,7 @@ namespace Dualog.PortalService.Controllers
         long _loggedInUserId;
         long _loggedInCompanyId;
 
-        public ControllerTests( bool regularUser = true )
+        public ControllerTests(bool regularUser = true)
         {
             Log.Logger = new LoggerConfiguration()
               .MinimumLevel.Debug()
@@ -35,8 +37,8 @@ namespace Dualog.PortalService.Controllers
               .WriteTo.LiterateConsole()
               .CreateLogger();
 
-            Fixture.Customize<UserDetailsModel>( c => c.With( p => p.Email, Fixture.Create<MailAddress>().Address ) );
-            Fixture.Customize<CompanyInformation>( c => c.With( p => p.Email, Fixture.Create<MailAddress>().Address ) );
+            Fixture.Customize<UserDetailModel>(c => c.With(p => p.Email, Fixture.Create<MailAddress>().Address));
+            Fixture.Customize<CompanyModel>(c => c.With(p => p.Email, Fixture.Create<MailAddress>().Address));
 
             Init();
         }
@@ -45,37 +47,49 @@ namespace Dualog.PortalService.Controllers
         public long LoggedInUserId => _loggedInUserId;
         public long LoggedInCompanyId => _loggedInCompanyId;
 
+        IDataContextFactory _dataContextFactory;
+
         public IDataContextFactory DataContextFactory
         {
             get
             {
-                return new OracleShoreDataContextFactory(
-                    new ParameterizedConnectionStringResolver(
-                        "192.168.5.161",
-                        1521,
-                        "devcsdb.dualog.no",
-                        "g20dualog",
-                        "g20dualog" ) );
+                if (_dataContextFactory == null)
+                {
+                    _dataContextFactory = new OracleShoreDataContextFactory(
+                        new ParameterizedConnectionStringResolver(
+                            "192.168.5.161",
+                            1521,
+                            "devcsdb.dualog.no",
+                            "g20dualog",
+                            "g20dualog"));
+                }
+
+                return _dataContextFactory;
             }
         }
 
 
         private async void Init()
         {
-            (_loggedInCompanyId, _loggedInUserId) = await DataCreation.RegisterRegularUserIntoCompany( this );
+            (_loggedInCompanyId, _loggedInUserId) = await DataCreation.RegisterRegularUserIntoCompany(this);
         }
 
 
-        protected async Task<ObjectLookup> SetupData( string fileName, TestServer server )
+        protected async Task<ObjectLookup> SetupData(string fileName, TestServer server)
         {
             var tdr = new TestDataReader();
             var testData = tdr.ReadAsync(fileName);
 
             var tdw = new TestDataWorker(server);
 
-            var ol = await tdw.Execute( testData );
+            var ol = await tdw.Execute(testData);
             return ol;
         }
+
+        protected Task GrantPermission(long userId, string permission, AccessRights rights) =>
+            DataContextFactory.CreateContext().Use(dc =>
+                PermissionRepository.InternalGrantPermissionAsync(dc, userId, permission, rights));
+
 
         public TestServer CreateServer()
         {
@@ -83,19 +97,23 @@ namespace Dualog.PortalService.Controllers
 
                 .ConfigureServices(services =>
                 {
+                    services.AddTransient(sp => DataContextFactory);
 
-
-                    services.AddTransient<IDataContextFactory>(sp => DataContextFactory );
-
-                    services.AddAuthorization(options =>
+                    services.AddAuthentication(o =>
                     {
+                        o.DefaultScheme = "integrationTests";
+                    }).AddTestAuthentication("integrationTests", "Integration Tests", o =>
+                    {
+
+                        o.CompanyId = LoggedInCompanyId;
+                        o.UserId = LoggedInUserId;
                     });
 
-                    services.Configure<TestAuthenticationOptions>( options =>
-                    {
-                        options.CompanyId = LoggedInCompanyId;
-                        options.UserId = LoggedInUserId;
-                    } );
+                    services.Configure<TestAuthenticationOptions>(options =>
+                   {
+                       options.CompanyId = LoggedInCompanyId;
+                       options.UserId = LoggedInUserId;
+                   });
 
 
                     services.AddMvc(options =>
@@ -107,11 +125,11 @@ namespace Dualog.PortalService.Controllers
 
                 .Configure(app =>
                 {
-                    app.UseMiddleware<TestAuthenticationMiddleware>();
+                    app.UseAuthentication();
                     app.UseMvc();
                 });
 
-            return new TestServer( builder );
+            return new TestServer(builder);
         }
 
 
@@ -127,14 +145,14 @@ namespace Dualog.PortalService.Controllers
         // This code added to correctly implement the disposable pattern.
         public async void Dispose()
         {
-            if( !disposedValue )
+            if (!disposedValue)
             {
                 OnDispose();
 
-                using( var dc = DataContextFactory.CreateContext() )
+                using (var dc = DataContextFactory.CreateContext())
                 {
-                    await UserRepository.InternalDeleteAllUsersInCompany( dc, LoggedInCompanyId );
-                    await CompanyRepository.InternalRemoveCompany( dc, LoggedInCompanyId );
+                    await UserRepository.InternalDeleteAllUsersInCompany(dc, LoggedInCompanyId);
+                    await CompanyRepository.InternalRemoveCompany(dc, LoggedInCompanyId);
                 }
 
 

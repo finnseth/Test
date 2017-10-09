@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,10 +54,10 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.UserGroup
         [ResourcePermission("OrganizationUser", AccessRights.Read)]
         [HttpGet, Route("usergroup/{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(UserGroupDetailModel), "The operation was successful.")]
-        public async Task<IActionResult> GetUserGroupDetail(long id)
-        {
-            return Ok(await _dbRepository.GetUserGroupDetail(CompanyId, id));
-        }
+        public Task<IActionResult> GetUserGroupDetail(long id) =>
+            this.HandleGetAction(() =>
+                _dbRepository.GetUserGroupDetail(CompanyId, id));
+
 
         /// <summary>
         /// Creates a new user group for the specified company.

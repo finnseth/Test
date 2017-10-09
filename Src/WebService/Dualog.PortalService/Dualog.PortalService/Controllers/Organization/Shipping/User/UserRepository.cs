@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +27,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
             _dcFactory = dcFactory;
         }
 
-        public async Task<GenericDataModel<IEnumerable<UserModel>>> GetUser(long companyId)
+        public async Task<GenericDataModel<IEnumerable<UserModel>>> GetUsersForCompany(long companyId)
         {
             using (var dc = _dcFactory.CreateContext())
             {
@@ -97,15 +97,15 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
                              PhoneNumber = us.PhoneNr,
                              Address = us.Address,
                              Rowstatus = us.RowStatus,
-                             Usergroup = from ugm in us.UserGroups
-                                          select new UserGroupModel
-                                          {
-                                              Id = ugm.Id,
-                                              Name = ugm.Name
-                                          }
+                             UserGroups = from ugm in us.UserGroups
+                                         select new UserGroupModel
+                                         {
+                                             Id = ugm.Id,
+                                             Name = ugm.Name
+                                         }
                          };
 
-                
+
 
                 return new GenericDataModel<UserDetailModel>()
                 {
@@ -124,11 +124,11 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
         /// <param name="search">The search.</param>
         /// <param name="includeTotalCount">if set to <c>true</c> [include total count].</param>
         /// <returns></returns>
-        public Task<GenericDataModel<IEnumerable<UserModel>>> GetUserAsync(long companyId, Pagination pagination, Search search, bool includeTotalCount = false)
-            => _dcFactory.CreateContext().Use(async dc =>
+        public Task<GenericDataModel<IEnumerable<UserModel>>> GetUserAsync(long companyId, Pagination pagination, Search search, bool includeTotalCount = false) =>
+            _dcFactory.CreateContext().Use(async dc =>
             {
                 var query = from u in dc.GetSet<DsUser>()
-                            where u.Company.Id == companyId || companyId == 0 
+                            where u.Company.Id == companyId || companyId == 0
                             orderby u.Name ascending
                             select new UserModel
                             {
@@ -151,8 +151,8 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
         /// <param name="id">The id of the user to get</param>
         /// <param name="companyId">The logged in users company id.</param>
         /// <returns></returns>
-        public Task<GenericDataModel<UserDetailModel>> GetUserDetailsAsync(long id, long companyId)
-            => _dcFactory.CreateContext().Use(async dc =>
+        public Task<GenericDataModel<UserDetailModel>> GetUserDetailsAsync(long id, long companyId) =>
+            _dcFactory.CreateContext().Use(async dc =>
             {
                 var q = from u in dc.GetSet<DsUser>()
                         where u.Id == id && u.Company.Id == companyId
@@ -164,7 +164,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
                             Address = u.Address,
                             PhoneNumber = u.PhoneNr,
                             IsVesselUser = u.VesselUser ?? false,
-                            Usergroup = from ug in u.UserGroups
+                            UserGroups = from ug in u.UserGroups
                                         select new UserGroupModel
                                         {
                                             Id = ug.Id,
@@ -187,8 +187,9 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
             });
 
 
-        public Task CreateUser(UserDetailModel user, long companyId)
-            => _dcFactory.CreateContext().Use(async dc => await InternalCreateUser(dc, user, companyId));
+        public Task CreateUser(UserDetailModel user, long companyId) =>
+            _dcFactory.CreateContext().Use(async dc =>
+               await InternalCreateUser(dc, user, companyId));
 
         public static async Task InternalCreateUser(IDataContext dc, UserDetailModel userDetails, long companyId)
         {
@@ -309,78 +310,75 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
             });
 
         public Task<UserDetailModel> PatchUserAsync(JObject json, long id) =>
-            _dcFactory.CreateContext().Use(async dc =>
-    {
-        (dc as IHasChangeDetection)?.EnableChangeDetection();
+            _dcFactory.CreateContext().Use(async dc => {
+                (dc as IHasChangeDetection)?.EnableChangeDetection();
 
-        var user = dc.GetSet<DsUser>()
-                        .Where(u => u.Id == id)
-                        .Include("UserGroups")
-                        .Include("Permissions.Function")
-                        .FirstOrDefault();
+                var user = dc.GetSet<DsUser>()
+                                .Where(u => u.Id == id)
+                                .Include("UserGroups")
+                                .Include("Permissions.Function")
+                                .FirstOrDefault();
 
-        if (user == null)
-            throw new NotFoundException();
+                if (user == null)
+                    throw new NotFoundException();
 
-        // Get all allowTypes and convert them to numbers
-        ConvertAllowTypesFromStringToNumber(json);
+                // Get all allowTypes and convert them to numbers
+                ConvertAllowTypesFromStringToNumber(json);
 
-        var jog = new JsonObjectGraph(json, dc);
+                var jog = new JsonObjectGraph(json, dc);
 
-        jog.AddPropertyMap("PhoneNumber", "PhoneNr");
-        jog.AddPropertyMap("IsVesselUser", "VesselUser");
+                jog.AddPropertyMap("PhoneNumber", "PhoneNr");
+                jog.AddPropertyMap("IsVesselUser", "VesselUser");
 
-        jog.LookupObjectById = (path, value) =>
-        {
-            if (path.StartsWith("/permissions"))
-            {
-                var pf = user.Permissions.FirstOrDefault(p => p.Function.Name.ToLower() == value.ToString().ToLower());
-                if (pf == null)
-                    throw new ValidationException($"The permission with the name {value} was not found.");
-
-                return pf;
-            }
-            return null;
-        };
-
-
-        jog.CollectionChanging += async (s, e) =>
-        {
-            var jItem = e.Json;
-
-            switch (e.Path)
-            {
-                case "/permissions":
-                    string functionName = jItem.GetValue("name", StringComparison.OrdinalIgnoreCase).Value<string>()?.ToLower();
-
-                    var function = await dc.GetSet<DsFunction>()
-                                   .Where(pf => pf.Name.ToLower() == functionName)
-                                   .FirstOrDefaultAsync();
-
-                    if (function == null)
+                jog.LookupObjectById = (path, value) =>
+                {
+                    if (path.StartsWith("/permissions"))
                     {
-                        e.Exception = new ValidationException($"The permission with name {functionName} does not exists.");
-                        return;
+                        var pf = user.Permissions.FirstOrDefault(p => p.Function.Name.ToLower() == value.ToString().ToLower());
+                        if (pf == null)
+                            throw new ValidationException($"The permission with the name {value} was not found.");
+
+                        return pf;
+                    }
+                    return null;
+                };
+
+
+                jog.CollectionChanging += async (s, e) =>
+                {
+                    var jItem = e.Json;
+
+                    switch (e.Path)
+                    {
+                        case "/permissions":
+                            string functionName = jItem.GetValue("name", StringComparison.OrdinalIgnoreCase).Value<string>()?.ToLower();
+
+                            var function = await dc.GetSet<DsFunction>()
+                                           .Where(pf => pf.Name.ToLower() == functionName)
+                                           .FirstOrDefaultAsync();
+
+                            if (function == null)
+                            {
+                                e.Exception = new ValidationException($"The permission with name {functionName} does not exists.");
+                                return;
+                            }
+
+                            if (function != null)
+                            {
+                                var permission = e.Value as DsPermissionFunction;
+                                permission.Function = function;
+                            }
+                            break;
                     }
 
-                    if (function != null)
-                    {
-                        var permission = e.Value as DsPermissionFunction;
-                        permission.Function = function;
-                    }
-                    break;
-            }
+                };
 
-        };
+                await jog.ApplyToAsync(user, new DefaultContractResolver());
+                var rUserDetails = UserDetailModel.FromDsUser(user);
 
-        await jog.ApplyToAsync(user, new DefaultContractResolver());
-        var rUserDetails = UserDetailModel.FromDsUser(user);
-
-        dc.Log = s => Serilog.Log.Debug(s);
-
-        await dc.SaveChangesAsync();
-        return rUserDetails;
-    });
+                await dc.SaveChangesAsync();
+                return rUserDetails;
+            });
 
         private static void ConvertAllowTypesFromStringToNumber(JObject json)
         {
@@ -395,6 +393,5 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User
                     jp.Value = (int)ar;
             }
         }
-
     }
 }

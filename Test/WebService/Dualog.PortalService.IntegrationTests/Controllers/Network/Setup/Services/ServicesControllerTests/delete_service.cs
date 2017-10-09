@@ -1,33 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Ploeh.AutoFixture;
 using Xunit;
-using Dualog.PortalService.Controllers.Services.Model;
-using System.Net;
+using Dualog.PortalService.Controllers.Network.Setup.Services.Model;
 
-namespace Dualog.PortalService.Controllers.Services.ServicesControllerTests
+namespace Dualog.PortalService.Controllers.Setup.Services.ServicesControllerTests
 {
     public class delete_service : ControllerTests
     {
         [Fact]
         public async Task should_be_ok()
         {
-            var service = Fixture.Create<ServiceDetails>();
+            var service = Fixture.Create<ServiceDetailModel>();
 
             // Assign
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var added = await client.AddAsync( "api/v1/internet/networkcontrol/services", service, HttpStatusCode.Created );
+                var added = await client.AddAsync( ApiUrl.CompanyServiceApi, service, HttpStatusCode.Created );
 
-                var response = await client.DeleteAsync($"api/v1/internet/networkcontrol/services/{added.Id}" );
+                var response = await client.DeleteAsync($"{ApiUrl.ServiceApi}/{added.Id}" );
                 response.StatusCode.Should().Be( HttpStatusCode.OK );
 
-                var stored = await client.GetAsync<ServiceDetails>( $"internet/networkcontrol/services/{added.Id}", HttpStatusCode.NotFound);
+                var stored = await client.GetAsync<ServiceDetailModel>($"{ApiUrl.CompanyServiceApi}/{added.Id}", HttpStatusCode.NotFound);
             }
         }
 
@@ -37,7 +35,7 @@ namespace Dualog.PortalService.Controllers.Services.ServicesControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var response = await client.DeleteAsync($"api/v1/internet/networkcontrol/services/0" );
+                var response = await client.DeleteAsync($"{ApiUrl.ServiceApi}/0" );
                 response.StatusCode.Should().Be( HttpStatusCode.OK );
             }
 

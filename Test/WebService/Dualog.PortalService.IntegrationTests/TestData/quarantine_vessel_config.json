@@ -1,9 +1,9 @@
 {
   "entities": [
     {
-      "id": "v1",
-      "host": "/api/v1/vessels",
-      "type": "Dualog.PortalService.Controllers.Vessels.Model.VesselDetails"
+        "id": "v1",
+        "host": "/api/v1/email/setup/quarantine/shipquarantine/",
+        "type": "Dualog.PortalService.Controllers.Organization.Shipping.Ship.Model.ShipWithQuarantineModel"
     }
   ]
 }

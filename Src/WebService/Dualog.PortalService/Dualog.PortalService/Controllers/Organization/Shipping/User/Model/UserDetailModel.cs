@@ -1,13 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Web;
-using System.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Dualog.PortalService.Core.Validation;
+using System.Linq;
 using Dualog.Data.Oracle.Shore.Model;
-using Dualog.PortalService.Controllers.Organization.Shipping.UserGroup.Model;
 using Dualog.PortalService.Controllers.Organization.Shipping.Permission.Model;
+using Dualog.PortalService.Controllers.Organization.Shipping.UserGroup.Model;
 using Dualog.PortalService.Core;
 
 namespace Dualog.PortalService.Controllers.Organization.Shipping.User.Model
@@ -21,7 +18,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User.Model
         [StringLength(200, ErrorMessage = "Address cannot be longer than 200 characters.")]
         public string Address { get; set; }
 
-        public IEnumerable<UserGroupModel> Usergroup { get; set; }
+        public IEnumerable<UserGroupModel> UserGroups { get; set; }
         public IEnumerable<PermissionDetailModel> Permissions { get; set; }
 
         public static UserDetailModel FromDsUser(DsUser user)
@@ -40,7 +37,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.User.Model
                                   Name = p.Function.Name,
                                   AllowType = (AccessRights)p.AllowType
                               },
-                Usergroup = from ug in user.UserGroups
+                UserGroups = from ug in user.UserGroups
                              select new UserGroupModel
                              {
                                  Name = ug.Name,

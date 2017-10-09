@@ -1,4 +1,5 @@
-﻿using Dualog.PortalService.Controllers.Methods.Model;
+using Dualog.PortalService.Controllers.Network.Setup.InternetGateway.Model;
+using Dualog.PortalService.Models;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Dualog.PortalService.Controllers.Methods.MethodsControllerTests
+namespace Dualog.PortalService.Controllers.Setup.InternetGateway.InternetGatewayControllerTests
 {
     public class get_carrierTypes : ControllerTests
     {
@@ -18,8 +19,8 @@ namespace Dualog.PortalService.Controllers.Methods.MethodsControllerTests
             using( var server = CreateServer() )
             using( var client = server.CreateClient() )
             {
-                var stored = await client.GetAsync<IEnumerable<CarrierTypeDetails>>( $"api/v1/core/carrierType", HttpStatusCode.OK);
-                stored.Should().NotBeEmpty();
+                var stored = await client.GetAsync<GenericDataModel<IEnumerable<CarrierTypeModel>>>( $"api/v1/network/setup/internetgateway/gatewaytype", HttpStatusCode.OK);
+                stored.Value.Should().NotBeEmpty();
             }
 
         }

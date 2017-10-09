@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -35,18 +35,24 @@ namespace Dualog.PortalService.Controllers.Network.Setup.InternetGateway
         [HttpGet, Route( "gatewaytype" )]
         [SwaggerResponse( (int) HttpStatusCode.OK, typeof( CarrierTypeModel[] ), "The operation was successful." )]
         [SwaggerResponse( (int) HttpStatusCode.InternalServerError )]
-        public Task<IActionResult> GetMethods() => this.HandleGetAction( () => _repository.GetMethods() );
+        public Task<IActionResult> GetMethods() =>
+            this.HandleGetAction( () =>
+                _repository.GetMethods() );
 
         [HttpGet, Route("ship/{shipId}/gateway")]
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(CommunicationMethodModel[]), "The operation was successful.")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
-        public Task<IActionResult> GetAllComMethods(long shipId) => this.HandleGetAction(() => _repository.GetCommMethods(CompanyId, shipId));
+        public Task<IActionResult> GetAllComMethods(long shipId) =>
+            this.HandleGetAction(() =>
+                _repository.GetCommMethods(CompanyId, shipId));
 
 
         [HttpGet, Route("ship/{shipId}/gateway/{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(CommunicationMethodDetailsModel), "The operation was successful.")]
         [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
-        public Task<IActionResult> GetSingleComMethod(long shipId, long id) => this.HandleGetAction(() => _repository.GetSingleComMethod(CompanyId, shipId, id));
+        public Task<IActionResult> GetSingleComMethod(long shipId, long id) =>
+            this.HandleGetAction(() =>
+                _repository.GetSingleComMethod(CompanyId, shipId, id));
 
     }
 }

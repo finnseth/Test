@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -8,6 +8,7 @@ using Dualog.Data.Oracle.Shore.Model;
 using Dualog.PortalService.Controllers.Organization.Shipping.Permission.Model;
 using Dualog.PortalService.Core;
 using Dualog.PortalService.Models;
+using Dapper;
 
 namespace Dualog.PortalService.Controllers.Organization.Shipping.Permission
 {
@@ -91,6 +92,23 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.Permission
                     };
 
             return q.OrderBy( p => p.Name );
+        }
+
+        public static async Task InternalGrantPermissionAsync(IDataContext dc, long userId, string permission, AccessRights rights)
+        {
+            var conn = (dc as IHasDataConnection).GetDataConnection();
+
+            var sql = @"INSERT INTO DS_PERMISSIONFUNCTION (PEF_PERMISSIONFUNCID, FUN_FUNCTIONID, USR_USERID, PEF_ALLOWTYPE)
+			            SELECT DS_PERMISSIONFUNCTION_SEQ.nextval, F.FUN_FUNCTIONID, :u, :a
+	 	                FROM DS_FUNCTION F 
+	 	                WHERE LOWER(F.FUN_FUNCTIONNAME) = LOWER(:n)";
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("u", userId);
+            parameters.Add("a", (int)rights);
+            parameters.Add("n", permission);
+
+            await conn.ExecuteAsync(sql,  parameters);
         }
     }
 

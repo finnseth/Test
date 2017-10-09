@@ -1,16 +1,17 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model;
-using Dualog.PortalService.Controllers.Users;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Ploeh.AutoFixture;
 using Xunit;
 using System.Net.Mail;
+using Dualog.PortalService.Controllers.Organization.Shipping.User;
+using Dualog.PortalService.Models;
 
 namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineControllerTests
 {
@@ -40,10 +41,10 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineCont
 
 
                 var cmpResponse = await client.GetAsync("/api/v1/email/setup/quarantine/companyquarantine");
-                var cmpQuarantine = JsonConvert.DeserializeObject<QuarantineCompanyModel[]>( await cmpResponse.Content.ReadAsStringAsync());
+                var cmpQuarantine = JsonConvert.DeserializeObject<GenericDataModel<QuarantineCompanyModel[]>>( await cmpResponse.Content.ReadAsStringAsync());
 
 
-                var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"/api/v1/email/setup/quarantine/companyquarantine/{cmpQuarantine[0].QuarantineId}");
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"/api/v1/email/setup/quarantine/companyquarantine/{cmpQuarantine.Value[0].QuarantineId}");
                 request.Content = content;
 
                 // Act
@@ -80,10 +81,10 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineCont
 
 
                 var cmpResponse = await client.GetAsync("/api/v1/email/setup/quarantine/companyquarantine");
-                var cmpQuarantine = JsonConvert.DeserializeObject<QuarantineCompanyModel[]>(await cmpResponse.Content.ReadAsStringAsync());
+                var cmpQuarantine = JsonConvert.DeserializeObject<GenericDataModel<QuarantineCompanyModel[]>>(await cmpResponse.Content.ReadAsStringAsync());
 
 
-                var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"/api/v1/email/setup/quarantine/companyquarantine/{cmpQuarantine[0].QuarantineId}");
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"/api/v1/email/setup/quarantine/companyquarantine/{cmpQuarantine.Value[0].QuarantineId}");
                 request.Content = content;
 
                 // Act

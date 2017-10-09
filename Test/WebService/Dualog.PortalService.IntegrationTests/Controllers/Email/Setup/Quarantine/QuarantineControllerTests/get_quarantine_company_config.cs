@@ -1,12 +1,13 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Dualog.PortalService.Controllers.Users;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
 using Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model;
+using Dualog.PortalService.Controllers.Organization.Shipping.User;
+using Dualog.PortalService.Models;
 
 namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineControllerTests
 {
@@ -32,7 +33,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineCont
                 response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.OK);
 
                 var s = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<QuarantineCompanyModel[]>(s);
+                var result = JsonConvert.DeserializeObject<GenericDataModel<QuarantineCompanyModel[]>>(s);
 
                 result.Should().NotBeNull();
 

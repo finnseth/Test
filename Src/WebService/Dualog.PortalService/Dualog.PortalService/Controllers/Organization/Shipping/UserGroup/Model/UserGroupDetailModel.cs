@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,7 +33,14 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.UserGroup.Model
                                        {
                                            AllowType = (AccessRights)p.AllowType,
                                            Name = p.Function.Name
-                                       })
+                                       }),
+
+                Members = from ugm in userGroup.Users ?? Enumerable.Empty<DsUser>()
+                          select new UserMemberModel
+                          {
+                              Id = ugm.Id,
+                              UserName = ugm.Name
+                          },
             };
             return newUserGroupDetails;
         }

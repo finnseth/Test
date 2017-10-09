@@ -1,30 +1,29 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http.Authentication;
-
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Dualog.PortalService.Authentication
 {
     public class TestAuthenticationHandler : AuthenticationHandler<TestAuthenticationOptions>
     {
-
-        public TestAuthenticationHandler( )
+        public TestAuthenticationHandler(IOptionsMonitor<TestAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
+            : base(options, logger, encoder, clock)
         {
         }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var identity = Options.CreateIdentity();
-
-            var authTicket = new AuthenticationTicket(
-                new ClaimsPrincipal(identity),
-                new AuthenticationProperties(),
-                Options.AuthenticationScheme);
-
-            return Task.FromResult( AuthenticateResult.Success( authTicket ) );
+            return Task.FromResult(
+                AuthenticateResult.Success(
+                    new AuthenticationTicket(
+                        new ClaimsPrincipal(Options.Identity ),
+                        new AuthenticationProperties(),
+                        Scheme.Name ) ));
         }
     }
 }

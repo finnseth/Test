@@ -20,12 +20,12 @@ namespace Dualog.PortalService.Controllers.NetworkControlRules.NetworkControlRul
             //using( var server = CreateServer() )
             //using( var client = server.CreateClient() )
             //{
-            //    var result = await client.AddAsync( "/api/v1/usersGroups", userGroup );
+            //    var result = await client.AddAsync( "{ApiUrl.UserGroupServiceApi}s", userGroup );
             //    userGroup.Id = result.Id;
 
             //    result.ShouldBeEquivalentTo( userGroup );
 
-            //    var stored = await client.GetAsync<UserGroupDetails>($"/api/v1/usersGroups/{userGroup.Id}" );
+            //    var stored = await client.GetAsync<UserGroupDetails>($"{ApiUrl.UserGroupServiceApi}s/{userGroup.Id}" );
             //    stored.ShouldBeEquivalentTo( userGroup );
             //}
 

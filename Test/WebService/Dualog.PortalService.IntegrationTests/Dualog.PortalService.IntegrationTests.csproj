@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net462</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <DebugType>portable</DebugType>
     <AssemblyName>Dualog.PortalService.IntegrationTests</AssemblyName>
@@ -24,23 +24,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoFixture.Xunit" Version="3.50.2" />
+    <PackageReference Include="AutoFixture.Xunit" Version="3.50.7" />
     <PackageReference Include="AWSSDK" Version="2.3.55.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="NCrunch.Framework" Version="3.3.0.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.1.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="NCrunch.Framework" Version="3.11.0.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.0" />
     <PackageReference Include="Microsoft.DotNet.InternalAbstractions" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
-    <PackageReference Include="FluentAssertions" Version="4.19.0" />
+    <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="Dualog.Data.Core" Version="1.0.0.28" />
     <PackageReference Include="Dualog.Data.Oracle" Version="2.34.2.263" />
     <PackageReference Include="Dualog.Core" Version="1.0.0.26" />
     <PackageReference Include="Dualog.Data.Utils" Version="1.0.0.45" />
-    <PackageReference Include="AutoFixture" Version="3.50.2" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0-preview1-25305-02" />
+    <PackageReference Include="AutoFixture" Version="3.50.7" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <PackageReference Include="xunit" Version="2.3.0-beta2-build3683" />
   </ItemGroup>
 
@@ -55,6 +55,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Src\WebService\Dualog.PortalService\Dualog.PortalService\Dualog.PortalService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Web.Services" />
   </ItemGroup>
 
   

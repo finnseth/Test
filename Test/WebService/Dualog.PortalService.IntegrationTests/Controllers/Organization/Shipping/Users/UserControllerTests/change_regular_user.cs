@@ -1,19 +1,20 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Dualog.PortalService.Controllers.Users.Model;
+using Dualog.PortalService.Core;
 using FluentAssertions;
-using Xunit;
 using Newtonsoft.Json.Linq;
 using Ploeh.AutoFixture;
-using Dualog.PortalService.Controllers.Permissions.Model;
-using Dualog.PortalService.Core;
-using Dualog.PortalService.Controllers.UserGroups.Model;
-using System.Net.Http;
+using Xunit;
+using Dualog.PortalService.Controllers.Organization.Shipping.User.Model;
+using Dualog.PortalService.Controllers.Organization.Shipping.Permission.Model;
+using Dualog.PortalService.Controllers.Organization.Shipping.UserGroup.Model;
+using Dualog.PortalService.Models;
 
-namespace Dualog.PortalService.Controllers.Users.UserControllerTests
+namespace Dualog.PortalService.Controllers.Organization.Shipping.Users.UserControllerTests
 {
     public class change_regular_user : ControllerTests
     {
@@ -24,25 +25,28 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
-                var original = await client.GetAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}");
+                await GrantPermission( LoggedInUserId, "OrganizationUser", AccessRights.Read);
+
+
+                var original = await client.GetAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}");
 
                 string json = $@"{{
                                   permissions: {{
                                     add: [
-                                      {{name: 'EmailOperation', allowType: 2}}, 
-                                      {{name: 'EmailRestriction', allowType: 1}}
+                                      {{name: 'EmailRestriction', allowType: 2}}, 
+                                      {{name: 'EmailSetupTechnical', allowType: 1}}
                                     ]
                                   }}
                                 }}";
 
                 // Act
-                await client.PatchAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}", JObject.Parse(json));
-                var result = await client.GetAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}");
+                await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}", JObject.Parse(json));
+                var result = await client.GetAsync<GenericDataModel<UserDetailModel>>($"{ApiUrl.UserApi}/{LoggedInUserId}");
 
-                var permissions = result.Permissions.ToDictionary(k => k.Name, v => v.AllowType);
-                permissions.Should().ContainKeys("EmailOperation", "EmailRestriction");
-                permissions["EmailOperation"].Should().Be(AccessRights.Write);
-                permissions["EmailRestriction"].Should().Be(AccessRights.Read);
+                var permissions = result.Value.Permissions.ToDictionary(k => k.Name, v => v.AllowType);
+                permissions.Should().ContainKeys("EmailSetupTechnical", "EmailRestriction");
+                permissions["EmailSetupTechnical"].Should().Be(AccessRights.Read);
+                permissions["EmailRestriction"].Should().Be(AccessRights.Write);
             }
         }
 
@@ -53,7 +57,9 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
-                var original = await client.GetAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}");
+                await GrantPermission(LoggedInUserId, "OrganizationUser", AccessRights.Read);
+
+                var original = await client.GetAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}");
 
                 string json = $@"{{
                                   permissions: {{
@@ -64,18 +70,18 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
                                 }}";
 
                 // Act
-                await client.PatchAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}", JObject.Parse(json), HttpStatusCode.BadRequest);
+                await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}", JObject.Parse(json), HttpStatusCode.BadRequest);
             }
         }
 
         [Fact]
         public async Task delete_existent_permission_should_be_ok()
         {
-            var user = Fixture.Create<UserDetailsModel>();
-            user.Permissions = new List<PermissionDetails>
+            var user = Fixture.Create<UserDetailModel>();
+            user.Permissions = new List<PermissionDetailModel>
             {
-                new PermissionDetails{ Name = "EmailOperation", AllowType = AccessRights.Read },
-                new PermissionDetails{ Name = "EmailSetting", AllowType = AccessRights.Write },
+                new PermissionDetailModel{ Name = "NetworkInternetGateway", AllowType = AccessRights.Read },
+                new PermissionDetailModel{ Name = "NetworkHTTPRules", AllowType = AccessRights.Write },
             };
             user.UserGroups = new List<UserGroupModel>();
 
@@ -83,35 +89,37 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
+                await GrantPermission(LoggedInUserId, "OrganizationUser", AccessRights.Read);
+
                 // Act
-                var added = await client.AddAsync("api/v1/users", user);
+                var added = await client.AddAsync($"{ApiUrl.UserApi}", user);
                 user.Id = added.Id;
 
                 added.Permissions.Should().HaveCount(2);
 
                 string json = $@"{{
                                   permissions: {{
-                                    delete: [ 'EmailOperation', 'EmailSetting']
+                                    delete: [ 'NetworkInternetGateway', 'NetworkHTTPRules']
                                   }}
                                 }}";
 
                 // Act
-                var patched = await client.PatchAsync<UserDetailsModel>($"api/v1/users/{added.Id}", JObject.Parse(json), HttpStatusCode.OK);
+                var patched = await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/{added.Id}", JObject.Parse(json), HttpStatusCode.OK);
                 patched.Permissions.Should().BeEmpty();
 
-                var result = await client.GetAsync<UserDetailsModel>($"api/v1/users/{added.Id}");
-                result.ShouldBeEquivalentTo(patched);
+                var result = await client.GetAsync<GenericDataModel<UserDetailModel>>($"{ApiUrl.UserApi}/{added.Id}");
+                result.Value.ShouldBeEquivalentTo(patched);
             }
         }
 
         [Fact]
         public async Task delete_nonexistent_permission_should_be_bad_request()
         {
-            var user = Fixture.Create<UserDetailsModel>();
-            user.Permissions = new List<PermissionDetails>
+            var user = Fixture.Create<UserDetailModel>();
+            user.Permissions = new List<PermissionDetailModel>
             {
-                new PermissionDetails{ Name = "EmailOperation", AllowType = AccessRights.Read },
-                new PermissionDetails{ Name = "EmailSetting", AllowType = AccessRights.Write },
+                new PermissionDetailModel{ Name = "EmailOperation", AllowType = AccessRights.Read },
+                new PermissionDetailModel{ Name = "EmailSetting", AllowType = AccessRights.Write },
             };
             user.UserGroups = new List<UserGroupModel>();
 
@@ -119,8 +127,11 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
+
+                await GrantPermission(LoggedInUserId, "OrganizationUser", AccessRights.Read);
+
                 // Act
-                var added = await client.AddAsync("api/v1/users", user);
+                var added = await client.AddAsync($"{ApiUrl.UserApi}", user);
                 user.Id = added.Id;
 
                 added.Permissions.Should().HaveCount(2);
@@ -132,18 +143,18 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
                                 }}";
 
                 // Act
-                var patched = await client.PatchAsync<UserDetailsModel>($"api/v1/users/{added.Id}", JObject.Parse(json), HttpStatusCode.BadRequest);
+                var patched = await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/{added.Id}", JObject.Parse(json), HttpStatusCode.BadRequest);
             }
         }
 
         [Fact]
         public async Task change_existent_permission_should_be_ok()
         {
-            var user = Fixture.Create<UserDetailsModel>();
-            user.Permissions = new List<PermissionDetails>
+            var user = Fixture.Create<UserDetailModel>();
+            user.Permissions = new List<PermissionDetailModel>
             {
-                new PermissionDetails{ Name = "EmailOperation", AllowType = AccessRights.Read },
-                new PermissionDetails{ Name = "EmailSetting", AllowType = AccessRights.Write },
+                new PermissionDetailModel{ Name = "EmailSetupDelivery", AllowType = AccessRights.Read },
+                new PermissionDetailModel{ Name = "NetworkHTTPRules", AllowType = AccessRights.Write },
             };
             user.UserGroups = new List<UserGroupModel>();
 
@@ -153,8 +164,10 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
+                await GrantPermission(LoggedInUserId, "OrganizationUser", AccessRights.Read);
+
                 // Act
-                var added = await client.AddAsync("api/v1/users", user);
+                var added = await client.AddAsync($"{ApiUrl.UserApi}", user);
                 user.Id = added.Id;
 
                 added.Permissions.Should().HaveCount(2);
@@ -162,18 +175,18 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
                 string json = $@"{{
                                   permissions: {{
                                     update: {{
-                                      'EmailOperation': {{ AllowType: 2 }},
-                                      'EmailSetting': {{ AllowType: 1 }} 
+                                      'EmailSetupDelivery': {{ AllowType: 2 }},
+                                      'NetworkHTTPRules': {{ AllowType: 1 }} 
                                     }}
                                   }}
                                 }}";
 
                 // Act
-                var patched = await client.PatchAsync<UserDetailsModel>($"api/v1/users/{added.Id}", JObject.Parse(json), HttpStatusCode.OK);
+                var patched = await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/{added.Id}", JObject.Parse(json), HttpStatusCode.OK);
                 var patchedPermissions = patched.Permissions.ToDictionary(k => k.Name, v => v.AllowType);
 
-                var stored = await client.GetAsync<UserDetailsModel>($"api/v1/users/{added.Id}");
-                var storedPermissions = stored.Permissions.ToDictionary(k => k.Name, v => v.AllowType);
+                var stored = await client.GetAsync<GenericDataModel<UserDetailModel>>($"{ApiUrl.UserApi}/{added.Id}");
+                var storedPermissions = stored.Value.Permissions.ToDictionary(k => k.Name, v => v.AllowType);
 
                 storedPermissions.ShouldBeEquivalentTo(patchedPermissions);
             }
@@ -182,11 +195,11 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
         [Fact]
         public async Task change_nonexistent_permission_should_be_bad_request()
         {
-            var user = Fixture.Create<UserDetailsModel>();
-            user.Permissions = new List<PermissionDetails>
+            var user = Fixture.Create<UserDetailModel>();
+            user.Permissions = new List<PermissionDetailModel>
             {
-                new PermissionDetails{ Name = "EmailOperation", AllowType = AccessRights.Read },
-                new PermissionDetails{ Name = "EmailSetting", AllowType = AccessRights.Write },
+                new PermissionDetailModel{ Name = "EmailOperation", AllowType = AccessRights.Read },
+                new PermissionDetailModel{ Name = "EmailSetting", AllowType = AccessRights.Write },
             };
             user.UserGroups = new List<UserGroupModel>();
 
@@ -196,8 +209,10 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
+                await GrantPermission(LoggedInUserId, "OrganizationUser", AccessRights.Read);
+
                 // Act
-                var added = await client.AddAsync("api/v1/users", user);
+                var added = await client.AddAsync($"{ApiUrl.UserApi}", user);
                 user.Id = added.Id;
 
                 added.Permissions.Should().HaveCount(2);
@@ -211,7 +226,7 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
                                 }}";
 
                 // Act
-                var patched = await client.PatchAsync<UserDetailsModel>($"api/v1/users/{added.Id}", JObject.Parse(json), HttpStatusCode.BadRequest);
+                var patched = await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/{added.Id}", JObject.Parse(json), HttpStatusCode.BadRequest);
             }
         }
 
@@ -223,14 +238,16 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
-                var original = await client.GetAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}");
+                await GrantPermission(LoggedInUserId, "OrganizationUser", AccessRights.Read);
+
+                var original = await client.GetAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}");
 
                 string json = $@"{{
                                     name: 'Test User',
                                  }}";
 
                 // Act
-                await client.PatchAsync<UserDetailsModel>($"api/v1/users/1", JObject.Parse(json), HttpStatusCode.NotFound);
+                await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/1", JObject.Parse(json), HttpStatusCode.NotFound);
             }
         }
 
@@ -242,14 +259,16 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
-                var original = await client.GetAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}");
+                await GrantPermission(LoggedInUserId, "OrganizationUser", AccessRights.Read);
+
+                var original = await client.GetAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}");
 
                 string json = $@"{{
                                     ""name"": ""Test User"",
                                  }}";
 
                 // Act
-                await client.PatchAsync<UserDetailsModel>($"api/v1/users/1", JObject.Parse(json), HttpStatusCode.NotFound);
+                await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/1", JObject.Parse(json), HttpStatusCode.NotFound);
             }
         }
 
@@ -261,8 +280,9 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
+                await GrantPermission(LoggedInUserId, "OrganizationUser", AccessRights.Read);
 
-                var original = await client.GetAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}");
+                var original = await client.GetAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}");
 
 
                 // Act
@@ -278,10 +298,10 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
                                   }}
                                 }}";
 
-                await client.PatchAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}", JObject.Parse(json));
-                var result = await client.GetAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}");
+                await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}", JObject.Parse(json));
+                var result = await client.GetAsync<GenericDataModel<UserDetailModel>>($"{ApiUrl.UserApi}/{LoggedInUserId}");
 
-                var permissions = result.UserGroups.Select(ug => ug.Id);
+                var permissions = result.Value.UserGroups.Select(ug => ug.Id);
                 permissions.Should().Contain(new long[] { id1, id2 });
             }
         }
@@ -294,6 +314,8 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
             using (var server = CreateServer())
             using (var client = server.CreateClient())
             {
+                await GrantPermission(LoggedInUserId, "OrganizationUser", AccessRights.Write);
+
                 var id1 = (await AddUSerGroup(client)).Id;
                 var id2 = (await AddUSerGroup(client)).Id;
 
@@ -306,9 +328,9 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
                                   }}
                                 }}";
 
-                await client.PatchAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}", JObject.Parse(json));
+                await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}", JObject.Parse(json));
 
-                var original = await client.GetAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}");
+                var original = await client.GetAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}");
 
                 json = $@"{{
                             userGroups: {{
@@ -317,25 +339,25 @@ namespace Dualog.PortalService.Controllers.Users.UserControllerTests
                         }}";
 
                 // Act
-                await client.PatchAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}", JObject.Parse(json));
-                var result = await client.GetAsync<UserDetailsModel>($"api/v1/users/{LoggedInUserId}");
+                await client.PatchAsync<UserDetailModel>($"{ApiUrl.UserApi}/{LoggedInUserId}", JObject.Parse(json));
+                var result = await client.GetAsync<GenericDataModel<UserDetailModel>>($"{ApiUrl.UserApi}/{LoggedInUserId}");
 
-                var permissions = result.UserGroups.Select(ug => ug.Id);
+                var permissions = result.Value.UserGroups.Select(ug => ug.Id);
                 permissions.Should().NotContain(new long[] { id1, id2 });
             }
         }
 
 
-        private async Task<UserGroupDetails> AddUSerGroup(HttpClient client)
+        private async Task<UserGroupDetailModel> AddUSerGroup(HttpClient client)
         {
-            var userGroup = Fixture.Create<UserGroupDetails>();
-            userGroup.Permissions = new List<PermissionDetails>()
+            var userGroup = Fixture.Create<UserGroupDetailModel>();
+            userGroup.Permissions = new List<PermissionDetailModel>()
             {
-                new PermissionDetails{ Name = "EmailSetting", AllowType = AccessRights.Read },
-                new PermissionDetails{ Name = "EmailDistributionlist", AllowType = AccessRights.Write },
+                new PermissionDetailModel{ Name = "OrganizationUser", AllowType = AccessRights.Read },
+                new PermissionDetailModel{ Name = "OrganizationUserGroup", AllowType = AccessRights.Write },
             };
 
-            return await client.AddAsync($"api/v1/userGroups", userGroup);
+            return await client.AddAsync($"{ApiUrl.UserApi}group", userGroup);
         }
 
     }

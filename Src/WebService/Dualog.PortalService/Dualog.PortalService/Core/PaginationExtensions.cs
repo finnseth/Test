@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 
@@ -8,6 +8,9 @@ namespace Dualog.PortalService.Core
     {
         public static IQueryable<T> Paginate<T>( this IQueryable<T> queryable, Pagination pagination )
         {
+            if (pagination == null)
+                return queryable;
+
             var q = queryable;
 
             if( pagination.Offset.HasValue == true )

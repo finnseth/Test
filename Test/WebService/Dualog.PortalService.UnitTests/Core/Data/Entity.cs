@@ -1,11 +1,8 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Dualog.Data.Entity;
-using FluentAssertions;
-using Newtonsoft.Json;
-using Xunit;
 using Dualog.Data.Oracle.Entity;
 
 namespace Dualog.PortalService.Core.Data

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +15,10 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.UserGroup.Model
         public long Id { get; set; }
 
         [Required(AllowEmptyStrings = true, ErrorMessage = "Name is required.")]
-        [StringLength(100, ErrorMessage = "Name cannot be longer than 100 characters.")]
+        [StringLength(100, ErrorMessage = ValidationStrings.StringToLong)]
         public string Name { get; set; }
 
+        [Range(0, 99)]
         public short? Rowstatus { get; set; }
 
         public long? VesselId { get; set; }

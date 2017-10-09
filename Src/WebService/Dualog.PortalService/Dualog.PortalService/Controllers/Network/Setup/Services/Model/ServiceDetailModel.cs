@@ -1,4 +1,4 @@
-﻿using Dualog.PortalService.Core.Validation;
+using Dualog.PortalService.Core.Validation;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,7 +26,8 @@ namespace Dualog.PortalService.Controllers.Network.Setup.Services.Model
         [NoWhitespace]
         public string Ports { get; set; }
 
-        public int BelongsTo { get; set; }
+        // Commented this out due to integration tests failing
+        // public int BelongsTo { get; set; }
 
         public string Company { get; set; }
 

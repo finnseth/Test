@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using System.Linq;
-using Dualog.PortalService.Controllers.Users;
-using Dualog.PortalService.Controllers.Users.Model;
 using System.Threading.Tasks;
 using Ploeh.AutoFixture;
-using Dualog.PortalService.Controllers.Companies;
-using Dualog.PortalService.Controllers.Companies.Model;
-using Dualog.Data.Entity;
+using Dualog.PortalService.Controllers.Organization.Shipping.User.Model;
+using Dualog.PortalService.Controllers.Organization.Shipping.Company.Model;
+using Dualog.PortalService.Controllers.Organization.Shipping.Company;
+using Dualog.PortalService.Controllers.Organization.Shipping.User;
 
 namespace Dualog.PortalService.Controllers
 {
@@ -14,8 +13,8 @@ namespace Dualog.PortalService.Controllers
     {
         public static async Task<(long companyId, long userId)> RegisterRegularUserIntoCompany( ControllerTests controllerTests )
         {
-            var user = controllerTests.Fixture.Create<UserDetailsModel>();
-            var company = controllerTests.Fixture.Create<CompanyInformation>();
+            var user = controllerTests.Fixture.Create<UserDetailModel>();
+            var company = controllerTests.Fixture.Create<CompanyModel>();
 
             await CompanyRepository.InternalAddCompany( controllerTests.DataContextFactory.CreateContext(), company );
             await UserRepository.InternalCreateUser( controllerTests.DataContextFactory.CreateContext(), user, company.Id );

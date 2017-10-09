@@ -1,18 +1,19 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Dualog.PortalService.Controllers.Email.Setup.Quarantine.Model;
-using Dualog.PortalService.Controllers.Users;
-using Dualog.PortalService.Controllers.Vessels;
-using Dualog.PortalService.Controllers.Vessels.Model;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Ploeh.AutoFixture;
 using Xunit;
 using System.Net.Mail;
+using Dualog.PortalService.Controllers.Organization.Shipping.User;
+using Dualog.PortalService.Controllers.Organization.Shipping.Ship.Model;
+using Dualog.PortalService.Controllers.Organization.Shipping.Ship;
+using Dualog.PortalService.Models;
 
 namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineControllerTests
 {
@@ -34,8 +35,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineCont
                 await UserRepository.InternalGrantPermission( DataContextFactory.CreateContext(), "EmailRestriction", 2, LoggedInUserId, LoggedInCompanyId );
 
                 // Assign
-                var objectLookup = await SetupData(@".\TestData\quarantine_vessel_config.json", server);
-                var vessel = objectLookup.GetObjectById<VesselDetails>("v1");
+                var vessel = await client.AddAsync("/api/v1/organization/shipping/ship/", Fixture.Create<ShipModel>());
 
                 var original = Fixture.Create<QuarantineCompanyModel>();
 
@@ -43,17 +43,17 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineCont
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 var cmpResponse = await client.GetAsync($"/api/v1/email/setup/quarantine/shipquarantine/{vessel.Id}");
-                var cmpQuarantine = JsonConvert.DeserializeObject<QuarantineCompanyModel>(await cmpResponse.Content.ReadAsStringAsync());
+                var cmpQuarantine = JsonConvert.DeserializeObject<GenericDataModel<QuarantineCompanyModel>>(await cmpResponse.Content.ReadAsStringAsync());
 
 
-                var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"/api/v1/email/setup/quarantine/shipquarantine/{cmpQuarantine.QuarantineId}");
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"/api/v1/email/setup/quarantine/shipquarantine/{cmpQuarantine.Value.QuarantineId}");
                 request.Content = content;
 
                 // Act
                 var response = await client.SendAsync(request);
                 response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.OK);
 
-                var result = JsonConvert.DeserializeObject<QuarantineCompanyModel>(await response.Content.ReadAsStringAsync());
+                var result = JsonConvert.DeserializeObject<GenericDataModel<QuarantineCompanyModel>>(await response.Content.ReadAsStringAsync());
 
 
                 // Assert
@@ -70,8 +70,7 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineCont
             {
                 await UserRepository.InternalGrantPermission( DataContextFactory.CreateContext(), "EmailRestriction", 2, LoggedInUserId, LoggedInCompanyId );
 
-                var objectLookup = await SetupData(@".\TestData\quarantine_vessel_config.json", server);
-                var vessel = objectLookup.GetObjectById<VesselDetails>("v1");
+                var vessel = await client.AddAsync("/api/v1/organization/shipping/ship/", Fixture.Create<ShipModel>());
 
 
                 var original = Fixture.Create<QuarantineCompanyModel>();
@@ -81,10 +80,10 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineCont
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 var cmpResponse = await client.GetAsync($"/api/v1/email/setup/quarantine/shipquarantine/{vessel.Id}");
-                var cmpQuarantine = JsonConvert.DeserializeObject<QuarantineCompanyModel>(await cmpResponse.Content.ReadAsStringAsync());
+                var cmpQuarantine = JsonConvert.DeserializeObject<GenericDataModel<QuarantineCompanyModel>>(await cmpResponse.Content.ReadAsStringAsync());
 
 
-                var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"/api/v1/email/setup/quarantine/shipquarantine/{cmpQuarantine.QuarantineId}");
+                var request = new HttpRequestMessage(new HttpMethod("PATCH"), $"/api/v1/email/setup/quarantine/shipquarantine/{cmpQuarantine.Value.QuarantineId}");
                 request.Content = content;
 
                 // Act
@@ -98,10 +97,10 @@ namespace Dualog.PortalService.Controllers.Email.Setup.Quarantine.QuarantineCont
 
         protected override async void OnDispose()
         {
-            var vesselRepo = new VesselRepository(DataContextFactory);
-            foreach( var v in await vesselRepo.GetVessels( 2597, null ) )
+            var shipRepo = new ShipRepository(DataContextFactory);
+            foreach( var v in (await shipRepo.GetShip( 2597  )).Value )
             {
-                await vesselRepo.DeleteVesselAsync(v.Id);
+                await shipRepo.DeleteVesselAsync(v.Id);
             }
         }
 

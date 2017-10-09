@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +30,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.UserGroup
             using (var dc = _dcFactory.CreateContext())
             {
                 var qc = from ug in dc.GetSet<DsUserGroup>()
-                         where (ug.RowStatus == 0 || ug.RowStatus == 1) 
+                         where (ug.RowStatus == 0 || ug.RowStatus == 1)
                          && (ug.Company.Id == companyId || companyId == 0)
                          select new UserGroupModel
                          {
@@ -55,9 +55,9 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.UserGroup
             using (var dc = _dcFactory.CreateContext())
             {
                 var qc = from ug in dc.GetSet<DsUserGroup>()
-                         where  (ug.RowStatus == 0 || ug.RowStatus == 1)
-                         && ug.Vessel.Id == shipId 
-                         && (ug.Company.Id == companyId || companyId == 0) 
+                         where (ug.RowStatus == 0 || ug.RowStatus == 1)
+                         && ug.Vessel.Id == shipId
+                         && (ug.Company.Id == companyId || companyId == 0)
                          select new UserGroupModel
                          {
                              Id = ug.Id,
@@ -80,12 +80,12 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.UserGroup
         {
             using (var dc = _dcFactory.CreateContext())
             {
-                
+
                 var qc = from ves in dc.GetSet<DsVessel>()
                          join ug in dc.GetSet<DsUserGroup>() on ves.Company.Id equals ug.Company.Id
-                         where ves.Id == shipId 
-                         && (ug.RowStatus == 0 || ug.RowStatus == 1) 
-                         && (ug.Vessel.Id == shipId || ug.Vessel == null) 
+                         where ves.Id == shipId
+                         && (ug.RowStatus == 0 || ug.RowStatus == 1)
+                         && (ug.Vessel.Id == shipId || ug.Vessel == null)
                          && (ves.Company.Id == companyId || companyId == 0)
                          select new UserGroupModel
                          {
@@ -105,45 +105,45 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.UserGroup
             }
         }
 
-        public async Task<GenericDataModel<UserGroupDetailModel>> GetUserGroupDetail(long companyId, long usgId)
-        {
-            using (var dc = _dcFactory.CreateContext())
-            {
-                var qc = from ug in dc.GetSet<DsUserGroup>()
-                         where ug.Company.Id == companyId
-                         && ug.Id == usgId
-                         select new UserGroupDetailModel
-                         {
-                             Id = ug.Id,
-                             Name = ug.Name,
-                             Description = ug.Description,
-                             Rowstatus = ug.RowStatus,
-                             VesselId = ug.Vessel.Id,
-                             CompanyId = ug.Company.Id,
-                             VesselName = ug.Vessel.VesselName,
-                             CompanyName = ug.Company.Name,
+        public Task<GenericDataModel<UserGroupDetailModel>> GetUserGroupDetail(long companyId, long usgId) =>
+           _dcFactory.CreateContext().Use(async dc =>
+           {
+               var qc = from ug in dc.GetSet<DsUserGroup>()
+                        where ug.Company.Id == companyId
+                        && ug.Id == usgId
+                        select new UserGroupDetailModel
+                        {
+                            Id = ug.Id,
+                            Name = ug.Name,
+                            Description = ug.Description,
+                            Rowstatus = ug.RowStatus,
+                            VesselId = ug.Vessel.Id,
+                            CompanyId = ug.Company.Id,
+                            VesselName = ug.Vessel.VesselName,
+                            CompanyName = ug.Company.Name,
 
-                             Members = from ugm in ug.Users
-                                       select new UserMemberModel
-                                       {
-                                           Id = ugm.Id,
-                                           UserName = ugm.Name
-                                       },
-                             Permissions = from pf in ug.Permissions
-                                           select new PermissionDetailModel
-                                           {
-                                               Name = pf.Function.Name,
-                                               AllowType = (AccessRights) pf.AllowType
-                                           }
-                         };
+                            Members = from ugm in ug.Users
+                                      select new UserMemberModel
+                                      {
+                                          Id = ugm.Id,
+                                          UserName = ugm.Name
+                                      },
+                            Permissions = from pf in ug.Permissions
+                                          where pf.Id >= 1000 && pf.AllowType > 0
+                                          select new PermissionDetailModel
+                                          {
+                                              Name = pf.Function.Name,
+                                              AllowType = (AccessRights)pf.AllowType
+                                          }
+                        };
 
-                return new GenericDataModel<UserGroupDetailModel>()
-                {
-                    Value = await qc.FirstOrDefaultAsync(),
-                };
+               var result = new GenericDataModel<UserGroupDetailModel>()
+               {
+                   Value = await qc.FirstOrDefaultAsync(),
+               };
 
-            }
-        }
+               return result;
+           });
 
 
         public async Task AddUserGroup(UserGroupDetailModel userGroup, long companyId, long? vesselId = null)
@@ -160,14 +160,15 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.UserGroup
                     ug.Id = await seq.GetSequenceNumberAsync<DsUserGroup>();
                     ug.Company = dc.Attach<DsCompany>(c => c.Id = companyId);
                     ug.Name = userGroup.Name;
+                    ug.RowStatus = userGroup.Rowstatus;
+                    ug.Description = userGroup.Description;
                     ug.Vessel = vesselId != null ? dc.Attach<DsVessel>(v => v.Id = vesselId.Value) : null;
                     ug.Permissions = new List<DsPermissionFunction>();
                 });
 
-                userGroup.Id = nUserGroup.Id;
-
                 await dc.SaveChangesAsync();
 
+                userGroup.Id = nUserGroup.Id;
 
                 if (userGroup.Permissions != null && userGroup.Permissions.Any())
                 {
@@ -192,6 +193,7 @@ namespace Dualog.PortalService.Controllers.Organization.Shipping.UserGroup
                         }
 
                         func.AllowType = (int)permission.AllowType;
+                        nUserGroup.Permissions.Add(func);
                     }
                 }
 
