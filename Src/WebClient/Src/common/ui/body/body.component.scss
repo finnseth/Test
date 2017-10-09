@@ -1,5 +1,41 @@
 :host {
     display: flex;
+    position:absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.site-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 41.3px;
+    right: 0px;
+}
+
+.wrapper {
+    display: flex;
+}
+
+.rightside {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.desktop {
+    display: flex;
+    position:absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.mobile {
+    display: flex;
     flex-direction: column;
     position:absolute;
     top: 0;

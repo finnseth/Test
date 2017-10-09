@@ -1,0 +1,24 @@
+@import '~styles.scss';
+
+:host {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+    background-color: $dualog-blue;
+    color: $dualog-white;
+    cursor: pointer;
+    font-size: 1.35rem;
+}
+nav {
+    margin-top: 4.5rem;
+}
+
+.menu-item {
+    margin: 0.5rem;    
+}
+
+.open {
+    background-color: $dualog-white;
+    color: $dualog-blue;
+}

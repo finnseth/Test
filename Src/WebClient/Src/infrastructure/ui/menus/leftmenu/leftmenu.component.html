@@ -1,0 +1,7 @@
+<nav>
+    <div *ngFor="let item of items; let f=first; let l=last;" [class.open]="item.isOpen">
+        <div class="menu-item" (click)="handleClick($event, item)">
+            <span *ngIf="item.icon" class="glyphicon fa {{ item.icon }}"></span>
+        </div>
+    </div>    
+</nav>

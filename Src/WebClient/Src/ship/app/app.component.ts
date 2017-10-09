@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router/router';
 
 import { Subscription } from 'rxjs/Rx';
 
-import { MainMenuService } from 'infrastructure/services/mainmenu.service';
+import { MainMenuService } from './../../infrastructure/services/mainmenu.service';
 
 import { AuthenticationService } from './../../common/services/authentication.service';
 
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private mainmenuService: MainMenuService) {
       this.isAuthorizedObs = authenticationService.isLoggedInObs();
-      mainmenuService.items = mainMenu;
+      mainmenuService.setItems(mainMenu);
       mainmenuService.userMenu = userMenu;
   }
 

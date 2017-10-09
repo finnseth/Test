@@ -15,11 +15,13 @@ import {
 
 import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
 import { InfrastructureModule } from '../../infrastructure/infrastructure.module';
-import { MainMenuService } from '../../infrastructure/services/mainmenu.service';
+import { MainMenuService } from './../../infrastructure/services/mainmenu.service';
 
 import { BodyModule } from './../../common/ui/body/body.module';
 import { CommonsModule } from '../../common/common.module';
 import { LogoutModule } from '../../common/ui/logout/logout.module';
+import { AuthenticationService } from './../../common/services/authentication.service';
+import { SessionService } from './../../common/services/session.service';
 
 import { ShoreModule } from '../../shore/shore.module';
 
@@ -66,7 +68,9 @@ export function loadConfig(config: ConfigurationReader) {
       multi: true
     },
     MainMenuService,
-    ConfigurationReader
+    ConfigurationReader,
+    AuthenticationService,
+    SessionService
   ],
 
   bootstrap: [AppComponent]

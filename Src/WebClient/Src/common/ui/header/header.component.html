@@ -1,7 +1,9 @@
 <div *screenBelowLarge class="header-small">
-  <span class="smallmainmenu fa fa-bars" (click)="menuService.showMainMenu()"></span>
+  <dua-slidingmenu></dua-slidingmenu>
   <dua-vertical-bar></dua-vertical-bar>
   <dua-logo></dua-logo>
+  <div class="mainmenu">
+  </div>
   <dua-searchbox></dua-searchbox>
   <dua-vertical-bar></dua-vertical-bar>
   <span class="smallusermenu fa fa-ellipsis-v"></span>
@@ -11,10 +13,7 @@
   <div class="logoandmenu">
     <dua-logo></dua-logo>
   </div>
-  <dua-vertical-bar></dua-vertical-bar>
   <div class="mainmenu">
-    <dua-topmenu></dua-topmenu>
-    <dua-menu></dua-menu>
   </div>
   <dua-searchbox #searchBox placeholder="Ctrl-Q" keyCombination="Ctrl+Q"></dua-searchbox>
   <dua-vertical-bar></dua-vertical-bar>

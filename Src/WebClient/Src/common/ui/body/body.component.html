@@ -1,6 +1,26 @@
-<dua-header></dua-header>
-<dua-breadcrumb></dua-breadcrumb>
-<dua-content>
-    <ng-content></ng-content>
-</dua-content>
-<dua-status-bar></dua-status-bar>
+
+<div *screenBelowLarge class="mobile">
+    <dua-header></dua-header>
+    <dua-breadcrumb></dua-breadcrumb>
+    <dua-content>    
+        <ng-content></ng-content>
+    </dua-content>
+    <dua-status-bar></dua-status-bar>    
+</div>
+
+<div *screenLarge class="desktop">
+    <dua-leftmenu></dua-leftmenu>
+    <div class="site-wrapper">
+        <dua-header></dua-header>
+        <div class="wrapper">
+            <dua-leftsubmenu></dua-leftsubmenu>
+            <div class="rightside">
+                <dua-breadcrumb></dua-breadcrumb>
+                <dua-content>    
+                    <ng-content></ng-content>
+                </dua-content>
+            </div>
+        </div>
+        <dua-status-bar></dua-status-bar>
+    </div>
+</div>

@@ -52,7 +52,8 @@ export let mainMenu: Array<MainMenuItem> = [
         submenu: [
             {
                 text: 'Organization',
-                icon: '',
+                icon: 'dualog-organization-icon-16',
+                gridImage: 'assets/img/organization.png',
                 route: '/configuration/organization',
                 submenu: [
                     {
@@ -83,6 +84,7 @@ export let mainMenu: Array<MainMenuItem> = [
             },
             {
                 text: 'Email',
+                icon: 'dualog-email-icon-16',
                 gridImage: 'assets/img/email.png',
                 route: '/configuration/email',
                 submenu: [
@@ -177,6 +179,7 @@ export let mainMenu: Array<MainMenuItem> = [
             },
             {
                 text: 'File transfer',
+                icon: 'dualog-filetransfer-icon-16',
                 gridImage: 'assets/img/filetransfer.png',
                 route: null,
                 submenu: [
@@ -202,6 +205,7 @@ export let mainMenu: Array<MainMenuItem> = [
             },
             {
                 text: 'Antivirus',
+                icon: 'dualog-antivirus-icon-16',
                 gridImage: 'assets/img/antivirus.png',
                 route: null,
                 submenu: [
@@ -221,6 +225,7 @@ export let mainMenu: Array<MainMenuItem> = [
             },
             {
                 text: 'Network',
+                icon: 'dualog-networkcontrol-icon-16',
                 gridImage: 'assets/img/networkcontrol.png',
                 route: null,
                 submenu: [

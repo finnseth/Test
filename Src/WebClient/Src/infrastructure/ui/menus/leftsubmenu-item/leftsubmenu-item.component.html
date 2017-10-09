@@ -1,0 +1,28 @@
+  <ng-template ngFor let-child [ngForOf]="item.submenu">
+    <div *ngIf="expanded" class="submenu-item" [class.mobileSubmenu-item]="mobileStyle">
+
+        <div *ngIf="!child.route" class="inactive">
+          <i *ngIf="!child.expanded && child.submenu" class="fa fa-chevron-right menu-chevron"></i>
+          <span *ngIf="child.icon" class="glyphicon fa {{ child.icon }}"></span>
+          <img *ngIf="child.image" [src]='child.image' alt="{{ child.text }}">
+          <span class="menu-text">{{ child.text }}</span>
+        </div>
+        <div *ngIf="child.route" [class.active]="child.isOpen" (click)="handleClick($event, child)">
+          <i *ngIf="!child.expanded && child.submenu" class="fa fa-chevron-right menu-chevron"></i>
+          <i *ngIf="child.expanded && child.submenu" class="fa fa-chevron-down menu-chevron"></i>  
+          <span *ngIf="child.icon" class="fa {{ child.icon }}"></span>
+          <img *ngIf="child.image" [src]='child.image' alt="{{ child.text }}">
+          <span class="menu-text">{{ child.text }}</span>                  
+        </div>
+      
+    </div>
+    <dua-leftsubmenu-item 
+      class="subsubmenu-item"
+      [class.mobileSubSubmenu-item]="mobileStyle"
+      [mobileStyle]="mobileStyle"
+      [item]="child"
+      [expanded]="child.expanded"
+      (onSelectedItem)="emitSelectedItem($event)"
+      *ngIf="child.submenu">
+    </dua-leftsubmenu-item>
+  </ng-template>

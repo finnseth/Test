@@ -1,8 +1,10 @@
 import { Component, OnInit, Renderer, ElementRef } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { MainMenuService } from './../../../services/mainmenu.service';
-import { MainMenuItem } from './../../../services/mainmenu.service';
+import {
+    MainMenuItem,
+    MainMenuService
+} from './../../../services/mainmenu.service';
 
 @Component({
     selector: 'dua-gridmenu',
@@ -21,7 +23,7 @@ export class GridMenuComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.menuItems = this.menuService.GetMenuItemsByRoute(this.router.url);
+        this.menuItems = this.menuService.GetMenuSubItemsByRoute(this.router.url);
     }
 
     onClick($event, item: MainMenuItem) {
@@ -33,6 +35,7 @@ export class GridMenuComponent implements OnInit {
                 'dispatchEvent',
                 [newEvent]
             );
+            this.menuService.SetSelectedItem(item);
             this.router.navigate([item.route]);
         }
     }

@@ -5,7 +5,7 @@ import { OnDestroy } from '@angular/core/core';
 import { RouterLink } from '@angular/router/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { MainMenuService } from '../../infrastructure/services/mainmenu.service';
+import { MainMenuService } from './../../infrastructure/services/mainmenu.service';
 
 import { AuthenticationService } from './../../common/services/authentication.service';
 import { SessionService } from './../../common/services/session.service';
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private sessionService: SessionService) {
     this.IsAuthorizedObs = authenticationService.isLoggedInObs();
-    mainmenuService.items = mainMenu;
+    mainmenuService.setItems(mainMenu);
     mainmenuService.userMenu = userMenu;
   }
 

@@ -3,12 +3,13 @@
 
 .fleetcardHeader {
     display: flex;
-    background-color: $dualog-blue60;
+    border-color: $dualog-blue60;
+    border-style: solid;
+    border-width: 3px;
+    border-bottom-width: 0px;
 }
 
 .fleetcardheader-icon {
-    border: $dualog-aqua;    
-    border-style: solid;
     background-color: $dualog-nordic-light40;
     background-repeat: no-repeat;
     background-size: contain;

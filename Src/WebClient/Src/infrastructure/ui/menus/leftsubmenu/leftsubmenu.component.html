@@ -1,0 +1,14 @@
+<nav *ngIf="item?.expanded">
+  <div>
+      <div *ngFor="let item of item.submenu; let f=first; let l=last;" [class.active]="item.isOpen">
+          <div class="menu-item" type="button" (click)="handleClick($event, item); false">
+              <span *ngIf="item.icon" class="glyphicon fa {{ item.icon }}"></span>
+              <span class="menu-text">{{ item.text }}</span>        
+          </div>
+          <hr class="linestyle">
+          <div *ngIf="item.submenu">
+            <dua-leftsubmenu-item class="submenu" [item]="item" [expanded]="true"></dua-leftsubmenu-item>
+          </div>
+      </div>
+  </div>
+</nav>

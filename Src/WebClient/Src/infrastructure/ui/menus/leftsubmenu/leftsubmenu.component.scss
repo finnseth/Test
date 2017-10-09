@@ -1,0 +1,35 @@
+@import '~styles.scss';
+:host {
+    display: inline-block;
+    vertical-align: center;
+    position: relative;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    font-size: 1rem;
+    background-color: $dualog-nordic-dark40;
+    color: $dualog-blue;
+    cursor: pointer;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+.menu-item {
+    font-weight: bold;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-top: 1.3rem;
+    display: flex;
+    align-items: center;
+    text-indent: 0.3rem;
+}
+
+.active {
+    background-color: $dualog-white;
+    color: $dualog-blue;    
+}
+
+.linestyle {
+    border-style: ridge;
+}

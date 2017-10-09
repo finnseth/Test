@@ -134,7 +134,7 @@ body .ui-inputtext:focus {
 }
 body .ui-button {
     color: $dualog-white;
-    background-color: $dualog-blue80;
+    background-color: $dualog-blue60;
     border: 1px solid transparent;
     padding: 0.2em;
     font-size: $fontSizeNormal;
@@ -204,11 +204,11 @@ body .ui-chkbox .ui-chkbox-box:not(.ui-state-disabled):not(.ui-state-active):hov
 }
 body .ui-chkbox .ui-chkbox-box.ui-state-active {
     border: 1px solid $dualog-blue80;
-    background-color: $dualog-blue80;
+    background-color: $dualog-blue60;
     color: $dualog-white;
 }
 body .ui-chkbox .ui-chkbox-box.ui-state-focus {
-    border: 1px solid $dualog-blue80;
+    border: 1px solid $dualog-blue60;
     -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);

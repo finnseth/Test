@@ -53,3 +53,29 @@
     background-position: center;
 }
 
+.dualog-antivirus-icon-16 {
+    background: url('dualog-antivirus.png');
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    background-size: contain;
+    background-position: center;
+}
+
+.dualog-organization-icon-16 {
+    background: url('dualog-organization.png');
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    background-size: contain;
+    background-position: center;
+}
+
+.dualog-filetransfer-icon-16 {
+    background: url('dualog-filetransfer.png');
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+    background-size: contain;
+    background-position: center;
+}
