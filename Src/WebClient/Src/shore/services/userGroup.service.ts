@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
+import { Permission } from './../../infrastructure/domain/permission/permission';
 
 import { SessionService } from '../../common/services/session.service';
 import { AuthenticationService } from '../../common/services/authentication.service';
 import { ApiService } from '../../common/services/api-base.service';
 
-import { Permission } from './permission.service';
 
 @Injectable()
 export class UserGroupService extends ApiService {

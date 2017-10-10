@@ -5,14 +5,12 @@ import { Observable } from 'rxjs/Rx';
 
 import { ConfigurationReader } from './../../../../infrastructure/services/configuration-reader.service';
 import { JsonSchema } from './../../../../infrastructure/services/schema';
+import { AccessRights, Availability } from './../../../../infrastructure/domain/permission/permission';
 
 import { Ship } from './../../../../common/domain/ship/interfaces';
 import { SessionService } from './../../../../common/services/session.service';
 import { AuthenticationService } from './../../../../common/services/authentication.service';
 import { ApiService } from './../../../../common/services/api-base.service';
-
-import { AccessRights, Availability } from './../../../services/permission.service';
-import { MenuService } from './../../../services/menu.service';
 
 
 @Injectable()
@@ -22,8 +20,7 @@ export class QuarantineService extends ApiService {
          http: Http,
          authenticationService: AuthenticationService,
          sessionService: SessionService,
-         configurationReader: ConfigurationReader,
-         private menuService: MenuService ) {
+         configurationReader: ConfigurationReader) {
 
         super(http, authenticationService, sessionService, configurationReader);
     }

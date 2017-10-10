@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx';
 
 import { AuthenticationService } from './../../common/services/authentication.service';
 
-import { MenuService } from './menu.service';
 import { PermissionService } from './permission.service';
 
 @Injectable()
@@ -13,7 +12,7 @@ export class AuthGuard implements CanActivate {
 
     constructor(
         private authService: AuthenticationService,
-        private menuService: MenuService,
+        private permissionService: PermissionService,
         private router: Router ) {
     }
 
@@ -27,7 +26,7 @@ export class AuthGuard implements CanActivate {
 
         if (this.authService.GetLoggedIn()) {
 
-            return this.menuService.GetMenuAccess(route.data['permissions']);
+            return this.permissionService.GetMenuAccess(route.data['permissions']);
 
             // if (this.permissionService.getPermissions() === null) {
             //     this.permissionService.retrievePermissions().subscribe((permissions) => {

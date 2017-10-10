@@ -38,7 +38,7 @@ import { SlidingMenuComponent } from './slidingmenu/slidingmenu.component';
         LeftMenuComponent,
         LeftSubMenuComponent,
         LeftSubMenuItemComponent,
-        SlidingMenuComponent,
+        SlidingMenuComponent
     ],
 
     exports: [

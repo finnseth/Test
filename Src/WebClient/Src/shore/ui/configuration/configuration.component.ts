@@ -3,9 +3,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs/Rx';
 
-import { MenuItem } from 'primeng/primeng';
-
-import { MenuService } from './../../services/menu.service';
 import { SessionService } from './../../../common/services/session.service';
 
 
@@ -21,7 +18,6 @@ export class ConfigurationComponent implements OnInit, OnDestroy {
     isMenuEnabled = false;
 
     constructor(
-        private menuService: MenuService,
         private sessionService: SessionService,
         private route: ActivatedRoute,
         private router: Router) {

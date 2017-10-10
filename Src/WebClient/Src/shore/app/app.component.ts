@@ -10,8 +10,7 @@ import { MainMenuService } from './../../infrastructure/services/mainmenu.servic
 import { AuthenticationService } from './../../common/services/authentication.service';
 import { SessionService } from './../../common/services/session.service';
 
-import { MenuService } from '../services/menu.service';
-import { AccessRights, PermissionService } from '../services/permission.service';
+import { PermissionService } from '../services/permission.service';
 import { mainMenu } from './app.mainmenu';
 import { userMenu } from './app.usermenu';
 
@@ -29,7 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private authenticationService: AuthenticationService,
     private permissionService: PermissionService,
-    private menuService: MenuService,
     private mainmenuService: MainMenuService,
     private router: Router,
     private sessionService: SessionService) {
@@ -45,7 +43,9 @@ export class AppComponent implements OnInit, OnDestroy {
         // Make sure the permissions are in place
         const getpermissions = this.permissionService.getPermissions().subscribe((permissions) => {
           this.IsAuthorized = isAuth;
-          // this.router.navigate([this.sessionService.GetReturnUrl()]);
+          for (const perm of permissions) {
+            this.permissionService.FindPermissionByKey(perm);
+          }
           getpermissions.unsubscribe();
         });
       }

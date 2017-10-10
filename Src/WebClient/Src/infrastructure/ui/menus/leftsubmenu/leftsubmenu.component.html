@@ -1,6 +1,6 @@
 <nav *ngIf="item?.expanded">
-  <div>
-      <div *ngFor="let item of item.submenu; let f=first; let l=last;" [class.active]="item.isOpen">
+  <div *ngFor="let item of item.submenu; let f=first; let l=last;" [class.active]="item.isOpen">
+      <div *ngIf="menuService.GotMenuAccess(item.access)">
           <div class="menu-item" type="button" (click)="handleClick($event, item); false">
               <span *ngIf="item.icon" class="glyphicon fa {{ item.icon }}"></span>
               <span class="menu-text">{{ item.text }}</span>        

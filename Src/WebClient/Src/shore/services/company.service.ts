@@ -12,7 +12,6 @@ import { SessionService } from './../../common/services/session.service';
 import { ApiService } from './../../common/services/api-base.service';
 
 // Shore
-import { MenuService } from './menu.service';
 import { ShoreCompany } from './../domain/company/company';
 
 @Injectable()
@@ -22,8 +21,7 @@ export class CompanyService extends ApiService {
          http: Http,
          authenticationService: AuthenticationService,
          sessionService: SessionService,
-         configurationReader: ConfigurationReader,
-         private menuService: MenuService ) {
+         configurationReader: ConfigurationReader) {
 
         super(http, authenticationService, sessionService, configurationReader);
     }

@@ -4,10 +4,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { ConfigurationReader } from '../../infrastructure/services/configuration-reader.service';
+import { Availability, AccessRights, Permission } from '../../infrastructure/domain/permission/permission';
+import { MainMenuService, MainMenuItem } from './../../infrastructure/services/mainmenu.service';
 
 import { SessionService } from '../../common/services/session.service';
 import { AuthenticationService } from '../../common/services/authentication.service';
 import { ApiService, PaginationInfo } from '../../common/services/api-base.service';
+
+import { mainMenu } from './../app/app.mainmenu';
 
 
 @Injectable()
@@ -20,7 +24,9 @@ export class PermissionService
          http: Http,
          configurationReader: ConfigurationReader,
          authenticationService: AuthenticationService,
-         sessionService: SessionService ) {
+         sessionService: SessionService,
+         private menuService: MainMenuService
+        ) {
         super(http, authenticationService, sessionService, configurationReader);
 
     }
@@ -35,7 +41,7 @@ export class PermissionService
         // Load the permissions
         return super.Get<any[]>( '/organization/shipping/permission').map( p => {
 
-            this.permissions = p["value"].map( permission => {
+            this.permissions = p['value'].map( permission => {
                 return {
                     name:  <string> permission['name'],
                     allowType:  <AccessRights>AccessRights[ <string> permission['allowType'] ]
@@ -45,99 +51,320 @@ export class PermissionService
             return this.permissions;
         } );
     }
-}
 
+    private permissionMapToArray(object: Object): any[] {
+        let output: any[] = [];
+        for (const key in object) {
+            if (key === 'route') {
+                continue;
+            }
+            if (object.hasOwnProperty('allowType')) {
+                output.push(object);
+                break;
+            } else if (object !== {}) {
+                output = output.concat(this.permissionMapToArray(object[key]));
+            }
+        }
+        return output;
+    }
 
-export interface Permission {
-    name: string;
-    allowType: AccessRights;
-    availability?: Availability;
-}
+    /**
+     * Check if the user got access to the menu item
+     *
+     * @param {any} _permissions
+     * @returns {Observable<boolean>}
+     *
+     * @memberof AuthenticationService
+     */
+    public GetMenuAccess(_permissions): Observable<boolean> {
 
-export enum AccessRights {
-    None = 0,
-    Read = 1,
-    Write = 2
-}
+        const permissionsToCheck: Permission[] = this.permissionMapToArray(_permissions);
+        // const userPermissions: Permission[] = this.permissionService.getPermissions();
 
-export enum Availability {
-    All = 1000,
-    onlyShore = 1,
-    // onlyShip = 2,
-    onlyDualog = 3
+        return this.getPermissions().map( userPermissions => {
+
+            for (const permissionToCheck of permissionsToCheck) {
+                const userPermissionFound = userPermissions.find(
+                    p => p.name.toLocaleLowerCase() === permissionToCheck.name.toLocaleLowerCase()
+                );
+
+                if (userPermissionFound === undefined) {
+                    continue;
+                }
+
+                if (userPermissionFound.allowType >= permissionToCheck.allowType) {
+                    return this.CheckAvailability(permissionToCheck.availability);
+                }
+            }
+
+            return false;
+        })
+    }
+
+    /**
+     * Checking if the availability is acceptable for the logged in user
+     *
+     * @private
+     * @param {Availability} availability
+     * @returns {boolean}
+     *
+     * @memberof AuthenticationService
+     */
+    public CheckAvailability(availability?: Availability): boolean {
+
+        // Check if accessable for everyone
+        if (availability === Availability.All) {
+            return true;
+        }
+
+        // Check that accessable for shore users
+        if (availability === Availability.onlyShore) {
+            return true;
+        }
+
+        // Check if it is a Dualog feature
+        if (availability === Availability.onlyDualog) {
+            return this.sessionService.IsDualogAdmin;
+        }
+
+        return false;
+    }
+
+    FindPermissionByKey(perm: Permission) {
+        const permissions = this.permissionMapToArray(PermissionMap);
+        for (const permission of permissions) {
+            if (permission.name === perm.name) {
+                if (permission.route !== undefined) {
+                    for (const route of permission.route) {
+                        const item: MainMenuItem = this.menuService.GetMenuItemByRoute(route);
+                        item.access = perm.allowType;
+                        this.setParentPermission(item);
+                    }
+                }
+            }
+        }
+    }
+
+    private setParentPermission(item: MainMenuItem) {
+        if (item.parent !== undefined) {
+            if (item.parent.access === AccessRights.None) {
+                item.parent.access = item.access;
+                this.setParentPermission(item.parent);
+            }
+        }
+    }
 }
 
 export const PermissionMap  = {
     Information: {
+        route: ['/information'],
         Dashboard: {
             name: 'EmailRestriction',   // @todo: wrong permissions
             allowType: AccessRights.Read,
-            availability: Availability.All
-        },
+            availability: Availability.All,
+            route: ['/information/dashboard']
+        }
     },
     Config: {
-        Wizard: {},
-        Core: {
+        route: ['/configuration'],
+        Organization: {
+            route: ['/configuration/organization'],
             Company: {
-                name: 'EmailRestriction',   // @todo: wrong permissions
+                name: 'OrganizationCompany',
+                allowType: AccessRights.Read,
+                availability: Availability.All,
+                route: ['/configuration/organization/company']
+            },
+            Ship: {
+                name: 'OrganizationShip',
+                allowType: AccessRights.Read,
+                availability: Availability.All
+            },
+            UserGroup: {
+                name: 'OrganizationUserGroup',
                 allowType: AccessRights.Read,
                 availability: Availability.All
             },
             User: {
-                name: 'EmailRestriction',   // @todo: wrong permissions
+                name: 'OrganizationUser',
                 allowType: AccessRights.Read,
-                availability: Availability.All
+                availability: Availability.All,
+                route: ['/configuration/organization/users']
             },
-            Communication: {
-                name: 'EmailRestriction',   // @todo: wrong permissions
-                allowType: AccessRights.Read,
-                availability: Availability.All
+            Contact: {
+                CompanyAddressBook: {
+                    name: 'OrganizationContactCompanyAddressBook',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                ShipAddressBook: {
+                    name: 'OrganizationContactShipAddressBook',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                UserAddressBook: {
+                    name: 'OrganizationContactUserAddressBook',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                }
             }
         },
         Email: {
-            Technical: {
-                name: 'EmailSetting',
+            route: ['/configuration/email'],
+            TechnicalSetup: {
+                name: 'EmailSetupTechnical',
                 allowType: AccessRights.Read,
                 availability: Availability.All
             },
-            Quarantine: {
+            Restriction: {
                 name: 'EmailRestriction',
                 allowType: AccessRights.Read,
-                availability: Availability.All
+                availability: Availability.All,
+                route: [
+                    '/configuration/email/restriction',
+                    '/configuration/email/restriction/quarantine'
+                ],
             },
-            Distributionlist: {
-                name: 'EmailDistributionlist',
+            Address: {
+                name: 'EmailAddressing',
                 allowType: AccessRights.Read,
                 availability: Availability.onlyShore
             },
-            Addressbook: {
-                name: 'EmailAddressbook',
+            MessageCopying: {
+                name: 'EmailMessageCopying',
                 allowType: AccessRights.Read,
                 availability: Availability.All
             },
-            Operation: {
-                name: 'EmailOperation',
+            Backup: {
+                name: 'EmailMessageBackup',
                 allowType: AccessRights.Read,
                 availability: Availability.All
             },
+            MessageTracking: {
+                name: 'EmailMessageTracking',
+                allowType: AccessRights.Read,
+                availability: Availability.All
+            },
+           /*  SetupDelivery: {
+                name: 'EmailSetupDelivery',
+                allowType: AccessRights.Read,
+                availability: Availability.All
+            } */
         },
-        Filetransfer: {},
-        Internet: {
-            NetworkControl: {
-                name: 'EmailRestriction',   // @todo: wrong permissions
+        Filetransfer: {
+            name: 'FileTransferSetup',
+            allowType: AccessRights.Read,
+            availability: Availability.All
+        },
+        Antivirus: {
+            name: 'AntiVirusManagement',
+            allowType: AccessRights.Read,
+            availability: Availability.All
+        },
+        Network: {
+            Architecture: {
+                /* Carrier: {
+                    name: 'NetworkCarrierSetup',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                }, */
+                InternetGateway: {
+                    name: 'NetworkInternetGateway',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                InternalSubnet: {
+                    name: 'NetworkInternalSubnet',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                GPS: {
+                    name: 'NetworkGPSSetup',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+            },
+            FailoverLCR: {
+                name: 'NetworkFailoverLCR',
+                allowType: AccessRights.Read,
+                availability: Availability.All
+            },
+            Restriction: {
+                Bandwidth: {
+                    name: 'NetworkBandwidth',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                Quota: {
+                    name: 'NetworkQuota',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                Proxy: {
+                    name: 'NetworkProxy',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                InternetRules: {
+                    name: 'NetworkInternetRules',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                HTTPRules: {
+                    name: 'NetworkHTTPRules',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                ContentFilter: {
+                    name: 'NetworkPortNetworkContentFilterForward',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                DNS: {
+                    name: 'NetworkDNS',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                MACFilter: {
+                    name: 'NetworkMACFilter',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+            },
+            Services: {
+                NetworkControl: {
+                    name: 'NetworkNetworkControl',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                Web4Sea: {
+                    name: 'NetworkWeb4Sea',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                },
+                Quota: {
+                    name: 'NetworkQuota',
+                    allowType: AccessRights.Read,
+                    availability: Availability.All
+                }
+            },
+            PortForward: {
+                name: 'NetworkPortForward',
+                allowType: AccessRights.Read,
+                availability: Availability.All
+            },
+            DestinationPort: {
+                name: 'NetworkDestinationPort',
+                allowType: AccessRights.Read,
+                availability: Availability.All
+            },
+            DHCP: {
+                name: 'NetworkDHCP',
                 allowType: AccessRights.Read,
                 availability: Availability.All
             }
-        },
-        Antivirus: {}
+        }
     },
     Operations: {
-    },
-    Dualog: {
-        Overview: {
-            name: 'EmailRestriction', // @todo: wrong permission
-            allowType: AccessRights.Read,
-            availability: Availability.onlyDualog
-        }
     }
 }

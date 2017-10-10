@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -10,6 +11,7 @@ import { SelectItem } from 'primeng/primeng';
 // Infrastructure
 import { PatchGraphDocument } from './../../../../infrastructure/services/patchGraphDocument';
 import { JsonSchema, SchemaFormBuilder } from './../../../../infrastructure/services/schema';
+import { MainMenuService } from './../../../../infrastructure/services/mainmenu.service';
 
 // Common
 import { Ship } from './../../../../common/domain/ship/interfaces';
@@ -34,10 +36,12 @@ export class CompanyComponent extends DualogController implements OnInit {
         private companyService: CompanyService,
         private fb: SchemaFormBuilder,
         private current: CurrentShipService,
-        private sessionService: SessionService
+        private sessionService: SessionService,
+        private menuService: MainMenuService,
+        private router: Router
     ) {
 
-        super(fb, current);
+        super(fb, current, menuService, router);
         this.isDualogAdmin = this.sessionService.IsDualogAdmin;
     }
 

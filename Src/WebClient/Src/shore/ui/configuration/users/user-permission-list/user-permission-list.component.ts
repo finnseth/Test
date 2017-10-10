@@ -8,7 +8,7 @@ import { MenuItem, SelectItem } from 'primeng/primeng';
 import { JsonSchema, SchemaFormBuilder } from './../../../../../infrastructure/services/schema';
 import { SchemaFormArray, SchemaFormGroup } from './../../../../../infrastructure/services/schema';
 
-import { Permission, PermissionService } from './../../../../services/permission.service';
+import { PermissionService } from './../../../../services/permission.service';
 import { UserService } from '../user.service';
 import { UserPermission } from '../../users/user-api.service';
 

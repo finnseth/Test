@@ -6,11 +6,6 @@ import { JsonSchema, SchemaFormBuilder } from './../../../../../infrastructure/s
 
 import { Ship } from './../../../../../common/domain/ship/interfaces';
 
-import {
-    AccessRights,
-    Availability,
-    PermissionMap,
-} from './../../../../services/permission.service';
 import { ComputerRule, NetworkControlService } from '../networkcontrol.service';
 
 

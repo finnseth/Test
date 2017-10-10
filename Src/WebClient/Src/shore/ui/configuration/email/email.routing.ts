@@ -2,7 +2,7 @@ import { CanDeactivate, RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
 import { RestrictionComponent } from './../restriction/restriction.component';
-import { AccessRights, PermissionMap } from './../../../services/permission.service';
+import { PermissionMap } from './../../../services/permission.service';
 import { AuthGuard } from './../../../services/auth-guard.service';
 import { EmailComponent } from './email.component';
 import { PendingChangesGuard } from './../../../services/pending_changes.service';
@@ -20,7 +20,7 @@ export const emailRoutes: Routes = [
                 path: 'technicalsetup',
                 component: QuarantineComponent, // @todo wrong component
                 data: {
-                    permissions: PermissionMap.Config.Email.Technical,
+                    permissions: PermissionMap.Config.Email.TechnicalSetup,
                     label: 'Technical setup'
                 },
                 canActivate: [ AuthGuard ]
@@ -28,7 +28,7 @@ export const emailRoutes: Routes = [
             {
                 path: 'restriction',
                 data: {
-                    permissions: PermissionMap.Config.Email.Quarantine,
+                    permissions: PermissionMap.Config.Email.Restriction,
                     label: 'Restriction'
                 },
                 canActivate: [ AuthGuard ],
@@ -37,7 +37,7 @@ export const emailRoutes: Routes = [
                         path: 'quarantine',
                         component: QuarantineComponent,
                         data: {
-                            permissions: PermissionMap.Config.Email.Quarantine,
+                            permissions: PermissionMap.Config.Email.Restriction,
                             label: 'Quarantine',
                             icon: 'dualog-quarantine-icon-16'
                         },
@@ -55,7 +55,7 @@ export const emailRoutes: Routes = [
                 path: 'distributionlist',
                 component: QuarantineComponent, // @todo wrong component
                 data: {
-                    permissions: PermissionMap.Config.Email.Distributionlist,
+                    permissions: PermissionMap.Config.Email.Address,
                     label: 'Distribution list',
                     icon: 'dualog-distributionlist-icon-16'
                 },

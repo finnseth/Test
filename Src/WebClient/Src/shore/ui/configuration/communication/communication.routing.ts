@@ -2,7 +2,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
-import { AccessRights, PermissionMap } from './../../../services/permission.service';
+import { PermissionMap } from './../../../services/permission.service';
 import { AuthGuard } from './../../../services/auth-guard.service';
 import { CommunicationComponent } from './communication.component';
 import { MethodComponent } from './method/method.component';
@@ -28,7 +28,7 @@ export const communicationRoutes: Routes = [
                 path: 'method',
                 component: MethodComponent,
                 data: {
-                    permissions: PermissionMap.Config.Email.Quarantine, // @todo wrong permssion
+                    permissions: PermissionMap.Config.Network, // @todo wrong permssion
                     label: 'Method',
                     description: 'Manage methods',
                     meta: [

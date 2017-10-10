@@ -68,8 +68,6 @@ export class SlidingMenuComponent implements OnInit {
     }
 
     handleClick(event, item: MainMenuItem) {
-        console.log('sliding mobile menu clicked ');
-        console.log(item);
         if (!item.expanded) {
             this.menuService.SetItemExpanded(item);
         } else {

@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
-import { AccessRights, PermissionMap } from './../../../services/permission.service';
+import { PermissionMap } from './../../../services/permission.service';
 import { AuthGuard } from './../../../services/auth-guard.service';
 import { ComputerRuleComponent } from './computerrule/computerrule.component';
 
@@ -11,7 +11,7 @@ export const networkcontrolRoutes: Routes = [
     {
         path: 'networkcontrol',
         data: {
-            permissions: PermissionMap.Config.Email, // todo: wrong permission
+            permissions: PermissionMap.Config.Network, // todo: wrong permission
             label: 'Network Control',
             icon: 'dualog-networkcontrol-icon-16',
             description: 'Manage your Internet',
@@ -25,7 +25,7 @@ export const networkcontrolRoutes: Routes = [
                 path: 'computerrules',
                 component: ComputerRuleComponent,
                 data: {
-                    permissions: PermissionMap.Config.Email.Quarantine, // @todo wrong permission
+                    permissions: PermissionMap.Config.Network, // @todo wrong permission
                     label: 'Computer rules',
                     description: 'Computer rules in Network Control',
                     meta: [

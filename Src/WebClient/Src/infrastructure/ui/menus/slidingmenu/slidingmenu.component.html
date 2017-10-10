@@ -2,8 +2,8 @@
 
 <p-sidebar [(visible)]="isOpen" [baseZIndex]="10000" [fullScreen]="true">
     <nav>
-        <div>
-            <div *ngFor="let item of items; let f=first; let l=last;" [class.active]="item.isActive">
+        <div *ngFor="let item of items; let f=first; let l=last;" [class.active]="item.isActive">
+            <div *ngIf="menuService.GotMenuAccess(item.access)">
                 <div class="menu-item" (click)="handleClick($event, item)">
                     <span *ngIf="item.icon" class="fa {{ item.icon }}"></span>
                     <span class="menu-text">{{ item.text }}</span>
@@ -11,12 +11,12 @@
                 <hr class="linestyle">
                 <div *ngIf="item.expanded">
                     <div *ngFor="let subitem of item.submenu">
-                        <div *ngIf="item.expanded" class="sub-menu" (click)="handleClick($event, subitem)">
+                        <div *ngIf="item.expanded && menuService.GotMenuAccess(subitem.access)" class="sub-menu" (click)="handleClick($event, subitem)">
                             <!--span *ngIf="subitem.icon" class="fa {{ subitem.icon }}"></span-->
                             <img *ngIf="subitem.gridImage" class="grid-img" [src]='subitem.gridImage' alt="{{ subitem.text }}">
                             <span class="submenu-text">{{ subitem.text }}</span>
                         </div>
-                        <hr class="linestyle">
+                        <hr class="linestyle" *ngIf="menuService.GotMenuAccess(subitem.access)">
                         <div *ngIf="subitem.submenu">
                             <dua-leftsubmenu-item 
                                 class="submenu"

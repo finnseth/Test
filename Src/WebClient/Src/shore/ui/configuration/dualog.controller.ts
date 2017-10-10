@@ -1,9 +1,12 @@
+import { Router } from '@angular/router';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs/Rx';
 
 import { PatchGraphDocument } from './../../../infrastructure/services/patchGraphDocument';
+import { MainMenuService } from './../../../infrastructure/services/mainmenu.service';
+import { AccessRights } from './../../../infrastructure/domain/permission/permission';
 import { JsonSchema, SchemaFormBuilder } from './../../../infrastructure/services/schema';
 
 import { Ship } from './../../../common/domain/ship/interfaces';
@@ -54,7 +57,10 @@ export abstract class DualogController implements ComponentCanDeactivate {
 
     constructor(
         private fb2: SchemaFormBuilder,
-        private currentShip: CurrentShipService) {
+        private currentShip: CurrentShipService,
+        private menuService2: MainMenuService,
+        private router2: Router) {
+
         this.selectedShip = currentShip.getSelectedShip();
     }
 
@@ -144,8 +150,8 @@ export abstract class DualogController implements ComponentCanDeactivate {
 
 
     private buildForm(setname: string, m: any){
-        let set = this.getDataSet(setname);
-        if (set){
+        const set = this.getDataSet(setname);
+        if (set) {
             if (set.formtype === FormType.SingleRow) {
                 if (m['value'] instanceof Array ) {
                     set.form = this.fb2.Build(set.schema, m['value'][0]);
@@ -159,6 +165,15 @@ export abstract class DualogController implements ComponentCanDeactivate {
                     set.form = this.fb2.Build(set.schema, [m['value']]);
                 }
             }
+            this.setAccess(set.form);
+        }
+    }
+
+    private setAccess(fg: FormGroup) {
+        if (this.menuService2.GetMenuItemByRoute(this.router2.url).access === AccessRights.Write) {
+            fg.enable();
+        } else {
+            fg.disable();
         }
     }
 
@@ -262,7 +277,7 @@ export abstract class DualogController implements ComponentCanDeactivate {
         if (ship !== undefined) {
             for (const singleset of this.cardForm) {
                 if (singleset.card === CardType.Ship) {
-                    this.createForm(singleset, ship).subscribe(res => { 
+                    this.createForm(singleset, ship).subscribe(res => {
                         if (localCompareMode) {
                             this.isCompareModeEnabled = true;
                         }
@@ -386,9 +401,6 @@ export abstract class DualogController implements ComponentCanDeactivate {
         return true;
     }
 
-
-
-
     applyCard(cardtype: CardType) {
         if (!this.isCardValid(cardtype)) {
             console.log('The form is invalid.');
@@ -412,7 +424,6 @@ export abstract class DualogController implements ComponentCanDeactivate {
             }
         }
     }
-
 
     onApplyFleetCard() {
         this.applyCard(CardType.Company);

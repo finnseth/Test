@@ -23,7 +23,9 @@ import { LogoutModule } from '../../common/ui/logout/logout.module';
 import { AuthenticationService } from './../../common/services/authentication.service';
 import { SessionService } from './../../common/services/session.service';
 
-import { ShoreModule } from '../../shore/shore.module';
+import { ShoreModule } from '../shore.module';
+import { PermissionService } from './../services/permission.service';
+import { AuthGuard } from './../services/auth-guard.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -70,7 +72,9 @@ export function loadConfig(config: ConfigurationReader) {
     MainMenuService,
     ConfigurationReader,
     AuthenticationService,
-    SessionService
+    SessionService,
+    PermissionService,
+    AuthGuard,
   ],
 
   bootstrap: [AppComponent]

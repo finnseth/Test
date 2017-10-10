@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
-import { AccessRights, PermissionMap } from './../../../services/permission.service';
+import { PermissionMap } from './../../../services/permission.service';
 import { AuthGuard } from './../../../services/auth-guard.service';
 import { ComputerRuleComponent } from '../networkcontrol/computerrule/computerrule.component';
 import { InternetComponent } from './internet.component';

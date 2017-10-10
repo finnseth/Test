@@ -1,5 +1,5 @@
   <ng-template ngFor let-child [ngForOf]="item.submenu">
-    <div *ngIf="expanded" class="submenu-item" [class.mobileSubmenu-item]="mobileStyle">
+    <div *ngIf="expanded && menuService.GotMenuAccess(child.access)" class="submenu-item" [class.mobileSubmenu-item]="mobileStyle">
 
         <div *ngIf="!child.route" class="inactive">
           <i *ngIf="!child.expanded && child.submenu" class="fa fa-chevron-right menu-chevron"></i>

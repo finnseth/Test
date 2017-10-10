@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -11,6 +12,7 @@ import { SelectItem } from 'primeng/primeng';
 
 import { JsonSchema, SchemaFormBuilder } from './../../../../infrastructure/services/schema';
 import { PatchGraphDocument } from './../../../../infrastructure/services/patchGraphDocument';
+import { MainMenuService } from './../../../../infrastructure/services/mainmenu.service';
 
 import { CopyField } from './../../../../common/ui/copy/copy.component';
 import { Ship } from './../../../../common/domain/ship/interfaces';
@@ -29,9 +31,11 @@ export class QuarantineComponent extends DualogController implements OnInit {
     constructor(
         private quarantineService: QuarantineService,
         private fb: SchemaFormBuilder,
-        private current: CurrentShipService) {
+        private current: CurrentShipService,
+        private menuService: MainMenuService,
+        private router: Router) {
 
-        super(fb, current);
+        super(fb, current, menuService, router);
     }
 
     ngOnInit() {

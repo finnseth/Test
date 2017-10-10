@@ -2,7 +2,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
-import { AccessRights, PermissionMap } from './../../../services/permission.service';
+import { PermissionMap } from './../../../services/permission.service';
 import { AuthGuard } from './../../../services/auth-guard.service';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardEditWidgetComponent } from './dashboard-editwidget.component';
@@ -11,7 +11,7 @@ export const dashboardRoutes: Routes = [
     {
         path: 'dashboard',
         data: {
-            permissions: PermissionMap.Config.Email.Quarantine, // @todo: wrong permissions
+            permissions: PermissionMap.Config.Email.Restriction, // @todo: wrong permissions
             label: 'Dashboard',
             icon: 'dualog-email-icon-16' // @todo: wrong icon
         },
@@ -20,7 +20,7 @@ export const dashboardRoutes: Routes = [
                 path: 'widget/:id',
                 component: DashboardEditWidgetComponent,
                 data: {
-                    permissions: PermissionMap.Config.Email.Quarantine, // @todo: wrong permissions
+                    permissions: PermissionMap.Config.Email.Restriction, // @todo: wrong permissions
                 }
             },
             {
@@ -28,7 +28,7 @@ export const dashboardRoutes: Routes = [
                 component: DashboardComponent,
                 pathMatch: 'full',
                 data: {
-                    permissions: PermissionMap.Config.Email.Quarantine, // @todo: wrong permissions
+                    permissions: PermissionMap.Config.Email.Restriction, // @todo: wrong permissions
                     label: 'View',
                     icon: 'dualog-email-icon-16' // @todo: wrong icon
                 }

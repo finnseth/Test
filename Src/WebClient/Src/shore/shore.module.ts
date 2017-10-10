@@ -9,10 +9,7 @@ import { InfrastructureModule } from '../infrastructure/infrastructure.module';
 import { CommonsModule } from '../common/common.module';
 import { ApiService } from './../common/services/api-base.service';
 
-import { MenuService } from './services/menu.service';
-import { PermissionService } from './services/permission.service';
 import { UserGroupService } from './services/userGroup.service';
-import { AuthGuard } from './services/auth-guard.service';
 
 
 @NgModule({
@@ -30,9 +27,6 @@ import { AuthGuard } from './services/auth-guard.service';
     ],
 
     providers: [
-        PermissionService,
-        MenuService,
-        AuthGuard,
         UserGroupService
     ]
 

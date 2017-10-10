@@ -2,7 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CanActivateChild } from '@angular/router/router';
 import { ModuleWithProviders } from '@angular/core';
 
-import { AccessRights, PermissionMap } from '../../shore/services/permission.service';
+import { PermissionMap } from '../../shore/services/permission.service';
 import { AuthGuard } from '../../shore/services/auth-guard.service';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
@@ -57,16 +57,6 @@ export const routes: Routes = [
         },
         canActivate: [ AuthGuard ]
     },*/
-    {
-        path: 'Dualog',
-        loadChildren: './../ui/dualog/dualog.module#DualogModule',
-        data: {
-            permissions: PermissionMap.Dualog.Overview,
-            label: 'Dualog',
-            icon: '/assets/topmenu/actions.png'
-        },
-        canActivate: [ AuthGuard ]
-    }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

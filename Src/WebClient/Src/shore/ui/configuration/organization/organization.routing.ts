@@ -1,4 +1,4 @@
-import { AccessRights, PermissionMap } from 'shore/services/permission.service';
+import { PermissionMap } from 'shore/services/permission.service';
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
@@ -28,7 +28,7 @@ export const organizationRoutes: Routes = [
                     path: 'company',
                     component: CompanyComponent,
                     data: {
-                        permissions: PermissionMap.Config.Core.Company,
+                        permissions: PermissionMap.Config.Organization.Company,
                         label: 'Company'
                     },
                     canActivate: [ AuthGuard ],

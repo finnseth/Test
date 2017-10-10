@@ -5,12 +5,12 @@ import { Observable } from 'rxjs/Rx';
 
 import { ConfigurationReader } from './../../../../infrastructure/services/configuration-reader.service';
 import { JsonSchema } from './../../../../infrastructure/services/schema/';
+import { Permission } from './../../../../infrastructure/domain/permission/permission';
 
 import { SessionService } from './../../../../common/services/session.service';
 import { AuthenticationService } from './../../../../common/services/authentication.service';
 import { ApiService, PaginationInfo } from './../../../../common/services/api-base.service';
 
-import { Permission } from './../../../services/permission.service';
 
 
 @Injectable()

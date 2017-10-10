@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 
 import { MainMenuItem } from './mainmenu.service';
+import { AccessRights } from './../domain/permission/permission';
 
 export interface MainMenuItem {
     text: string;
@@ -11,6 +12,7 @@ export interface MainMenuItem {
     isOpen?: boolean;
     route: string;
     expanded?: boolean;
+    access?: AccessRights,
     parent?: MainMenuItem;
     submenu?: Array<MainMenuItem>;
 }
@@ -104,6 +106,10 @@ export class MainMenuService {
                 item.isOpen = false;
             }
         }
+    }
+
+    GotMenuAccess(access: AccessRights) {
+        return (access !== AccessRights.None);
     }
 
     public GetMenuItemByRoute(route: string): MainMenuItem {
