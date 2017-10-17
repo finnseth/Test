@@ -2,25 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
-
 using Microsoft.AspNetCore.Http;
-
-using System.Net;
-
 using Microsoft.AspNetCore.Mvc;
-
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Net;
 using Serilog;
 
-using Dapper;
-
-namespace CacheCalculator.Controllers
+namespace Calculator.Controllers
 {
 
-
     [Produces("application/json")]
-    [Route("api/v2/CacheCalculator")]
+    [Route("api/v2/Calculator")]
     public class CalculatorController : Controller
     {
         /// <summary>
@@ -32,43 +24,12 @@ namespace CacheCalculator.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(Sum), "Sum the term1 and term2 of the argument.")]
         public IActionResult Sum([FromBody] SumArg arg)
         {
-            Log.Debug("Sum");
+            Log.Debug("Sum(" + arg.term1 + ", " + arg.term2 + ")");
 
             Sum s; s.v = 0;
-
-            SqlConnection db = new SqlConnection(
-                "Server=localhost\\SQLEXPRESS;Database=db1;User Id=sa;" +
-                "Password = sa12;");
-
-            var res = db.Query<CacheSum>(
-                @"select top 1 sum from Cache" +
-                " where" +
-                " (" +
-                "    (term1 = @t1) or (term1 = @term2)" +
-                " ) and (" +
-                " (term2 = @t1) or (term2 = @term2)" +
-                " )",
-                new { t1 = arg.term1, term2 = arg.term2 }
-                );
-
-            if (res.Any())
-            {
-                var f = res.First();
-                s.v = f.Sum;
-            }
-            else
-            {
-                s.v = arg.term1 + arg.term2;
-                db.Execute(@"insert into Cache(term1, term2, sum) values(@t1, @t2, @s)",
-                    new { t1 = arg.term1, t2 = arg.term2, s = s.v });
-            }
-
+            s.v = arg.term1 + arg.term2;
             return Ok(s);
         }
-
-
-
-
     }
 
     public class CacheSum
