@@ -15,6 +15,11 @@ using Serilog;
 
 using Dapper;
 
+
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
 namespace CacheCalculator.Controllers
 {
 
@@ -58,17 +63,36 @@ namespace CacheCalculator.Controllers
             }
             else
             {
-                s.v = arg.term1 + arg.term2;
+                //s.v = arg.term1 + arg.term2;
+
+                s.v = RemoteSum(arg);
                 db.Execute(@"insert into Cache(term1, term2, sum) values(@t1, @t2, @s)",
                     new { t1 = arg.term1, t2 = arg.term2, s = s.v });
             }
+
+            //Test();
 
             return Ok(s);
         }
 
 
+        private int RemoteSum(SumArg arg)
+        {
+            var apiInstance = new CalculatorApi("http://localhost:89");
+            var remoteArg = new IO.Swagger.Model.SumArg(arg.term1, arg.term2); // SumArg |  (optional) 
+            try
+            {
+                // Sum takes an array of integer arguments and return their sum.
+                var result = apiInstance.ApiV2CalculatorSumPost(remoteArg);
+                return(int) result.V;
+            }
+            catch (Exception e)
+            {
+                Log.Error("Exception when calling CalculatorApi.ApiV2CalculatorSumPost: " + e.Message);
+            }
 
-
+            return 0;
+        }
     }
 
     public class CacheSum
