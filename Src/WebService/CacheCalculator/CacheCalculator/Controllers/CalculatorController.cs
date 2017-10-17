@@ -42,7 +42,7 @@ namespace CacheCalculator.Controllers
                 "Password = sa12;");
 
             var res = db.Query<CacheSum>(
-                @"select sum from Cache" +
+                @"select top 1 sum from Cache" +
                 " where" +
                 " (" +
                 "    (term1 = @t1) or (term1 = @term2)" +
