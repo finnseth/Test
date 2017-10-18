@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
-
-using Microsoft.AspNetCore.Http;
-
 using System.Net;
 
 using Microsoft.AspNetCore.Mvc;
-
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Serilog;
 
@@ -20,9 +15,11 @@ using IO.Swagger.Api;
 using IO.Swagger.Client;
 using IO.Swagger.Model;
 
+using Dualog.DB;
+
 namespace CacheCalculator.Controllers
 {
-
+ 
 
     [Produces("application/json")]
     [Route("api/v2/CacheCalculator")]
@@ -40,37 +37,42 @@ namespace CacheCalculator.Controllers
             Log.Debug("Sum");
 
             Sum s; s.v = 0;
+            SqlConnection db = null;
 
-            SqlConnection db = new SqlConnection(
-                "Server=localhost\\SQLEXPRESS;Database=db1;User Id=sa;" +
-                "Password = sa12;");
-
-            var res = db.Query<CacheSum>(
-                @"select top 1 sum from Cache" +
-                " where" +
-                " (" +
-                "    (term1 = @t1) or (term1 = @term2)" +
-                " ) and (" +
-                " (term2 = @t1) or (term2 = @term2)" +
-                " )",
-                new { t1 = arg.term1, term2 = arg.term2 }
-                );
-
-            if (res.Any())
+            var cr = new Dualog.DB.ConnectRecord("localhost", 0, "db1", "sa", "sa12");
+            var cs = cr.GetConnectString("SQLEXPRESS");
+            if (!System.String.IsNullOrEmpty(cs))
             {
-                var f = res.First();
-                s.v = f.Sum;
+                db = new SqlConnection(cs);
+
+                if (null != db)
+                {
+                    var res = db.Query<CacheSum>(
+                        @"select top 1 sum from Cache" +
+                        " where" +
+                        " (" +
+                        "    (term1 = @arg1) and (term2 = @arg2)" +
+                        " ) or (" +
+                        "    (term1 = @arg2) and (term2 = @arg1)" +
+                        " )",
+                        new { arg1 = arg.term1, arg2 = arg.term2 }
+                        );
+
+                    if (res.Any())
+                    {
+                        var f = res.First();
+                        s.v = f.Sum;
+                        return Ok(s);
+                    }
+                }
             }
-            else
+
+            s.v = RemoteSum(arg);
+            if (null != db)
             {
-                //s.v = arg.term1 + arg.term2;
-
-                s.v = RemoteSum(arg);
-                db.Execute(@"insert into Cache(term1, term2, sum) values(@t1, @t2, @s)",
-                    new { t1 = arg.term1, t2 = arg.term2, s = s.v });
+                db.Execute(@"insert into Cache(term1, term2, sum) values(@term1, @term2, @s)",
+                    new { term1 = arg.term1, term2 = arg.term2, s = s.v });
             }
-
-            //Test();
 
             return Ok(s);
         }
